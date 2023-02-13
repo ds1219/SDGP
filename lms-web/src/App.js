@@ -1,25 +1,22 @@
+
+
 import logo from './logo.svg';
 import './App.css';
+import Back from'./images/BG.jpg';
+import User from './Component/User';
+import UserS from './images/AdminS.png';
+import UserT from './images/AdminT.png';
+import Form from './Component/Form';
+import Location from './Component/Location';
+import FileInput from './Component/FileInput';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  <FileInput/>
   );
 }
+
+
 
 export default App;
