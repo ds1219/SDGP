@@ -1,5 +1,3 @@
-
-
 import logo from './logo.svg';
 import './App.css';
 import Back from'./images/BG.jpg';
@@ -16,7 +14,5 @@ function App() {
   <FileInput/>
   );
 }
-
-
 
 export default App;
