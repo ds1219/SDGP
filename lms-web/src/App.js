@@ -10,7 +10,7 @@ import FileInput from './Component/FileInput';
 function App() {
 
   return (
-   <FileInput/>
+   <Login/>
     )
   
 
