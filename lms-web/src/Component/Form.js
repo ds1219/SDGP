@@ -1,6 +1,8 @@
 import '../App.css';
-import Logo from '../images/logo.png'
+import Logo from '../images/logo.png';
+
 export default function(){
+      
     return(
         <div className="login">
             <img src={Logo} alt="Lms"></img>
