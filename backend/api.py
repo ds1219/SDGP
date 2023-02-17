@@ -6,8 +6,15 @@ import random, string
 app = Flask(__name__)
 
 
+def dictionaryToTuple(dic):
+    result = tuple(list(dic.values()))
+    return result
+
+
 def runDBQuery(query, val):
-    with mysql.connector.connect(host="localhost", user="root", password="") as myDB:
+    with mysql.connector.connect(
+        host="localhost", user="root", password="", database="sdgp test"
+    ) as myDB:
         myCursor = myDB.cursor()
         myCursor.execute(query, val)
 
@@ -52,6 +59,12 @@ def startSession():
     data = extractRequiredData(receivedData, expectedData)
     sessionID = genCode()
 
+    sqlQuery = "INSERT INTO sessions (sessionID, lecturerID, time, date, moduleCode) VALUES ( %s %s %s %s %s)"
+
+    values = (sessionID,) + dictionaryToTuple(data)
+    print(values)
+    runDBQuery(sqlQuery, values)
+
     result = json.dumps({"sessionID": sessionID})
     return result
 
@@ -64,5 +77,4 @@ def testConnection():
 
 
 if __name__ == "__main__":
-
     app.run(port=3669)

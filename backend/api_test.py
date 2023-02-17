@@ -18,7 +18,7 @@ print(response.json())
 response = requests.post(
     "http://localhost:3669/startSession",
     json={
-        "lecturerID": "20030496",
+        "lecturerID": "qwedt",
         "time": "34",
         "date": "Richard Stallman",
         "moduleCode": "testSession",
