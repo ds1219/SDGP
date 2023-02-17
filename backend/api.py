@@ -1,16 +1,15 @@
 from flask import Flask, request
-import json, time
+import json
 import mysql.connector
-import random
-import string
+import random, string
 
 app = Flask(__name__)
 
 
-def runDBQuery():
-    # myDb = mysql.connector.connect(host="localhost", user="root", password="")
-    # myCursor = myDb.cursor()
-    return None
+def runDBQuery(query, val):
+    with mysql.connector.connect(host="localhost", user="root", password="") as myDB:
+        myCursor = myDB.cursor()
+        myCursor.execute(query, val)
 
 
 def genCode():
