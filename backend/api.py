@@ -1,14 +1,29 @@
-from flask import Flask, request
-import json, time
+from flask import Flask, request, make_response, jsonify
 import mysql.connector
+import random, string
 
 app = Flask(__name__)
 
 
-def runDBQuery():
-    # myDb = mysql.connector.connect(host="localhost", user="root", password="")
-    # myCursor = myDb.cursor()
-    return None
+def dictionaryToTuple(dic):
+    result = tuple(list(dic.values()))
+    return result
+
+
+def runDBQuery(query, val):
+    with mysql.connector.connect(
+        host="127.0.0.1", user="root", password="", database="test"
+    ) as myDB:
+        myCursor = myDB.cursor()
+        myCursor.execute(query, val)
+
+
+def genCode():
+    length = 5
+    newCode = ""
+    for i in range(length):
+        newCode += random.choice(string.ascii_lowercase)
+    return newCode
 
 
 def extractRequiredData(receivedData, requiredData):
@@ -22,28 +37,41 @@ def extractRequiredData(receivedData, requiredData):
 
 @app.route("/markAttendance", methods=["POST"])
 def markAttendance():
-    inputData = {}
     expectedData = ["studentID", "questionID", "answer", "sessionID"]
     receivedData = request.get_json()
 
     try:
         receivedData = extractRequiredData(receivedData, expectedData)
     except:
-        json_dump = json.dumps({"error": ":("})
-        return json_dump
+        return make_response(400)
     else:
-        json_dump = json.dumps(receivedData)
-        return json_dump
+        return make_response(jsonify(receivedData))
+
+
+@app.route("/startSession", methods=["POST"])
+def startSession():
+    expectedData = ["lecturerID", "time", "date", "subject"]
+    receivedData = request.get_json()
+
+    data = extractRequiredData(receivedData, expectedData)
+    sessionID = genCode()
+
+    sqlQuery = "INSERT INTO sessions (sessionID, lecturerID, sessionTime, sessionDate, subject) VALUES (%s, %s, %s, %s, %s);"
+
+    values = (sessionID,) + dictionaryToTuple(data)
+    runDBQuery(sqlQuery, values)
+
+    result = jsonify({"sessionID": sessionID})
+    return make_response(result)
 
 
 @app.route("/", methods=["GET"])
 def testConnection():
 
-    json_dump = json.dumps({"result": "Connected Successfully"})
-
-    return json_dump
+    response = make_response()
+    response.status_code = 200
+    return response
 
 
 if __name__ == "__main__":
-
     app.run(port=3669)
