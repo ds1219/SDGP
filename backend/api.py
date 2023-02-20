@@ -1,5 +1,4 @@
-from flask import Flask, request
-import json
+from flask import Flask, request, make_response, jsonify
 import mysql.connector
 import random, string
 
@@ -44,11 +43,12 @@ def markAttendance():
     try:
         receivedData = extractRequiredData(receivedData, expectedData)
     except:
-        result = json.dumps({"error": ":("})
-        return result
+        result = {"error": ":("}
     else:
-        result = json.dumps(receivedData)
-        return result
+        result = receivedData
+
+    result = jsonify(result)
+    return make_response(result)
 
 
 @app.route("/startSession", methods=["POST"])
@@ -65,15 +65,16 @@ def startSession():
     print(values)
     runDBQuery(sqlQuery, values)
 
-    result = json.dumps({"sessionID": sessionID})
-    return result
+    result = jsonify({"sessionID": sessionID})
+    return make_response(result)
 
 
 @app.route("/", methods=["GET"])
 def testConnection():
 
-    result = json.dumps({"result": "Connected Successfully"})
-    return result
+    response = make_response()
+    response.status_code = 200
+    return response
 
 
 if __name__ == "__main__":
