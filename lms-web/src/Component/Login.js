@@ -5,11 +5,12 @@ import UserT from '../images/AdminT.png';
 import Form from './Form';
 import React from 'react';
 
+
 export default function(){
     const [nextpage,setNextPage]=React.useState(true);
 
     return(
- <div className= "flex  h-screen  ">
+ <div className= " flex h-screen ">
      
      <div  className="half" >
        {/* <h1 className="text-black text-2xl absolute right-96 top-64 font-bold  ">Login as</h1> */}
