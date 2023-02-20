@@ -20,3 +20,17 @@ def test_mark_attendance():
 
     print(response.json())
     assert response.json() == input
+
+
+def test_start_session():
+    input = {
+        "lecturerID": "qwedt",
+        "time": "13:00",
+        "date": "2003-04-04",
+        "subject": "testSession",
+    }
+
+    response = requests.post(f"{ENDPOINT}/startSession", json=input)
+
+    print(response.json())
+    assert len(response.json()["sessionID"]) == 5

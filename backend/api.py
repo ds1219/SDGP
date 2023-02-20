@@ -12,7 +12,7 @@ def dictionaryToTuple(dic):
 
 def runDBQuery(query, val):
     with mysql.connector.connect(
-        host="localhost", user="root", password="", database="sdgp test"
+        host="127.0.0.1", user="root", password="", database="test"
     ) as myDB:
         myCursor = myDB.cursor()
         myCursor.execute(query, val)
@@ -43,26 +43,22 @@ def markAttendance():
     try:
         receivedData = extractRequiredData(receivedData, expectedData)
     except:
-        result = {"error": ":("}
+        return make_response(400)
     else:
-        result = receivedData
-
-    result = jsonify(result)
-    return make_response(result)
+        return make_response(jsonify(receivedData))
 
 
 @app.route("/startSession", methods=["POST"])
 def startSession():
-    expectedData = ["lecturerID", "time", "date", "moduleCode"]
+    expectedData = ["lecturerID", "time", "date", "subject"]
     receivedData = request.get_json()
 
     data = extractRequiredData(receivedData, expectedData)
     sessionID = genCode()
 
-    sqlQuery = "INSERT INTO sessions (sessionID, lecturerID, time, date, moduleCode) VALUES ( %s %s %s %s %s)"
+    sqlQuery = "INSERT INTO sessions (sessionID, lecturerID, sessionTime, sessionDate, subject) VALUES (%s, %s, %s, %s, %s);"
 
     values = (sessionID,) + dictionaryToTuple(data)
-    print(values)
     runDBQuery(sqlQuery, values)
 
     result = jsonify({"sessionID": sessionID})
