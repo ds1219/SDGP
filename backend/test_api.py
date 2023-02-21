@@ -33,4 +33,4 @@ def test_start_session():
     response = requests.post(f"{ENDPOINT}/startSession", json=input)
 
     print(response.json())
-    assert len(response.json()["sessionID"]) == 5
+    assert len(response.json()["lectureSessionID"]) == 5
