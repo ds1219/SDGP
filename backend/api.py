@@ -1,3 +1,4 @@
+
 from flask import Flask, request, make_response, jsonify
 import mysql.connector
 import random, string
@@ -8,6 +9,15 @@ app = Flask(__name__)
 def dictionaryToTuple(dic):
     result = tuple(list(dic.values()))
     return result
+
+
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.json
+    username = data.get('username')
+    password = data.get('password')
+    # TODO: Authenticate the user
+    return jsonify({'success': True})
 
 
 def runDBQuery(query, val):
@@ -48,6 +58,8 @@ def markAttendance():
         return make_response(jsonify(receivedData))
 
 
+
+
 @app.route("/startSession", methods=["POST"])
 def startSession():
     expectedData = ["lecturerID", "time", "date", "subject"]
@@ -74,4 +86,4 @@ def testConnection():
 
 
 if __name__ == "__main__":
-    app.run(port=3669)
+    app.run(port=3669);
