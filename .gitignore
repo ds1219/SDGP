@@ -4,3 +4,5 @@ backend/__pycache__
 backend/.pytesy_cache
 ML/.env
 .vscode
+/backend/.idea
+
