@@ -11,3 +11,17 @@
 - flask
 - requests
 - mysql-connector-python
+
+# frontend
+
+start the server using:
+
+## Windows (PowerShell)
+
+`($env:HTTPS = "true") -and (npm start)`
+
+## Linux
+
+`HTTPS=true npm start`
+
+## Use a custom SSL certificate when deploying
