@@ -3,15 +3,14 @@ from helperFunctions import *
 
 app = Flask(__name__)
 
-
-@app.route("/login", methods=["POST"])
-def login():
-    data = request.json
-    username = data.get("username")
-    password = data.get("password")
-    userSessionID = ""
-    # TODO: Authenticate the user
-    return jsonify({"userSessionID": userSessionID})
+# TODO: Authenticate Lectuerer
+# @app.route("/login", methods=["POST"])
+# def login():
+#    data = request.get_json()
+#    username = data.get("username")
+#    password = data.get("password")
+#    userSessionID = ""
+#    return jsonify({"userSessionID": userSessionID})
 
 
 @app.route("/markAttendance", methods=["POST"])
@@ -24,6 +23,7 @@ def markAttendance():
     except:
         return make_response(400)
     else:
+        # TODO: check if sessionID is valid and studentID is valid
         return make_response(jsonify(receivedData))
 
 
@@ -33,6 +33,7 @@ def startSession():
     receivedData = request.get_json()
 
     data = extractRequiredData(receivedData, expectedData)
+    # TODO: check if lectuerID is valid
     sessionID = genCode()
 
     sqlQuery = "INSERT INTO sessions (sessionID, lecturerID, sessionTime, sessionDate, subject) VALUES (%s, %s, %s, %s, %s);"
