@@ -6,8 +6,4 @@
 
 ## python modules
 
-`pip install flask requests mysql-connector-python`
-
-- flask
-- requests
-- mysql-connector-python
+`pip install -r requirements.txt`
