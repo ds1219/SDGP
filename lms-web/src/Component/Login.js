@@ -10,32 +10,29 @@ export default function(){
     const [nextpage,setNextPage]=React.useState(true);
 
     return(
-<div className= "flex flex-col md:flex-row h-screen">
-     
-  <div className="half ">
-    {/* <h1 className="text-black text-2xl absolute right-96 top-64 font-bold  ">Login as</h1> */}
-    <div className="flex flex-row md:flex-row items-center  justify-center h-full">
-      <div className="md:w-1/2 flex flex-col  items-center md:items-start justify-center">
+<div class="flex flex-col md:flex-row h-screen">
+  <div class="half md:w-1/2 flex  justify-around  items-center">
+    <div class="flex justify-around   w-full ">
+      <div class="md:w-1/2 flex flex-col   md:items-center justify-center items-center">
         <User photo={UserS} />
-        <h1 className="text-cyan-50 font-bold">Student</h1>
+        <h1 class="text-cyan-50 font-bold">Student</h1>
       </div>
-      <div className="md:w-1/2 flex flex-col items-center md:items-end justify-center">
+      <div class="md:w-1/2 flex flex-col md:items-center justify-center items-center">
         <User photo={UserT} />
-        <h1 className="text-cyan-50 font-bold">Lecturer</h1>
+        <h1 class="text-cyan-50 font-bold">Lecturer</h1>
       </div>
     </div>
   </div>
-    
-  <div className="md:w-1/2 bg-white">
-    <div className="flex items-center justify-center h-full">
-      <div className="w-full md:w-3/4 lg:w-1/2">
 
+  <div class="md:w-1/2 bg-white">
+    <div class="flex items-center justify-center h-full">
+      <div class="w-full md:w-3/4 lg:w-1/2">
         <Form />
       </div>
     </div>
   </div>
-
 </div>
+
 
     )
 }

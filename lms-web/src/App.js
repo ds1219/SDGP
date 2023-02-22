@@ -16,6 +16,7 @@ function App() {
     <Route path="/lecturer" element={<FileInput/>}/>
     <Route path='/student' element={<QrScanner/>}/>
     <Route path='/quiz' element={<Question/>}/>
+    <Route path='/location' element={<Location/>}/>
   </Routes>
   
 
