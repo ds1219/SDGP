@@ -10,6 +10,11 @@ export default function(){
 
   return (
   <div className="flex  justify-center items-center h-screen bg-black">
+    <div>
+       <input type="text"></input>
+    </div>
+    <div className="flex  justify-center items-center h-screen bg-black">
+    
       <div className="flex flex-col justify-center items-center p-5 bg-slate-400 w-3/4 h-1/3">
       <div className="w-2/3  ">
         <input
@@ -29,6 +34,7 @@ export default function(){
         />
       )}
     </div>
+  </div>
   </div>
   );
 
