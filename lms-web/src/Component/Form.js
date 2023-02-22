@@ -20,6 +20,7 @@ export default function(){
     .then(data => {
       if (data.success) {
         // TODO: Redirect to the next page
+      
         //  history.push('/student');
       } else {
         // TODO: Display an error message
@@ -32,20 +33,39 @@ export default function(){
   };
       
     return(
-        <div className="login">
-            <img src={Logo} alt="Lms"></img>
-            <form onSubmit={handleSubmit}s>
-                <div>
-                    <label>Email</label>
-                    <input name="email " type="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-5 dark:bg-blue-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='Email'></input>
-                </div>
-                <div className='pass'>
-                    <label>Password</label>
-                    <input name="password" type="password" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-4 dark:bg-blue-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='Password'></input>
-                    <a href=''>Forget Password?</a>
-                </div>
-                <button type='submit' className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-9 border border-blue-500 hover:border-transparent rounded mt-6" >Submit</button>
-            </form>
-        </div>
+      <div className="login flex flex-col items-center justify-center h-screen">
+  <img src={Logo} alt="Lms" className="mb-8 w-40" />
+
+  <form className="w-full max-w-md">
+    <div className="mb-4">
+      <label htmlFor="email" className="block mb-2 font-bold">Email</label>
+      <input 
+        name="email"
+        type="email"
+        placeholder="Email"
+        className="w-full px-3 py-2 placeholder-gray-400 border rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+      />
+    </div>
+
+    <div className="mb-4">
+      <label htmlFor="password" className="block mb-2 font-bold">Password</label>
+      <input 
+        name="password"
+        type="password"
+        placeholder="Password"
+        className="w-full px-3 py-2 placeholder-gray-400 border rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+      />
+      <a href="" className="text-blue-500 text-sm hover:underline">Forgot Password?</a>
+    </div>
+
+    <button 
+     
+      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg mb-4"
+    >
+      Submit
+    </button>
+  </form>
+</div>
+
     )
 }
