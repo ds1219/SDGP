@@ -1,6 +1,8 @@
 from flask import Flask, request
 import json, time
 import mysql.connector
+import random
+import string
 
 app = Flask(__name__)
 
@@ -9,6 +11,14 @@ def runDBQuery():
     # myDb = mysql.connector.connect(host="localhost", user="root", password="")
     # myCursor = myDb.cursor()
     return None
+
+
+def genCode():
+    length = 5
+    newCode = ""
+    for i in range(length):
+        newCode += random.choice(string.ascii_lowercase)
+    return newCode
 
 
 def extractRequiredData(receivedData, requiredData):
@@ -22,26 +32,36 @@ def extractRequiredData(receivedData, requiredData):
 
 @app.route("/markAttendance", methods=["POST"])
 def markAttendance():
-    inputData = {}
     expectedData = ["studentID", "questionID", "answer", "sessionID"]
     receivedData = request.get_json()
 
     try:
         receivedData = extractRequiredData(receivedData, expectedData)
     except:
-        json_dump = json.dumps({"error": ":("})
-        return json_dump
+        result = json.dumps({"error": ":("})
+        return result
     else:
-        json_dump = json.dumps(receivedData)
-        return json_dump
+        result = json.dumps(receivedData)
+        return result
+
+
+@app.route("/startSession", methods=["POST"])
+def startSession():
+    expectedData = ["lecturerID", "time", "date", "moduleCode"]
+    receivedData = request.get_json()
+
+    data = extractRequiredData(receivedData, expectedData)
+    sessionID = genCode()
+
+    result = json.dumps({"sessionID": sessionID})
+    return result
 
 
 @app.route("/", methods=["GET"])
 def testConnection():
 
-    json_dump = json.dumps({"result": "Connected Successfully"})
-
-    return json_dump
+    result = json.dumps({"result": "Connected Successfully"})
+    return result
 
 
 if __name__ == "__main__":
