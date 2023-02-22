@@ -9,7 +9,7 @@ def dictionaryToTuple(dic):
 
 def runDBQuery(query, val):
     with mysql.connector.connect(
-        host="127.0.0.1", user="root", password="", database="test"
+        host="127.0.0.1", user="root", password="", database="sdgpTest"
     ) as myDB:
         myCursor = myDB.cursor()
         myCursor.execute(query, val)
