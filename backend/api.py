@@ -11,6 +11,15 @@ def dictionaryToTuple(dic):
     return result
 
 
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.json
+    username = data.get('username')
+    password = data.get('password')
+    # TODO: Authenticate the user
+    return jsonify({'success': True})
+
+
 def runDBQuery(query, val):
     with mysql.connector.connect(
         host="127.0.0.1", user="root", password="", database="test"
@@ -49,6 +58,8 @@ def markAttendance():
         return make_response(jsonify(receivedData))
 
 
+
+
 @app.route("/startSession", methods=["POST"])
 def startSession():
     expectedData = ["lecturerID", "time", "date", "subject"]
@@ -75,4 +86,4 @@ def testConnection():
 
 
 if __name__ == "__main__":
-    app.run(port=3669)
+    app.run(port=3669);
