@@ -1,9 +1,15 @@
+import Location from './Location';
 import '../App.css';
 import Logo from '../images/logo.png';
 import { Route,Routes,Link } from 'react-router-dom';
 import React, { useState } from "react";
 
 export default function(){
+
+  const loc=()=>{
+  console.log(<Location/>)
+
+  }
 
      const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -58,7 +64,8 @@ export default function(){
       <a href="" className="text-blue-500 text-sm hover:underline">Forgot Password?</a>
     </div>
 
-    <button 
+    <button
+      onClick={loc} 
      
       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg mb-4"
     >
