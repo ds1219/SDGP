@@ -10,15 +10,13 @@ import Question from './Component/Quiz';
 
 
 function App() {
-
   return <Routes>
     <Route path="/" element= {<Login/>} />
     <Route path="/lecturer" element={<FileInput/>}/>
     <Route path='/student' element={<QrScanner/>}/>
-     <Route path='/quiz' element={<Question/>}/>
-  </Routes>
-  
-
+    <Route path='/quiz' element={<Question/>}/>
+    <Route path='/location' element={<Location/>}/>
+  </Routes> 
 }
 
 export default App;
