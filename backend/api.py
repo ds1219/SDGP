@@ -1,30 +1,20 @@
 from flask import Flask, request, make_response, jsonify
-from helperFunctions import *
 
 app = Flask(__name__)
 
-# TODO: Authenticate Lectuerer
-# @app.route("/login", methods=["POST"])
-# def login():
-#    data = request.get_json()
-#    username = data.get("username")
-#    password = data.get("password")
-#    userSessionID = ""
-#    return jsonify({"userSessionID": userSessionID})
+
+@app.route("/login", methods=["POST"])
+def login():
+    return jsonify({"userSessionID": "QEWUYBFQO8NFALSDIF"})
 
 
 @app.route("/markAttendance", methods=["POST"])
 def markAttendance():
-    expectedData = ["studentID", "questionID", "answer", "sessionID"]
-    receivedData = request.get_json()
 
-    try:
-        receivedData = extractRequiredData(receivedData, expectedData)
-    except:
-        return make_response(400)
-    else:
-        # TODO: check if sessionID is valid and studentID is valid
-        return make_response(jsonify(receivedData))
+    response = make_response()
+    response.status_code = 200
+
+    return response
 
 
 @app.route("/startSession", methods=["POST"])
@@ -32,16 +22,7 @@ def startSession():
     expectedData = ["lecturerID", "time", "date", "subject"]
     receivedData = request.get_json()
 
-    data = extractRequiredData(receivedData, expectedData)
-    # TODO: check if lectuerID is valid
-    sessionID = genCode()
-
-    sqlQuery = "INSERT INTO sessions (sessionID, lecturerID, sessionTime, sessionDate, subject) VALUES (%s, %s, %s, %s, %s);"
-
-    values = (sessionID,) + dictionaryToTuple(data)
-    runDBQuery(sqlQuery, values)
-
-    result = jsonify({"lectureSessionID": sessionID})
+    result = jsonify({"lectureSessionID": "xhqup"})
     return make_response(result)
 
 
