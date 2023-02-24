@@ -1,49 +1,38 @@
-from flask import Flask, request
-import json, time
-import mysql.connector
+from flask import Flask, request, make_response, jsonify
 
 app = Flask(__name__)
 
 
-def runDBQuery():
-    # myDb = mysql.connector.connect(host="localhost", user="root", password="")
-    # myCursor = myDb.cursor()
-    return None
-
-
-def extractRequiredData(receivedData, requiredData):
-    outputData = {ed: receivedData[ed] for ed in requiredData}
-
-    if len(outputData) != len(requiredData):
-        raise Exception("Missing Values in POST")
-    else:
-        return outputData
+@app.route("/login", methods=["POST"])
+def login():
+    return jsonify({"userSessionID": "QEWUYBFQO8NFALSDIF"})
 
 
 @app.route("/markAttendance", methods=["POST"])
 def markAttendance():
-    inputData = {}
-    expectedData = ["studentID", "questionID", "answer", "sessionID"]
+
+    response = make_response()
+    response.status_code = 200
+
+    return response
+
+
+@app.route("/startSession", methods=["POST"])
+def startSession():
+    expectedData = ["lecturerID", "time", "date", "subject"]
     receivedData = request.get_json()
 
-    try:
-        receivedData = extractRequiredData(receivedData, expectedData)
-    except:
-        json_dump = json.dumps({"error": ":("})
-        return json_dump
-    else:
-        json_dump = json.dumps(receivedData)
-        return json_dump
+    result = jsonify({"lectureSessionID": "xhqup"})
+    return make_response(result)
 
 
 @app.route("/", methods=["GET"])
 def testConnection():
 
-    json_dump = json.dumps({"result": "Connected Successfully"})
-
-    return json_dump
+    response = make_response()
+    response.status_code = 200
+    return response
 
 
 if __name__ == "__main__":
-
     app.run(port=3669)

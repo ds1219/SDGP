@@ -1,3 +1,8 @@
 ML/trainer/__pycache__
 backend/.env
+backend/__pycache__
+backend/.pytest_cache
 ML/.env
+.vscode
+/backend/.idea
+

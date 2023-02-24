@@ -6,8 +6,23 @@
 
 ## python modules
 
-`pip install flask requests mysql-connector-python`
+```powershell
+pip install -r requirements.txt
+```
 
-- flask
-- requests
-- mysql-connector-python
+# frontend
+start the server using:
+
+## Windows (PowerShell)
+
+```powershell
+($env:HTTPS = "true") -and (npm start)
+```
+
+## Linux
+
+```bash
+HTTPS=true npm start
+```
+
+## Use a custom SSL certificate when deploying
