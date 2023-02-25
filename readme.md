@@ -11,7 +11,6 @@ pip install -r requirements.txt
 ```
 
 # frontend
-
 start the server using:
 
 ## Windows (PowerShell)
