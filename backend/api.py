@@ -3,46 +3,64 @@ from helperFunctions import *
 
 app = Flask(__name__)
 
-# TODO: Authenticate Lectuerer
-# @app.route("/login", methods=["POST"])
-# def login():
-#    data = request.get_json()
-#    username = data.get("username")
-#    password = data.get("password")
-#    userSessionID = ""
-#    return jsonify({"userSessionID": userSessionID})
+# TODO : ADD USER AUTH
+
+
+@app.route("/login", methods=["POST"])
+def login():
+    expectedData = ["username", "hashedPassword"]
+    receivedData = request.get_json()
+
+    try:
+        receivedData = extractRequiredData(receivedData, expectedData)
+    except:
+        return make_response(500)
+    else:
+        userSessionID = ""
+        return jsonify({"userSessionID": userSessionID})
 
 
 @app.route("/markAttendance", methods=["POST"])
 def markAttendance():
-    expectedData = ["studentID", "questionID", "answer", "sessionID"]
+    expectedData = ["studentID", "answer", "questionID", "lectureSessionID"]
     receivedData = request.get_json()
 
     try:
         receivedData = extractRequiredData(receivedData, expectedData)
     except:
         return make_response(400)
-    else:
-        # TODO: check if sessionID is valid and studentID is valid
-        return make_response(jsonify(receivedData))
+
+    query = 'SELECT * FROM Lecturer WHERE EXISTS(SELECT * From Lecturer WHERE lecturerID LIKE "%s")'
+
+    # TODO: check if sessionID is valid and studentID is valid
+    return make_response(jsonify(receivedData))
 
 
 @app.route("/startSession", methods=["POST"])
 def startSession():
-    expectedData = ["lecturerID", "time", "date", "subject"]
+    expectedData = ["lecturerID", "time", "date", "subjectID"]
     receivedData = request.get_json()
 
-    data = extractRequiredData(receivedData, expectedData)
-    # TODO: check if lectuerID is valid
+    try:
+        receivedData = extractRequiredData(receivedData, expectedData)
+    except:
+        return make_response(400)
+
     sessionID = genCode()
+    values = list(receivedData.values())
+    values.insert(0, sessionID)
 
-    sqlQuery = "INSERT INTO sessions (sessionID, lecturerID, sessionTime, sessionDate, subject) VALUES (%s, %s, %s, %s, %s);"
-
-    values = (sessionID,) + dictionaryToTuple(data)
-    runDBQuery(sqlQuery, values)
-
-    result = jsonify({"lectureSessionID": sessionID})
-    return make_response(result)
+    # try:
+    InsertIntoTable("lectureSessions", values)
+    # except:
+    #    response = make_response()
+    #    response.status_code = 500
+    #    return response
+    # else:
+    #    result = jsonify({"lectureSessionID": sessionID})
+    #    result = make_response(result)
+    #    result.status_code = 200
+    #    return make_response(result)
 
 
 @app.route("/", methods=["GET"])

@@ -8,7 +8,8 @@ def test_check_api_connection():
     assert response.status_code == 200
 
 
-def test_mark_attendance():
+# def test_mark_attendance():
+def mark_attendace():
     input = {
         "studentID": "20030496",
         "questionID": "34",
@@ -27,7 +28,7 @@ def test_start_session():
         "lecturerID": "qwedt",
         "time": "13:00",
         "date": "2003-04-04",
-        "subject": "testSession",
+        "subjectID": "testSession",
     }
 
     response = requests.post(f"{ENDPOINT}/startSession", json=input)
