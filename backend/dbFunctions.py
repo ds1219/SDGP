@@ -1,12 +1,15 @@
 import mysql.connector
 
 
-def runDBQuery(query: str, val: list):
-    with mysql.connector.connect(
-        host="127.0.0.1", user="root", password="", database="sdgpTest"
-    ) as myDB:
-        myCursor = myDB.cursor()
-        myCursor.execute(query, val)
+def runDBQuery(query: str, val: tuple):
+    mydb = mysql.connector.connect(
+        host="localhost", user="backend", password="b3k3nd", database="sdgpTest"
+    )
+    cursor = mydb.cursor()
+    cursor.execute(query, val)
+    mydb.commit()
+    cursor.close()
+    mydb.close()
 
 
 def checkForIDInTable(table: str, column: str, idString: str):
