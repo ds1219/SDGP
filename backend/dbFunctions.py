@@ -7,6 +7,7 @@ def runDBQuery(query: str, val: tuple):
     )
     cursor = mydb.cursor()
     cursor.execute(query, val)
+
     mydb.commit()
     cursor.close()
     mydb.close()
@@ -19,8 +20,9 @@ def checkForIDInTable(table: str, column: str, idString: str):
     return runDBQuery(query, vals)
 
 
-def InsertIntoTable(table: str, values: list):
+def InsertIntoTable(table: str, columns: list, values: list):
+    columns = ", ".join(columns)
 
-    query = f"INSERT INTO `{table}` (sessionID, lecturerID, sessionTime, sessionDate, subjectID) VALUES (%s, %s, %s, %s, %s);"
+    query = f"INSERT INTO `{table}` ({columns}) VALUES (%s, %s, %s, %s, %s);"
 
     runDBQuery(query, values)

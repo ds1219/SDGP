@@ -26,8 +26,8 @@ def mark_attendace():
 def test_start_session():
     input = {
         "lecturerID": "qwedt",
-        "time": "13:00",
-        "date": "2003-04-04",
+        "sessionTime": "13:00",
+        "sessionDate": "2003-04-04",
         "subjectID": "testSession",
     }
 

@@ -38,7 +38,7 @@ def markAttendance():
 
 @app.route("/startSession", methods=["POST"])
 def startSession():
-    expectedData = ["lecturerID", "time", "date", "subjectID"]
+    expectedData = ["lecturerID", "sessionTime", "sessionDate", "subjectID"]
     receivedData = request.get_json()
 
     try:
@@ -47,20 +47,23 @@ def startSession():
         return make_response(400)
 
     sessionID = genCode()
+    columns = list(receivedData.keys())
+    columns.insert(0, "sessionID")
+
     values = list(receivedData.values())
     values.insert(0, sessionID)
 
-    # try:
-    InsertIntoTable("lectureSessions", values)
-    # except:
-    #    response = make_response()
-    #    response.status_code = 500
-    #    return response
-    # else:
-    #    result = jsonify({"lectureSessionID": sessionID})
-    #    result = make_response(result)
-    #    result.status_code = 200
-    #    return make_response(result)
+    try:
+        InsertIntoTable("lectureSessions", columns, values)
+    except:
+        response = make_response()
+        response.status_code = 500
+        return response
+    else:
+        result = jsonify({"lectureSessionID": sessionID})
+        result = make_response(result)
+        result.status_code = 200
+        return make_response(result)
 
 
 @app.route("/", methods=["GET"])
