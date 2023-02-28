@@ -1,6 +1,9 @@
-DROP DATABASE `sdgpTest`;
+/* Run on Initial DB Setup*/
+CREATE USER 'backend'@'localhost' IDENTIFIED BY 'b3k3nd';
 CREATE DATABASE `sdgpTest`;
+GRANT ALL PRIVILEGES ON sdgpTest.* TO 'backend'@'localhost';
 
+/* Will Run Automatically On Test */
 USE `sdgpTest`;
 CREATE TABLE lectureSessions (sessionID varchar(5),
                               lecturerID varchar(5),
@@ -8,5 +11,5 @@ CREATE TABLE lectureSessions (sessionID varchar(5),
                               sessionDate date,
                               subjectID text
                              );
-CREATE TABLE lecturers (lecturerID varchar, firstName text, lastName text, subjects);
-CREATE TABLE students (studentID, firstName, lastName, subjects)
+CREATE TABLE lecturers (lecturerID varchar (5), firstName text, lastName text, subjectIDs text, hashedPass text);
+CREATE TABLE students (studentID varchar(5), firstName text, lastName text, subjects text);
