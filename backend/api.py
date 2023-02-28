@@ -1,4 +1,4 @@
-from flask import Flask, request, make_response, jsonify
+from flask import Flask, request
 from helperFunctions import *
 
 app = Flask(__name__)
@@ -12,12 +12,12 @@ def login():
     receivedData = request.get_json()
 
     try:
-        receivedData = extractRequiredData(receivedData, expectedData)
+        receivedData = extract_required_data(receivedData, expectedData)
     except:
-        return make_response(500)
+        return server_response(status=500)
     else:
         userSessionID = ""
-        return jsonify({"userSessionID": userSessionID})
+        return server_response(status=200, json={"userSessionID": userSessionID})
 
 
 @app.route("/markAttendance", methods=["POST"])
@@ -26,14 +26,14 @@ def markAttendance():
     receivedData = request.get_json()
 
     try:
-        receivedData = extractRequiredData(receivedData, expectedData)
+        receivedData = extract_required_data(receivedData, expectedData)
     except:
-        return make_response(400)
+        return server_response(status=500)
 
     query = 'SELECT * FROM Lecturer WHERE EXISTS(SELECT * From Lecturer WHERE lecturerID LIKE "%s")'
 
     # TODO: check if sessionID is valid and studentID is valid
-    return make_response(jsonify(receivedData))
+    return server_response(status=200, json=receivedData)
 
 
 @app.route("/startSession", methods=["POST"])
@@ -42,11 +42,12 @@ def startSession():
     receivedData = request.get_json()
 
     try:
-        receivedData = extractRequiredData(receivedData, expectedData)
+        receivedData = extract_required_data(receivedData, expectedData)
     except:
-        return make_response(400)
+        print("[SERVER] - ERROR EXTRACTING LECTURE SESSION DATA")
+        return server_response(status=500)
 
-    sessionID = genCode()
+    sessionID = gen_code()
     columns = list(receivedData.keys())
     columns.insert(0, "sessionID")
 
@@ -54,24 +55,18 @@ def startSession():
     values.insert(0, sessionID)
 
     try:
-        InsertIntoTable("lectureSessions", columns, values)
+        insert_into_table("lectureSessions", columns, values)
     except:
-        response = make_response()
-        response.status_code = 500
-        return response
+        print("[SERVER] - ERROR INSERTING LECTURE SESSION INTO TABLE")
+        return server_response(status=500)
     else:
-        result = jsonify({"lectureSessionID": sessionID})
-        result = make_response(result)
-        result.status_code = 200
-        return make_response(result)
+        return server_response(status=200, json={"lectureSessionID": sessionID})
 
 
 @app.route("/", methods=["GET"])
 def testConnection():
 
-    response = make_response()
-    response.status_code = 200
-    return response
+    return server_response(status=200)
 
 
 if __name__ == "__main__":

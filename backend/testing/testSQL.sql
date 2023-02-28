@@ -4,7 +4,6 @@ CREATE DATABASE `sdgpTest`;
 GRANT ALL PRIVILEGES ON sdgpTest.* TO 'backend'@'localhost';
 
 /* Will Run Automatically On Test */
-USE `sdgpTest`;
 CREATE TABLE lectureSessions (sessionID varchar(5),
                               lecturerID varchar(5),
                               sessionTime time,
