@@ -69,10 +69,12 @@ def testConnection():
     return server_response(status=200)
 
 
-@app.route("/registerLecturer", methods=["POST"])
+@app.route("/register", methods=["POST"])
 def register():
     expectedData = ["firstName", "lastName", "subjectIDs", "hashedPass"]
     receivedData = request.get_json()
+
+    entityName = receivedData["entityName"]
 
     try:
         receivedData = extract_required_data(receivedData, expectedData)
@@ -87,7 +89,12 @@ def register():
     values.insert(0, lecturerID)
 
     try:
-        insert_into_table("lecturers", columns, values)
+        if entityName == "lecturer":
+            insert_into_table("lecturers", columns, values)
+        elif entityName == "student":
+            insert_into_table("students", columns, values)
+        else:
+            raise Exception("Invalid Entity Name")
     except:
         return server_response(status=500)
     else:

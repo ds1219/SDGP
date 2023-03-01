@@ -11,4 +11,4 @@ CREATE TABLE lectureSessions (sessionID varchar(5),
                               subjectID text
                              );
 CREATE TABLE lecturers (lecturerID varchar (5), firstName text, lastName text, subjectIDs text, hashedPass text);
-CREATE TABLE students (studentID varchar(5), firstName text, lastName text, subjects text);
+CREATE TABLE students (lecturerID varchar (5), firstName text, lastName text, subjectIDs text, hashedPass text);

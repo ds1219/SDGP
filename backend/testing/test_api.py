@@ -52,7 +52,21 @@ def test_registerLecturer():
         "lastName": "Sheen",
         "subjectIDs": "12345-54321",
         "hashedPass": "qwertyuio",
+        "entityName": "lecturer",
     }
 
-    response = requests.post(f"{ENDPOINT}/registerLecturer", json=input)
+    response = requests.post(f"{ENDPOINT}/register", json=input)
+    assert response.status_code == 200
+
+
+def test_registerStudent():
+    input = {
+        "firstName": "David",
+        "lastName": "Sheen",
+        "subjectIDs": "12345-54321",
+        "hashedPass": "qwertyuio",
+        "entityName": "student",
+    }
+
+    response = requests.post(f"{ENDPOINT}/register", json=input)
     assert response.status_code == 200
