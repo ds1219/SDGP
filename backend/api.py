@@ -3,6 +3,7 @@ from helperFunctions import *
 
 app = Flask(__name__)
 
+
 # TODO : ADD USER AUTH
 
 
@@ -65,8 +66,32 @@ def startSession():
 
 @app.route("/", methods=["GET"])
 def testConnection():
-
     return server_response(status=200)
+
+
+@app.route("/registerLecturer", methods=["POST"])
+def register():
+    expectedData = ["firstName", "lastName", "subjectIDs", "hashedPass"]
+    receivedData = request.get_json()
+
+    try:
+        receivedData = extract_required_data(receivedData, expectedData)
+    except:
+        return server_response(status=500)
+
+    lecturerID = gen_code()
+    columns = list(receivedData.keys())
+    columns.insert(0, "lecturerID")
+
+    values = list(receivedData.values())
+    values.insert(0, lecturerID)
+
+    try:
+        insert_into_table("lecturers", columns, values)
+    except:
+        return server_response(status=500)
+    else:
+        return server_response(status=200)
 
 
 if __name__ == "__main__":

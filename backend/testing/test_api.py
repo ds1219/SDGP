@@ -44,3 +44,15 @@ def test_start_session():
 
     response = requests.post(f"{ENDPOINT}/startSession", json=input)
     assert len(response.json()["lectureSessionID"]) == 5
+
+
+def test_registerLecturer():
+    input = {
+        "firstName": "David",
+        "lastName": "Sheen",
+        "subjectIDs": "12345-54321",
+        "hashedPass": "qwertyuio",
+    }
+
+    response = requests.post(f"{ENDPOINT}/registerLecturer", json=input)
+    assert response.status_code == 200
