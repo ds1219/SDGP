@@ -5,8 +5,6 @@ app = Flask(__name__)
 
 
 # TODO : ADD USER AUTH
-
-
 @app.route("/login", methods=["POST"])
 def login():
     expectedData = ["username", "hashedPassword"]
@@ -81,17 +79,18 @@ def register():
     except:
         return server_response(status=500)
 
-    lecturerID = gen_code()
+    entityID = gen_code()
     columns = list(receivedData.keys())
-    columns.insert(0, "lecturerID")
-
     values = list(receivedData.values())
-    values.insert(0, lecturerID)
 
     try:
         if entityName == "lecturer":
+            columns.insert(0, "lecturerID")
+            values.insert(0, entityID)
             insert_into_table("lecturers", columns, values)
         elif entityName == "student":
+            columns.insert(0, "studentID")
+            values.insert(0, entityID)
             insert_into_table("students", columns, values)
         else:
             raise Exception("Invalid Entity Name")
