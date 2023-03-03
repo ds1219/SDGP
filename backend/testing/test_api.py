@@ -24,7 +24,7 @@ def test_check_api_connection():
 # def test_mark_attendance():
 def test_mark_attendace():
     input = {
-        "studentID": "20030496",
+        "studentID": "dqpoi",
         "questionID": "34",
         "answer": "Richard Stallman",
         "lectureSessionID": "12345",
