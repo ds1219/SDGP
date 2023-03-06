@@ -17,5 +17,6 @@ function App() {
     <Route path='/quiz' element={<Question/>}/>
     <Route path='/location' element={<Location/>}/>
   </Routes>
+}
 
 export default App;
