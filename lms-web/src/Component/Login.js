@@ -10,7 +10,10 @@ import Logo from '../images/logo.png';
 
 
 
+
  function Login(props){
+ const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [userType, setUserType] = useState(null);
   const navigate=useNavigate();
 
@@ -27,8 +30,24 @@ import Logo from '../images/logo.png';
   }
 
   const handleUserTypeClick = (type) => {
+    var lec=document.getElementById('lec')
+    var stu=document.getElementById('stu')
     setUserType(type);
     console.log(type)
+     if (type === 'student') {
+      stu.style.scale="1.3"
+      lec.style.scale="1"
+      lec.style.opacity="0.7"
+      stu.style.opacity="1"
+      
+    } else if (type === 'lecturer') {
+      lec.style.scale="1.3"
+      stu.style.scale="1"
+      stu.style.opacity="0.7"
+       lec.style.opacity="1"
+    }
+    
+    
     //  if (type === 'student') {
     //   // Navigate to the student page
     //   navigate('/user.js');
@@ -42,13 +61,13 @@ import Logo from '../images/logo.png';
 <div className="flex flex-col md:flex-row h-screen">
   <div className="half md:w-1/2 flex  justify-around  items-center">
     <div className="flex justify-around   w-full ">
-      <div className="md:w-1/2 flex flex-col   md:items-center justify-center items-center "
+      <div id='stu' className="md:w-1/2 flex flex-col   md:items-center justify-center items-center "
       onClick={() => handleUserTypeClick('student')}
       >
         <User photo={UserS} />
         <h1 className="text-cyan-50 font-bold">Student</h1>
       </div>
-      <div className="md:w-1/2 flex flex-col md:items-center justify-center items-center"
+      <div id='lec' className="md:w-1/2 flex flex-col md:items-center justify-center items-center"
        onClick={() => handleUserTypeClick('lecturer')}
       >
         <User photo={UserT} />
