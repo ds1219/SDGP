@@ -6,18 +6,23 @@
 
 ## python modules
 
-`pip install -r requirements.txt`
+```powershell
+pip install -r requirements.txt
+```
 
 # frontend
-
 start the server using:
 
 ## Windows (PowerShell)
 
-`($env:HTTPS = "true") -and (npm start)`
+```powershell
+($env:HTTPS = "true") -and (npm start)
+```
 
 ## Linux
 
-`HTTPS=true npm start`
+```bash
+HTTPS=true npm start
+```
 
 ## Use a custom SSL certificate when deploying
