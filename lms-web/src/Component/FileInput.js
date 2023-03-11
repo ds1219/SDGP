@@ -10,7 +10,7 @@ export default function(){
     const form = event.target;
     const formData = new FormData(form);
 
-    fetch("http://127.0.0.1:3669/startSession", {
+    fetch("http://127.0.0.1:3669/startSession",{
       method: "POST",
       body: formData,
     })
