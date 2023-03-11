@@ -2,7 +2,7 @@
 
 ## USE BLACK WHEN UPDATING THE PYTHON CODE!
 
-## Written for python 3.11.2
+## Written for python 3.10
 
 ## python modules
 
