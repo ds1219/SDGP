@@ -16,7 +16,11 @@ function App() {
     <Route path='/student' element={<QrScanner/>}/>
     <Route path='/quiz' element={<Question/>}/>
     <Route path='/location' element={<Location/>}/>
+<<<<<<< Updated upstream
   </Routes>
+=======
+  </Routes> 
+>>>>>>> Stashed changes
 }
 
 export default App;
