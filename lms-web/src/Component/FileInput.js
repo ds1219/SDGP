@@ -2,22 +2,40 @@ import React, { useState } from "react";
 
 
 export default function(){
-    
+  const [lecturerID, setLecturerID] = useState('');
+  const [sessionTime, setSessionTime] = useState('');
+  const [sessionDate, setSessionDate] = useState('');
+  const [subjectID, setSubjectID] = useState('');
+  const [lectureNotes, setLectureNotes] = useState('');
 
-  const handleFormSubmit = (event) => {
+
+  function handleFormSubmit(event) {
     event.preventDefault();
-
-    const form = event.target;
-    const formData = new FormData(form);
-
-    fetch("http://127.0.0.1:3669/startSession",{
-      method: "POST",
-      body: formData,
+    const data = {
+      lecturerID,
+      sessionTime,
+      sessionDate,
+      subjectID,
+      lectureNotes
+    };
+    fetch('/startSession', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
     })
-      .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.error(error));
-  };
+      .then(response => {
+        if (response.ok) {
+          // handle successful response
+        } else {
+          // handle error response
+        }
+      })
+      .catch(error => {
+        // handle network error
+      });
+  }
 
   return (
 <div className="flex justify-center items-center h-screen bg-black">
@@ -37,24 +55,41 @@ export default function(){
 
     <label className=" block mb-2 text-sm font-medium text-gray-900 dark:text-white ">
         lecturerID
-       <input name="lecturerID" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
+       <input name="lecturerID" 
+       value={lecturerID}
+       onChange={event => setLecturerID(event.target.value)}
+       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
     </label>
     <label className=" block mb-2 text-sm font-medium text-gray-900 dark:text-white ">
         sessionTime
-       <input name="sessionTime" type="time"className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" ></input>
+       <input name="sessionTime"
+        type="time"
+        value={sessionTime}
+        onChange={event => setSessionTime(event.target.value)}
+        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" ></input>
     </label>
     <label className=" block mb-2 text-sm font-medium text-gray-900 dark:text-white ">
         sessionDate
-       <input name="sessionDate" type="date" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" ></input>
+       <input name="sessionDate"
+        type="date"
+         value={sessionDate}
+         onChange={event => setSessionDate(event.target.value)}
+         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" ></input>
     </label>
     <label className=" block mb-2 text-sm font-medium text-gray-900 dark:text-white ">
         subjectID
-       <input name="subjectID" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
+       <input name="subjectID"
+       value={subjectID}
+       onChange={event => setSubjectID(event.target.value)}
+        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
     </label>
 
      <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white ">
        Lecture Notes
-      <textarea className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"name="postContent" rows={8} cols={60} />
+      <textarea
+       value={lectureNotes}
+        onChange={event => setLectureNotes(event.target.value)}
+       className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"name="postContent" rows={8} cols={60} />
     </label>
     <button  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg mb-4">Generate Quiz</button>
 
