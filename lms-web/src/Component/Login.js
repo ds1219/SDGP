@@ -13,7 +13,7 @@ import Logo from '../images/logo.png';
 
  function Login(props){
  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState(""); 
   const [userType, setUserType] = useState(null);
   const navigate=useNavigate();
 
@@ -106,8 +106,6 @@ import Logo from '../images/logo.png';
     </div>
 
     <button
-   
-     
       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg mb-4"
     >
       Submit
