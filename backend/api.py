@@ -5,8 +5,6 @@ app = Flask(__name__)
 
 
 # TODO : ADD USER AUTH
-
-
 @app.route("/login", methods=["POST"])
 def login():
     expectedData = ["username", "hashedPassword"]
@@ -33,6 +31,14 @@ def markAttendance():
 
     query = 'SELECT * FROM Lecturer WHERE EXISTS(SELECT * From Lecturer WHERE lecturerID LIKE "%s")'
 
+    try:
+        if not check_for_item_in_table(
+            "students", "studentID", receivedData["studentID"]
+        ):
+            raise Exception("StudentID not registered")
+    except:
+        return server_response(status=500)
+
     # TODO: check if sessionID is valid and studentID is valid
     return server_response(status=200, json=receivedData)
 
@@ -45,7 +51,6 @@ def startSession():
     try:
         receivedData = extract_required_data(receivedData, expectedData)
     except:
-        print("[SERVER] - ERROR EXTRACTING LECTURE SESSION DATA")
         return server_response(status=500)
 
     sessionID = gen_code()
@@ -58,7 +63,6 @@ def startSession():
     try:
         insert_into_table("lectureSessions", columns, values)
     except:
-        print("[SERVER] - ERROR INSERTING LECTURE SESSION INTO TABLE")
         return server_response(status=500)
     else:
         return server_response(status=200, json={"lectureSessionID": sessionID})
@@ -69,25 +73,33 @@ def testConnection():
     return server_response(status=200)
 
 
-@app.route("/registerLecturer", methods=["POST"])
+@app.route("/register", methods=["POST"])
 def register():
     expectedData = ["firstName", "lastName", "subjectIDs", "hashedPass"]
     receivedData = request.get_json()
+
+    entityName = receivedData["entityName"]
 
     try:
         receivedData = extract_required_data(receivedData, expectedData)
     except:
         return server_response(status=500)
 
-    lecturerID = gen_code()
+    entityID = gen_code()
     columns = list(receivedData.keys())
-    columns.insert(0, "lecturerID")
-
     values = list(receivedData.values())
-    values.insert(0, lecturerID)
 
     try:
-        insert_into_table("lecturers", columns, values)
+        if entityName == "lecturer":
+            columns.insert(0, "lecturerID")
+            values.insert(0, entityID)
+            insert_into_table("lecturers", columns, values)
+        elif entityName == "student":
+            columns.insert(0, "studentID")
+            values.insert(0, entityID)
+            insert_into_table("students", columns, values)
+        else:
+            raise Exception("Invalid Entity Name")
     except:
         return server_response(status=500)
     else:

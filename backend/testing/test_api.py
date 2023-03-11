@@ -24,7 +24,7 @@ def test_check_api_connection():
 # def test_mark_attendance():
 def test_mark_attendace():
     input = {
-        "studentID": "20030496",
+        "studentID": "dqpoi",
         "questionID": "34",
         "answer": "Richard Stallman",
         "lectureSessionID": "12345",
@@ -52,7 +52,21 @@ def test_registerLecturer():
         "lastName": "Sheen",
         "subjectIDs": "12345-54321",
         "hashedPass": "qwertyuio",
+        "entityName": "lecturer",
     }
 
-    response = requests.post(f"{ENDPOINT}/registerLecturer", json=input)
+    response = requests.post(f"{ENDPOINT}/register", json=input)
+    assert response.status_code == 200
+
+
+def test_registerStudent():
+    input = {
+        "firstName": "David",
+        "lastName": "Sheen",
+        "subjectIDs": "12345-54321",
+        "hashedPass": "qwertyuio",
+        "entityName": "student",
+    }
+
+    response = requests.post(f"{ENDPOINT}/register", json=input)
     assert response.status_code == 200
