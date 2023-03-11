@@ -2,15 +2,66 @@ import React, { useState } from "react";
 
 
 export default function(){
-     const [pdfFile, setPdfFile] = useState(null);
+    
 
-  const handleFileSelect = event => {
-    setPdfFile(event.target.files[0]);
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+
+    const form = event.target;
+    const formData = new FormData(form);
+
+    fetch("http://127.0.0.1:3669/startSession", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.error(error));
   };
 
   return (
 <div className="flex justify-center items-center h-screen bg-black">
-  <div className="w-11/12 md:w-2/3 lg:w-1/2">
+
+
+  <form method="POST" className="flex flex-col "onSubmit={handleFormSubmit} >
+      {/* <select className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600">
+
+       <option value="fruit">Client Server Architecture</option>
+
+       <option value="vegetable">Module2</option>
+
+       <option value="meat">Module3</option>
+
+     </select> */}
+    
+
+    <label className=" block mb-2 text-sm font-medium text-gray-900 dark:text-white ">
+        lecturerID
+       <input name="lecturerID" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
+    </label>
+    <label className=" block mb-2 text-sm font-medium text-gray-900 dark:text-white ">
+        sessionTime
+       <input name="sessionTime" type="time"className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" ></input>
+    </label>
+    <label className=" block mb-2 text-sm font-medium text-gray-900 dark:text-white ">
+        sessionDate
+       <input name="sessionDate" type="date" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" ></input>
+    </label>
+    <label className=" block mb-2 text-sm font-medium text-gray-900 dark:text-white ">
+        subjectID
+       <input name="subjectID" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
+    </label>
+
+     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white ">
+       Lecture Notes
+      <textarea className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"name="postContent" rows={8} cols={60} />
+    </label>
+    <button  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg mb-4">Generate Quiz</button>
+
+  </form>
+
+   
+  {/* <div className="w-11/12 md:w-2/3 lg:w-1/2">
     <input
       className="w-full py-2 px-4 bg-gray-200 appearance-none border-2 border-ring-blue-500 rounded text-bg-blue-500 leading-tight focus:outline-none focus:bg-white focus:border-ring-blue-500"
       type="text"
@@ -34,7 +85,7 @@ export default function(){
         />
       )}
     </div>
-  </div>
+  </div> */}
 </div>
 
   );
