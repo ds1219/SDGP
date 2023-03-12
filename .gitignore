@@ -4,4 +4,8 @@
 */.env
 */.vscode
 */.pytest_cache
-backend/sractch.py
+*/scratch.py
+*/venv
+*/.ipynb_checkpoints
+*/node_modules
+ML/ramsrigouthamg-t5_squad_v1
