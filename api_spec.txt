@@ -1,0 +1,47 @@
+/ [GET]
+
+/login [POST]
+  input
+	username
+	hashedPassword
+  
+  return
+  	pass
+  	  HTTP 200
+  	  userSessionKey
+  	fail
+  	  HTTP 500
+  	
+
+/mark-attendance [POST]
+  input
+	studentID
+	answer
+	questionID
+	lectureSessionID
+  return
+        pass
+          HTTP 200
+        fail
+	
+
+/start-session [POST]
+   input
+	lectureID
+	time
+	date
+	subjectID
+	
+   return
+        pass
+          HTTP 200
+          userSessionID
+        fail
+          HTTP 500
+   	
+
+/get-question [POST]
+
+
+
+
