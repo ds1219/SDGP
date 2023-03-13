@@ -32,6 +32,5 @@ def insert_into_table(table: str, columns: list, values: list):
     columns = ", ".join(columns)
 
     query = f"INSERT INTO `{table}` ({columns}) VALUES ({('%s,'*len(values))[:-1]});"
-    print(query)
 
     run_db_query(query, values)

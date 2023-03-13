@@ -16,6 +16,7 @@ def login():
     try:
         receivedData = extract_required_data(receivedData, expectedData)
     except:
+        print("[SERVER] - Required Data Could Not Be Extracted ")
         return server_response(status=500)
     else:
         userSessionID = ""
@@ -31,6 +32,7 @@ def markAttendance():
     try:
         receivedData = extract_required_data(receivedData, expectedData)
     except:
+        print("[SERVER] - Required Data Could Not Be Extracted ")
         return server_response(status=500)
 
     query = 'SELECT * FROM Lecturer WHERE EXISTS(SELECT * From Lecturer WHERE lecturerID LIKE "%s")'
@@ -90,31 +92,26 @@ def testConnection():
 @app.route("/register", methods=["POST"])
 @cross_origin()
 def register():
-    expectedData = ["firstName", "lastName", "subjectIDs", "hashedPass"]
+    expectedData = ["email", "firstName", "lastName", "subjectIDs", "hashedPass"]
     receivedData = request.get_json()
 
-    entityName = receivedData["entityName"]
-
     try:
+        userType = receivedData["userType"]
         receivedData = extract_required_data(receivedData, expectedData)
     except:
+        print("[SERVER] - Required Data Could Not Be Extracted ")
         return server_response(status=500)
 
-    entityID = gen_code()
     columns = list(receivedData.keys())
     values = list(receivedData.values())
 
     try:
-        if entityName == "lecturer":
-            columns.insert(0, "lecturerID")
-            values.insert(0, entityID)
+        if userType == "lecturer":
             insert_into_table("lecturers", columns, values)
-        elif entityName == "student":
-            columns.insert(0, "studentID")
-            values.insert(0, entityID)
+        elif userType == "student":
             insert_into_table("students", columns, values)
         else:
-            raise Exception("Invalid Entity Name")
+            raise Exception("InvalidUserType")
     except:
         return server_response(status=500)
     else:
@@ -122,4 +119,4 @@ def register():
 
 
 if __name__ == "__main__":
-    app.run(port=3669)
+    app.run(port=5000)

@@ -36,11 +36,12 @@ def test_start_session():
 
 def test_registerLecturer():
     input = {
-        "firstName": "David",
-        "lastName": "Sheen",
+        "firstName": "Rich",
+        "lastName": "Erd",
         "subjectIDs": "12345-54321",
         "hashedPass": "qwertyuio",
-        "entityName": "lecturer",
+        "userType": "lecturer",
+        "email": "richerd@why.no",
     }
 
     response = requests.post(f"{ENDPOINT}/register", json=input)
@@ -53,7 +54,8 @@ def test_registerStudent():
         "lastName": "Sheen",
         "subjectIDs": "12345-54321",
         "hashedPass": "qwertyuio",
-        "entityName": "student",
+        "userType": "student",
+        "email": "davidsheen@why.brah",
     }
 
     response = requests.post(f"{ENDPOINT}/register", json=input)
