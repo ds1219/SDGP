@@ -1,19 +1,15 @@
-/* Run on Initial DB Setup*/
-CREATE USER 'backend'@'localhost' IDENTIFIED BY 'b3k3nd';
+DROP DATABASE `sdgptest`;
 
-/* run each time*/
-DROP DATABASE `sdgpTest`;
-CREATE DATABASE `sdgpTest`;
-GRANT ALL PRIVILEGES ON sdgpTest.* TO 'backend'@'localhost';
-USE sdgpTest;
+CREATE DATABASE `sdgptest`;
+USE sdgptest;
 CREATE TABLE lectureSessions (sessionID varchar(5),
                               lecturerID varchar(5),
                               sessionTime time,
                               sessionDate date,
-                              subjectID text
-                             );
+                              subjectID text,
+                              questionSource text);
 CREATE TABLE lecturers (lecturerID varchar (5), firstName text, lastName text, subjectIDs text, hashedPass text);
 CREATE TABLE students (studentID varchar (5), firstName text, lastName text, subjectIDs text, hashedPass text);
 CREATE TABLE subjects (subjectID varchar (5), subjectName text);
-CREATE TABLE questions (questionID varchar (5), question text, sourceID varchar (5));
+CREATE TABLE questions (questionID varchar (5), question text, sessionID varchar (5));
 CREATE TABLE Attendance (studentID varchar(5), questionID varchar(5), answer text, pass BOOLEAN);

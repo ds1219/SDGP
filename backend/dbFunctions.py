@@ -3,7 +3,7 @@ import mysql.connector
 
 def run_db_query(query: str, val: tuple, result=False):
     mydb = mysql.connector.connect(
-        host="localhost", user="backend", password="b3k3nd", database="sdgpTest"
+        host="localhost", user="root", password="", database="sdgptest"
     )
     cursor = mydb.cursor()
     cursor.execute(query, val)
@@ -31,6 +31,7 @@ def check_for_item_in_table(table: str, column: str, idString: str):
 def insert_into_table(table: str, columns: list, values: list):
     columns = ", ".join(columns)
 
-    query = f"INSERT INTO `{table}` ({columns}) VALUES (%s, %s, %s, %s, %s);"
+    query = f"INSERT INTO `{table}` ({columns}) VALUES ({('%s,'*len(values))[:-1]});"
+    print(query)
 
     run_db_query(query, values)

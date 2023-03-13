@@ -1,11 +1,14 @@
 from flask import Flask, request
 from helperFunctions import *
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
-
+cors = CORS(app)
+app.config["CORS_HEADERS"] = "Content-Type"
 
 # TODO : ADD USER AUTH
 @app.route("/login", methods=["POST"])
+@cross_origin()
 def login():
     expectedData = ["username", "hashedPassword"]
     receivedData = request.get_json()
@@ -20,6 +23,7 @@ def login():
 
 
 @app.route("/markAttendance", methods=["POST"])
+@cross_origin()
 def markAttendance():
     expectedData = ["studentID", "answer", "questionID", "lectureSessionID"]
     receivedData = request.get_json()
@@ -44,13 +48,21 @@ def markAttendance():
 
 
 @app.route("/startSession", methods=["POST"])
+@cross_origin()
 def startSession():
-    expectedData = ["lecturerID", "sessionTime", "sessionDate", "subjectID"]
+    expectedData = [
+        "lecturerID",
+        "sessionTime",
+        "sessionDate",
+        "subjectID",
+        "questionSource",
+    ]
     receivedData = request.get_json()
 
     try:
         receivedData = extract_required_data(receivedData, expectedData)
     except:
+        print("[SERVER] - Required Data Could Not Be Extracted ")
         return server_response(status=500)
 
     sessionID = gen_code()
@@ -61,19 +73,22 @@ def startSession():
     values.insert(0, sessionID)
 
     try:
-        insert_into_table("lectureSessions", columns, values)
+        insert_into_table("lecturesessions", columns, values)
     except:
+        print("[SERVER] - Row Could Not Be Inserted Into Table")
         return server_response(status=500)
     else:
         return server_response(status=200, json={"lectureSessionID": sessionID})
 
 
 @app.route("/", methods=["GET"])
+@cross_origin()
 def testConnection():
     return server_response(status=200)
 
 
 @app.route("/register", methods=["POST"])
+@cross_origin()
 def register():
     expectedData = ["firstName", "lastName", "subjectIDs", "hashedPass"]
     receivedData = request.get_json()
