@@ -10,7 +10,6 @@ nltk.download("brown")
 nltk.download("wordnet")
 from nltk.corpus import wordnet as wn
 from nltk.tokenize import sent_tokenize
-import nltk
 
 nltk.download("stopwords")
 from nltk.corpus import stopwords
