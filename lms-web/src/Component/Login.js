@@ -42,13 +42,7 @@ function Login(props) {
       lec.style.opacity = "1";
     }
 
-    //  if (type === 'student') {
-    //   // Navigate to the student page
-    //   navigate('/user.js');
-    // } else if (type === 'lecturer') {
-    //   // Navigate to the lecturer page
-    //   navigate('/lecturer');
-    // }
+    
   };
 
   return (
