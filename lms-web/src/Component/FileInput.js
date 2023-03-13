@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import axios from "axios";
 
+<<<<<<< Updated upstream
 const ENDPOINT = "http://127.0.0.1:3669";
 export default function () {
   const [lecturerID, setLecturerID] = useState("");
@@ -8,6 +10,14 @@ export default function () {
   const [subjectID, setSubjectID] = useState("");
   const [questionSource, setquestionSource] = useState("");
 
+=======
+const ENDPOINT = 'http://127.0.0.1:3669'
+
+export default function(){
+     const [pdfFile, setPdfFile] = useState(null);
+
+
+>>>>>>> Stashed changes
   function handleFormSubmit(event) {
     event.preventDefault();
     const data = {
@@ -15,6 +25,7 @@ export default function () {
       sessionTime,
       sessionDate,
       subjectID,
+<<<<<<< Updated upstream
       questionSource,
     };
     fetch(ENDPOINT + "/startSession", {
@@ -33,6 +44,28 @@ export default function () {
       })
       .catch((error) => {
         // handle network error
+=======
+      lectureNotes
+    };
+    fetch(ENDPOINT+'/startSession', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response => {
+        if (response.ok) {
+          // handle successful response
+            console.log("server connected ")
+        } else {
+          // handle error response
+            console.log("server not connected")
+        }
+      })
+      .catch(error => {
+        console.log("errorr")
+>>>>>>> Stashed changes
       });
   }
 
