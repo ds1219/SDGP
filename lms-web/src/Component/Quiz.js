@@ -9,15 +9,11 @@ const Question = () => {
 
   return (
     <div className="max-w-md mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4">
-        What is the capital of France?
-      </h2>
+      <h2 className="text-2xl font-bold mb-4">What is the capital of France?</h2>
       <ul className="space-y-4">
         <li
           className={`py-2 px-4 rounded-md ${
-            selectedAnswer === "Paris"
-              ? "bg-green-500 text-white"
-              : "bg-gray-200"
+            selectedAnswer === "Paris" ? "bg-green-500 text-white" : "bg-gray-200"
           }`}
           onClick={() => handleAnswerSelect("Paris")}
         >
@@ -25,9 +21,7 @@ const Question = () => {
         </li>
         <li
           className={`py-2 px-4 rounded-md ${
-            selectedAnswer === "Madrid"
-              ? "bg-red-500 text-white"
-              : "bg-gray-200"
+            selectedAnswer === "Madrid" ? "bg-red-500 text-white" : "bg-gray-200"
           }`}
           onClick={() => handleAnswerSelect("Madrid")}
         >
@@ -35,9 +29,7 @@ const Question = () => {
         </li>
         <li
           className={`py-2 px-4 rounded-md ${
-            selectedAnswer === "Berlin"
-              ? "bg-red-500 text-white"
-              : "bg-gray-200"
+            selectedAnswer === "Berlin" ? "bg-red-500 text-white" : "bg-gray-200"
           }`}
           onClick={() => handleAnswerSelect("Berlin")}
         >
