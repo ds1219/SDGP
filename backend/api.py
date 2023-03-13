@@ -45,12 +45,19 @@ def markAttendance():
 
 @app.route("/startSession", methods=["POST"])
 def startSession():
-    expectedData = ["lecturerID", "sessionTime", "sessionDate", "subjectID"]
+    expectedData = [
+        "lecturerID",
+        "sessionTime",
+        "sessionDate",
+        "subjectID",
+        "questionSource",
+    ]
     receivedData = request.get_json()
 
     try:
         receivedData = extract_required_data(receivedData, expectedData)
     except:
+        print("[SERVER] - Required Data Could Not Be Extracted ")
         return server_response(status=500)
 
     sessionID = gen_code()
@@ -61,8 +68,9 @@ def startSession():
     values.insert(0, sessionID)
 
     try:
-        insert_into_table("lectureSessions", columns, values)
+        insert_into_table("lecturesessions", columns, values)
     except:
+        print("[SERVER] - Row Could Not Be Inserted Into Table")
         return server_response(status=500)
     else:
         return server_response(status=200, json={"lectureSessionID": sessionID})

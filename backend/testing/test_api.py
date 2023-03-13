@@ -1,19 +1,6 @@
 import requests
-import mysql.connector
 
-
-def run_db_query(query):
-    mydb = mysql.connector.connect(
-        host="localhost", user="backend", password="b3k3nd", database="sdgpTest"
-    )
-    cursor = mydb.cursor()
-
-    cursor.execute(query)
-    cursor.close()
-    mydb.close()
-
-
-ENDPOINT = "http://127.0.0.1:3669"
+ENDPOINT = "http://127.0.0.1:5000"
 
 
 def test_check_api_connection():
@@ -24,7 +11,7 @@ def test_check_api_connection():
 # def test_mark_attendance():
 def test_mark_attendace():
     input = {
-        "studentID": "dqpoi",
+        "studentID": "evobh",
         "questionID": "34",
         "answer": "Richard Stallman",
         "lectureSessionID": "12345",
@@ -36,10 +23,11 @@ def test_mark_attendace():
 
 def test_start_session():
     input = {
-        "lecturerID": "qwedt",
+        "lecturerID": "sqbyc",
         "sessionTime": "13:00",
         "sessionDate": "2003-04-04",
         "subjectID": "testSession",
+        "questionSource": "Richard and Mary are very good Friends",
     }
 
     response = requests.post(f"{ENDPOINT}/startSession", json=input)
