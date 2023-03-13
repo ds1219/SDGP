@@ -7,11 +7,7 @@ const Question = () => {
     setSelectedAnswer(answer);
   };
 
-  return (
-    <div className="max-w-md mx-auto p-4">
-      
-    </div>
-  );
+  return <div className="max-w-md mx-auto p-4"></div>;
 };
 
 export default Question;
