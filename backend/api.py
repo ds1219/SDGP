@@ -1,11 +1,14 @@
 from flask import Flask, request
 from helperFunctions import *
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
-
+cors = CORS(app)
+app.config["CORS_HEADERS"] = "Content-Type"
 
 # TODO : ADD USER AUTH
 @app.route("/login", methods=["POST"])
+@cross_origin()
 def login():
     expectedData = ["username", "hashedPassword"]
     receivedData = request.get_json()
@@ -20,6 +23,7 @@ def login():
 
 
 @app.route("/markAttendance", methods=["POST"])
+@cross_origin()
 def markAttendance():
     expectedData = ["studentID", "answer", "questionID", "lectureSessionID"]
     receivedData = request.get_json()
@@ -44,6 +48,7 @@ def markAttendance():
 
 
 @app.route("/startSession", methods=["POST"])
+@cross_origin()
 def startSession():
     expectedData = [
         "lecturerID",
@@ -77,11 +82,13 @@ def startSession():
 
 
 @app.route("/", methods=["GET"])
+@cross_origin()
 def testConnection():
     return server_response(status=200)
 
 
 @app.route("/register", methods=["POST"])
+@cross_origin()
 def register():
     expectedData = ["firstName", "lastName", "subjectIDs", "hashedPass"]
     receivedData = request.get_json()
