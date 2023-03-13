@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-const API_KEY = 'YOUR_API_KEY_HERE';
-export default function(){
-    const [location, setLocation] = useState({});
-  const [address, setAddress] = useState('');
+import React, { useState, useEffect } from "react";
+const API_KEY = "YOUR_API_KEY_HERE";
+export default function () {
+  const [location, setLocation] = useState({});
+  const [address, setAddress] = useState("");
 
   const handleClick = () => {
     navigator.geolocation.getCurrentPosition(
@@ -33,7 +33,6 @@ export default function(){
       });
   }, [location]);
 
-  
   return (
     <div>
       <button onClick={handleClick}>Get Location</button>
@@ -52,5 +51,4 @@ export default function(){
       )}
     </div>
   );
-  
-};
+}
