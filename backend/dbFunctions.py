@@ -3,7 +3,7 @@ import mysql.connector
 
 def run_db_query(query: str, val: tuple, result=False):
     mydb = mysql.connector.connect(
-        host="localhost", user="backend", password="b3k3nd", database="sdgpTest"
+        host="localhost", user="root", password="", database="sdgptest"
     )
     cursor = mydb.cursor()
     cursor.execute(query, val)
@@ -34,3 +34,7 @@ def insert_into_table(table: str, columns: list, values: list):
     query = f"INSERT INTO `{table}` ({columns}) VALUES (%s, %s, %s, %s, %s);"
 
     run_db_query(query, values)
+
+
+if __name__ == "__main__":
+    run_db_query('SELECT %s FROM students', ('*'))
