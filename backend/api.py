@@ -92,7 +92,13 @@ def testConnection():
 @app.route("/register", methods=["POST"])
 @cross_origin()
 def register():
-    expectedData = ["email", "firstName", "lastName", "subjectIDs", "hashedPass"]
+    expectedData = [
+        "email",
+        "firstName",
+        "lastName",
+        "subjectIDs",
+        "hashedPass",
+    ]
     receivedData = request.get_json()
 
     try:

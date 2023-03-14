@@ -3,23 +3,23 @@ import UserS from "../images/AdminS.png";
 import UserT from "../images/AdminT.png";
 
 
-const ENDPOINT = "http://127.0.0.1:3669";
+const ENDPOINT = "http://127.0.0.1:5000";
  function AddDetails(){
      const [userType, setUserType] = useState(null);
      const [email, setEmail] = useState("");
-     const [FirstName, setFirstName] = useState("");
-     const [LastName, setLastName] = useState("");
+     const [firstName, setFirstName] = useState("");
+     const [lastName, setLastName] = useState("");
      const [subjectIDs, setsubjectIDs] = useState("");
-     const [Password, setPassword] = useState("");
+     const [hashedPass, sethashedPass] = useState("");
      function handleFormSubmit(event) {
     event.preventDefault();
     const data = {
       email,
-      FirstName,
-      LastName,
+      firstName,
+      lastName,
       subjectIDs,
-      Password,
-      userType
+      hashedPass,
+      userType,
     };
     fetch(ENDPOINT + "/register", {
       method: "POST",
@@ -31,8 +31,10 @@ const ENDPOINT = "http://127.0.0.1:3669";
       .then((response) => {
         if (response.ok) {
           // handle successful response
+          console.log("pass")
         } else {
           // handle error response
+            console.log("fail")
         }
       })
       .catch((error) => {
@@ -103,8 +105,8 @@ const ENDPOINT = "http://127.0.0.1:3669";
         <label className=" block mb-2 text-sm font-medium text-gray-900 dark:text-white ">
           FirstName
           <input
-            name="FirstName"
-            value={FirstName}
+            name="lirstName"
+            value={firstName}
             onChange={(event) => setFirstName(event.target.value)}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           ></input>
@@ -112,8 +114,8 @@ const ENDPOINT = "http://127.0.0.1:3669";
         <label className=" block mb-2 text-sm font-medium text-gray-900 dark:text-white ">
           LastName
           <input
-            name="LastName"
-            value={LastName}
+            name="lastName"
+            value={lastName}
             onChange={(event) => setLastName(event.target.value)}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           ></input>
@@ -131,10 +133,10 @@ const ENDPOINT = "http://127.0.0.1:3669";
        <label className=" block mb-2 text-sm font-medium text-gray-900 dark:text-white ">
           Password
           <input
-            name="Password"
-            value={Password}
+            name="hashedPass"
+            value={hashedPass}
             type="password"
-            onChange={(event) => setPassword(event.target.value)}
+            onChange={(event) => sethashedPass(event.target.value)}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           ></input>
         </label>

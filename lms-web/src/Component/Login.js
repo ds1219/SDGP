@@ -4,7 +4,7 @@ import UserS from "../images/AdminS.png";
 import UserT from "../images/AdminT.png";
 import Form from "./Form";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import Logo from "../images/logo.png";
 
 function Login(props) {
@@ -107,6 +107,9 @@ function Login(props) {
                   Submit
                 </button>
               </form>
+              <Link to="/addDetails" className="text-blue-500 text-sm hover:underline"> create an account?</Link>
+
+              
             </div>
           </div>
         </div>
