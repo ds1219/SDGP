@@ -8,21 +8,61 @@ import { useNavigate,Link } from "react-router-dom";
 import Logo from "../images/logo.png";
 
 function Login(props) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setemail] = useState("");
+  const [hashedPassword, sethashedPassword] = useState("");
   const [userType, setUserType] = useState(null);
   const navigate = useNavigate();
 
-  const handleSubmit = (formData) => {
+
+  const ENDPOINT = "http://127.0.0.1:5000";
+  function handleSubmit (event)  {
     // Check if the user's login details are correct using Flask
     // If the details are correct, navigate to the appropriate page
-    if (userType === "student") {
-      // Navigate to the student page
-      navigate("/student");
-    } else if (userType === "lecturer") {
-      // Navigate to the lecturer page
-      navigate("/lecturer");
+    event.preventDefault();
+     const data = {
+      email,
+      hashedPassword,
+      userType,
+    };
+
+    fetch(ENDPOINT + "/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        if (response.ok) {
+          // handle successful response
+          console.log("pass")
+
+
+        if (userType === "students") {
+        // Navigate to the student page
+        navigate("/student");
+        } 
+       if (userType === "lecturers") {
+       // Navigate to the lecturer page
+       navigate("/lecturer");
     }
+    
+        } else {
+          // handle error response
+          console.log("fail")
+        }
+      })
+      .catch((error) => {
+        // handle network error
+      });
+
+    
+
+
+
+
+
+   
   };
 
   const handleUserTypeClick = (type) => {
@@ -35,7 +75,7 @@ function Login(props) {
       lec.style.scale = "1";
       lec.style.opacity = "0.7";
       stu.style.opacity = "1";
-    } else if (type === "lecturer") {
+    } else if (type === "lecturers") {
       lec.style.scale = "1.3";
       stu.style.scale = "1";
       stu.style.opacity = "0.7";
@@ -52,7 +92,7 @@ function Login(props) {
           <div
             id="stu"
             className="md:w-1/2 flex flex-col   md:items-center justify-center items-center "
-            onClick={() => handleUserTypeClick("student")}
+            onClick={() => handleUserTypeClick("students")}
           >
             <User photo={UserS} />
             <h1 className="text-cyan-50 font-bold">Student</h1>
@@ -60,7 +100,7 @@ function Login(props) {
           <div
             id="lec"
             className="md:w-1/2 flex flex-col md:items-center justify-center items-center"
-            onClick={() => handleUserTypeClick("lecturer")}
+            onClick={() => handleUserTypeClick("lecturers")}
           >
             <User photo={UserT} />
             <h1 className="text-cyan-50 font-bold">Lecturer</h1>
@@ -84,6 +124,7 @@ function Login(props) {
                     name="email"
                     type="email"
                     placeholder="Email"
+                    onChange={(event) => setemail(event.target.value)}
                     className="w-full px-3 py-2 placeholder-gray-400 border rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
@@ -96,6 +137,7 @@ function Login(props) {
                     name="password"
                     type="password"
                     placeholder="Password"
+                    onChange={(event) => sethashedPassword(event.target.value)}
                     className="w-full px-3 py-2 placeholder-gray-400 border rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                   <a href="" className="text-blue-500 text-sm hover:underline">

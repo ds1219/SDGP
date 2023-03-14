@@ -16,6 +16,7 @@ const ENDPOINT = "http://127.0.0.1:5000";
 
 
      function handleFormSubmit(event) {
+      console.log(userType)
       
      event.preventDefault();
      if (!validateEmail(email)) {
@@ -31,6 +32,7 @@ const ENDPOINT = "http://127.0.0.1:5000";
       // handle invalid first name
        var warn=document.getElementById("warningfirst");
        warn.style.opacity="1"
+       
       return;
     }
 

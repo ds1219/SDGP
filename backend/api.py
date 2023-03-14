@@ -1,6 +1,8 @@
 from flask import Flask, request
 from helperFunctions import *
 from flask_cors import CORS, cross_origin
+import hashlib
+import sqlite3
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -10,11 +12,35 @@ app.config["CORS_HEADERS"] = "Content-Type"
 @app.route("/login", methods=["POST"])
 @cross_origin()
 def login():
-    expectedData = ["username", "hashedPassword"]
+    expectedData = [
+        "email",
+        "hashedPassword",
+    ]
     receivedData = request.get_json()
 
     try:
         receivedData = extract_required_data(receivedData, expectedData)
+        userType = receivedData["userType"]
+        email = receivedData["email"]
+        password = receivedData["hashedPassword"]
+        conn = sqlite3.connect("sdgptest.db")
+        cursor = conn.cursor()
+        cursor.execute(f"SELECT hashedPass FROM {userType} WHERE email = '{email}'")
+        result = cursor.fetchone()
+        if result:
+            hashed_password_from_db = result[0]
+            hashed_password = hashlib.sha256(password.encode("utf-8")).hexdigest()
+            if hashed_password == hashed_password_from_db:
+                userSessionID = ""
+                return server_response(
+                    status=200, json={"userSessionID": userSessionID}
+                )
+            else:
+                return server_response(
+                    status=401, json={"message": "Invalid credentials"}
+                )
+        else:
+            return server_response(status=401, json={"message": "Invalid credentials"})
     except:
         print("[SERVER] - Required Data Could Not Be Extracted ")
         return server_response(status=500)
