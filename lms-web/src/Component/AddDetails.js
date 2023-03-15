@@ -48,18 +48,18 @@ const ENDPOINT = "http://127.0.0.1:5000";
       return;
     }
 
-    if (!validatePassword(hashedPass)) {
-      // handle invalid password
-       var warn=document.getElementById("warningpass");
-       warn.style.opacity="1"
-      return;
-    }
-     if (!validateUser(userType)) {
-      // handle invalid first name
-       var warn=document.getElementById("warninguser");
-       warn.style.opacity="1"
-      return;
-    }
+    // if (!validatePassword(hashedPass)) {
+    //   // handle invalid password
+    //    var warn=document.getElementById("warningpass");
+    //    warn.style.opacity="1"
+    //   return;
+    // }
+    //  if (!validateUser(userType)) {
+    //   // handle invalid first name
+    //    var warn=document.getElementById("warninguser");
+    //    warn.style.opacity="1"
+    //   return;
+    // }
 
     const data = {
       email,

@@ -16,16 +16,16 @@ def login():
     try:
         userType = receivedData["userType"]
         email = receivedData["email"]
-        hashedPass = receivedData["hashedPass"]
+        hashedPass = receivedData["hashedPassword"]
     except:
         print("[SERVER] - Required Data Could Not Be Extracted from POST data!")
         return server_response(status=500)
 
     # get user row from table
     try:
-        if userType == "student":
+        if userType == "students":
             userRow = get_row_from_table("students", "email", email)
-        elif userType == "lecturer":
+        elif userType == "lecturers":
             userRow = get_row_from_table("lecturers", "email", email)
 
         if len(userRow) != 1:
