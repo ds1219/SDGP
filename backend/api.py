@@ -26,7 +26,7 @@ def login():
 @app.route("/markAttendance", methods=["POST"])
 @cross_origin()
 def markAttendance():
-    expectedData = ["studentID", "answer", "questionID", "lectureSessionID"]
+    expectedData = ["email", "answer", "questionID", "lectureSessionID"]
     receivedData = request.get_json()
 
     try:
@@ -35,13 +35,12 @@ def markAttendance():
         print("[SERVER] - Required Data Could Not Be Extracted ")
         return server_response(status=500)
 
-    query = 'SELECT * FROM Lecturer WHERE EXISTS(SELECT * From Lecturer WHERE lecturerID LIKE "%s")'
-
     try:
-        if not check_for_item_in_table(
-            "students", "studentID", receivedData["studentID"]
-        ):
-            raise Exception("StudentID not registered")
+        if not check_for_item_in_table("students", "email", receivedData["studentID"]):
+            if not check_for_item_in_table(
+                "lectureSessions", "lectureSessionID", receivedData["lectureSessionID"]
+            ):
+                raise Exception("StudentID not registered")
     except:
         return server_response(status=500)
 
