@@ -61,7 +61,7 @@ def markAttendance():
         print("[SERVER] - Required Data Could Not Be Extracted ")
         return server_response(status=500)
 
-    query = 'SELECT * FROM Lecturer WHERE EXISTS(SELECT * From Lecturer WHERE lecturerID LIKE "%s")'
+    query = 'SELECT * FROM Lecturers WHERE EXISTS(SELECT * From Lecturer WHERE lecturerID LIKE "%s")'
 
     try:
         if not check_for_item_in_table(

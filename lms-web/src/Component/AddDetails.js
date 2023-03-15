@@ -32,7 +32,7 @@ const ENDPOINT = "http://127.0.0.1:5000";
       // handle invalid first name
        var warn=document.getElementById("warningfirst");
        warn.style.opacity="1"
-       
+
       return;
     }
 
@@ -119,13 +119,13 @@ const ENDPOINT = "http://127.0.0.1:5000";
     <div className="flex flex-col justify-center items-center h-screen bg-black">
 
          {/* <div className="half md:w-1/2 flex  justify-around  items-center"> */}
-        <div className="flex justify-around align-middle   w-1/2 h-1/3  my-8">
+        <div className="flex justify-around align-middle  w-1/3   ">
           <div
             id="stu"
-             className="md:w-1/4 flex flex-col md:items-center justify-center items-center cursor-pointer"
+             className="md:w-1/4 mx-9 flex flex-col md:items-center justify-center items-center cursor-pointer"
             onClick={() => handleUserTypeClick("student")}
           >
-            <img className=" w-1/2 md:w-full " src={UserS}></img>
+            <img className="  md:w-full " src={UserS}></img>
             <h1 className="text-cyan-50 font-bold">Student</h1>
           </div>
           <div

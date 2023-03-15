@@ -70,7 +70,7 @@ function Login(props) {
     var stu = document.getElementById("stu");
     setUserType(type);
     console.log(type);
-    if (type === "student") {
+    if (type === "students") {
       stu.style.scale = "1.3";
       lec.style.scale = "1";
       lec.style.opacity = "0.7";
