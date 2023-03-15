@@ -46,7 +46,7 @@ def time_plus_hours(dtime: datetime, h: int):
 
 
 def check_if_user_is_authenticated(userSesssionID: str):
-    pass
+    # TODO: check if sessionkey is expired
+    userRow = get_row_from_table("userSessions", "userSessionID", userSesssionID)
 
-
-# TODO Check if user is authenticated
+    return userRow != 0

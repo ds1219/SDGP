@@ -11,7 +11,6 @@ app.config["CORS_HEADERS"] = "Content-Type"
 @app.route("/login", methods=["POST"])
 @cross_origin()
 def login():
-
     receivedData = request.get_json()
 
     try:
@@ -60,13 +59,23 @@ def login():
 @app.route("/markAttendance", methods=["POST"])
 @cross_origin()
 def markAttendance():
-    expectedData = ["studentID", "answer", "questionID", "lectureSessionID"]
+    expectedData = [
+        "studentID",
+        "answer",
+        "questionID",
+        "lectureSessionID",
+    ]
     receivedData = request.get_json()
 
     try:
         receivedData = extract_required_data(receivedData, expectedData)
+        userSessionID = receivedData["userSessionID"]
     except:
         print("[SERVER] - Required Data Could Not Be Extracted from POST data!")
+        return server_response(status=500)
+
+    if not check_if_user_is_authenticated(userSessionID):
+        print("[SERVER] - User is not Authenticated")
         return server_response(status=500)
 
     query = 'SELECT * FROM Lecturer WHERE EXISTS(SELECT * From Lecturer WHERE lecturerID LIKE "%s")'
@@ -93,9 +102,14 @@ def startSession():
     receivedData = request.get_json()
 
     try:
+        userSessionID = receivedData["userSessionID"]
         receivedData = extract_required_data(receivedData, expectedData)
     except:
         print("[SERVER] - Required Data Could Not Be Extracted from POST data!")
+        return server_response(status=500)
+
+    if not check_if_user_is_authenticated(userSessionID):
+        print("[SERVER] - User is not Authenticated")
         return server_response(status=500)
 
     sessionID = gen_code(5)
