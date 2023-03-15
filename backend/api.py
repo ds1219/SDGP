@@ -1,8 +1,7 @@
 from flask import Flask, request
 from helperFunctions import *
 from flask_cors import CORS, cross_origin
-import hashlib
-import sqlite3
+from datetime import datetime
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -12,62 +11,77 @@ app.config["CORS_HEADERS"] = "Content-Type"
 @app.route("/login", methods=["POST"])
 @cross_origin()
 def login():
-    expectedData = [
-        "email",
-        "hashedPassword",
-    ]
     receivedData = request.get_json()
 
     try:
-        receivedData = extract_required_data(receivedData, expectedData)
         userType = receivedData["userType"]
         email = receivedData["email"]
-        password = receivedData["hashedPassword"]
-        conn = sqlite3.connect("sdgptest.db")
-        cursor = conn.cursor()
-        cursor.execute(f"SELECT hashedPass FROM {userType} WHERE email = '{email}'")
-        result = cursor.fetchone()
-        if result:
-            hashed_password_from_db = result[0]
-            hashed_password = hashlib.sha256(password.encode("utf-8")).hexdigest()
-            if hashed_password == hashed_password_from_db:
-                userSessionID = ""
-                return server_response(
-                    status=200, json={"userSessionID": userSessionID}
-                )
-            else:
-                return server_response(
-                    status=401, json={"message": "Invalid credentials"}
-                )
-        else:
-            return server_response(status=401, json={"message": "Invalid credentials"})
+        hashedPass = receivedData["hashedPass"]
     except:
-        print("[SERVER] - Required Data Could Not Be Extracted ")
+        print("[SERVER] - Required Data Could Not Be Extracted from POST data!")
         return server_response(status=500)
-    else:
-        userSessionID = ""
-        return server_response(status=200, json={"userSessionID": userSessionID})
+
+    # get user row from table
+    try:
+        if userType == "student":
+            userRow = get_row_from_table("students", "email", email)
+        elif userType == "lecturer":
+            userRow = get_row_from_table("lecturers", "email", email)
+
+        if len(userRow) != 1:
+            raise ValueError("Too many users with same email in db")
+    except:
+        print("[SERVER] - User Not Found")
+        return server_response(status=500)
+
+    dbHashedPass = userRow[0][4]
+
+    # check password
+
+    if hashedPass != dbHashedPass:
+        print("[SERVER] - Invalid Password")
+        return server_response(status=500)
+
+    # save user session code in db and return
+    userSessionCode = gen_code(10)
+    expiry = datetime_to_string(time_plus_hours(datetime.now(), 1))
+    try:
+        columns = ["userSessionID", "expiry"]
+        values = [userSessionCode, expiry]
+        insert_into_table("usersessions", columns, values)
+    except:
+        print("[SERVER] - Problem Saving session key to db")
+        return server_response(status=500)
+
+    return server_response(status=200, json={"userSessionKey": userSessionCode})
 
 
 @app.route("/markAttendance", methods=["POST"])
 @cross_origin()
 def markAttendance():
-    expectedData = ["studentID", "answer", "questionID", "lectureSessionID"]
+    expectedData = [
+        "studentID",
+        "answer",
+        "questionID",
+        "lectureSessionID",
+    ]
     receivedData = request.get_json()
 
     try:
         receivedData = extract_required_data(receivedData, expectedData)
+        userSessionID = receivedData["userSessionID"]
     except:
-        print("[SERVER] - Required Data Could Not Be Extracted ")
+        print("[SERVER] - Required Data Could Not Be Extracted from POST data!")
+        return server_response(status=500)
+
+    if not check_if_user_is_authenticated(userSessionID):
+        print("[SERVER] - User is not Authenticated")
         return server_response(status=500)
 
     query = 'SELECT * FROM Lecturer WHERE EXISTS(SELECT * From Lecturer WHERE lecturerID LIKE "%s")'
 
     try:
-        if not check_for_item_in_table(
-            "students", "studentID", receivedData["studentID"]
-        ):
-            raise Exception("StudentID not registered")
+        raise Exception("StudentID not registered")
     except:
         return server_response(status=500)
 
@@ -88,12 +102,17 @@ def startSession():
     receivedData = request.get_json()
 
     try:
+        userSessionID = receivedData["userSessionID"]
         receivedData = extract_required_data(receivedData, expectedData)
     except:
-        print("[SERVER] - Required Data Could Not Be Extracted ")
+        print("[SERVER] - Required Data Could Not Be Extracted from POST data!")
         return server_response(status=500)
 
-    sessionID = gen_code()
+    if not check_if_user_is_authenticated(userSessionID):
+        print("[SERVER] - User is not Authenticated")
+        return server_response(status=500)
+
+    sessionID = gen_code(5)
     columns = list(receivedData.keys())
     columns.insert(0, "sessionID")
 
@@ -131,7 +150,7 @@ def register():
         userType = receivedData["userType"]
         receivedData = extract_required_data(receivedData, expectedData)
     except:
-        print("[SERVER] - Required Data Could Not Be Extracted ")
+        print("[SERVER] - Required Data Could Not Be Extracted from POST data!")
         return server_response(status=500)
 
     columns = list(receivedData.keys())
