@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const ENDPOINT = "http://127.0.0.1:3669";
+const ENDPOINT = "http://127.0.0.1:5000";
 export default function () {
   const [lecturerID, setLecturerID] = useState("");
   const [sessionTime, setSessionTime] = useState("");
@@ -28,8 +28,10 @@ export default function () {
       .then((response) => {
         if (response.ok) {
           // handle successful response
+          console.log("pass")
         } else {
           // handle error response
+          console.log("fail")
         }
       })
       .catch((error) => {

@@ -19,13 +19,13 @@ def run_db_query(query: str, val: tuple, result=False):
         return queryResult
 
 
-def check_for_item_in_table(table: str, column: str, idString: str):
+def get_row_from_table(table: str, column: str, idString: str):
     query = f"SELECT * FROM `{table}` WHERE EXISTS(SELECT * From `{table}` WHERE {column} LIKE %s)"
 
     vals = (idString,)
     result = run_db_query(query, vals, result=True)
 
-    return len(result) != 0
+    return result
 
 
 def insert_into_table(table: str, columns: list, values: list):

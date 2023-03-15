@@ -4,51 +4,104 @@ import UserS from "../images/AdminS.png";
 import UserT from "../images/AdminT.png";
 import Form from "./Form";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import Logo from "../images/logo.png";
 
 function Login(props) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setemail] = useState("");
+  const [hashedPassword, sethashedPassword] = useState("");
   const [userType, setUserType] = useState(null);
+  const[datas,setData]=useState("poda");
+  
   const navigate = useNavigate();
 
-  const handleSubmit = (formData) => {
+    
+  const ENDPOINT = "http://127.0.0.1:5000";
+  function handleSubmit (event)  {
     // Check if the user's login details are correct using Flask
     // If the details are correct, navigate to the appropriate page
-    if (userType === "student") {
-      // Navigate to the student page
-      navigate("/student");
-    } else if (userType === "lecturer") {
-      // Navigate to the lecturer page
-      navigate("/lecturer");
+
+    
+    
+    event.preventDefault();
+     const data = {
+      email,
+      hashedPassword,
+      userType,
+    };
+
+    
+
+    fetch(ENDPOINT + "/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+     
+      .then((response) => {
+         response.json()
+        
+        if (response.ok) {
+          // const res=response.data
+          // setData(({
+          //   profile_name: res.name
+          // }))
+          // handle successful response
+          console.log("pass")
+            console.log(datas)
+      
+  //       .then(data => {
+  //        const userSessionKey = data.userSessionKey;
+  //        setData(userSessionKey, () => {
+      
+  //       console.log(datas)
+  //       console.log(userType)
+      
+  //                       });
+  // // Use the userSessionKey as needed in your React code
+  //     })
+        
+          
+        if (userType === "students") {
+        // Navigate to the student page
+        navigate("/student");
+        } 
+       if (userType === "lecturers") {
+       // Navigate to the lecturer page
+       navigate("/lecturer");
     }
+    
+        } else {
+          // handle error response
+          console.log("fail")
+        }
+      }).catch((error) => {
+        // handle network error
+      });
+
   };
 
   const handleUserTypeClick = (type) => {
     var lec = document.getElementById("lec");
     var stu = document.getElementById("stu");
+   
     setUserType(type);
     console.log(type);
-    if (type === "student") {
+    if (type === "students") {
       stu.style.scale = "1.3";
       lec.style.scale = "1";
       lec.style.opacity = "0.7";
       stu.style.opacity = "1";
-    } else if (type === "lecturer") {
+    } else if (type === "lecturers") {
       lec.style.scale = "1.3";
       stu.style.scale = "1";
       stu.style.opacity = "0.7";
       lec.style.opacity = "1";
     }
 
-    //  if (type === 'student') {
-    //   // Navigate to the student page
-    //   navigate('/user.js');
-    // } else if (type === 'lecturer') {
-    //   // Navigate to the lecturer page
-    //   navigate('/lecturer');
-    // }
+    
   };
 
   return (
@@ -58,7 +111,7 @@ function Login(props) {
           <div
             id="stu"
             className="md:w-1/2 flex flex-col   md:items-center justify-center items-center "
-            onClick={() => handleUserTypeClick("student")}
+            onClick={() => handleUserTypeClick("students")}
           >
             <User photo={UserS} />
             <h1 className="text-cyan-50 font-bold">Student</h1>
@@ -66,7 +119,7 @@ function Login(props) {
           <div
             id="lec"
             className="md:w-1/2 flex flex-col md:items-center justify-center items-center"
-            onClick={() => handleUserTypeClick("lecturer")}
+            onClick={() => handleUserTypeClick("lecturers")}
           >
             <User photo={UserT} />
             <h1 className="text-cyan-50 font-bold">Lecturer</h1>
@@ -90,6 +143,8 @@ function Login(props) {
                     name="email"
                     type="email"
                     placeholder="Email"
+                    onChange={(event) => setemail(event.target.value)}
+                    autoComplete="on"
                     className="w-full px-3 py-2 placeholder-gray-400 border rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
@@ -102,6 +157,8 @@ function Login(props) {
                     name="password"
                     type="password"
                     placeholder="Password"
+                    onChange={(event) => sethashedPassword(event.target.value)}
+                    autoComplete="on"
                     className="w-full px-3 py-2 placeholder-gray-400 border rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                   <a href="" className="text-blue-500 text-sm hover:underline">
@@ -113,6 +170,9 @@ function Login(props) {
                   Submit
                 </button>
               </form>
+              <Link to="/addDetails" className="text-blue-500 text-sm hover:underline"> create an account?</Link>
+
+              
             </div>
           </div>
         </div>
