@@ -60,3 +60,25 @@ def test_registerStudent():
 
     response = requests.post(f"{ENDPOINT}/register", json=input)
     assert response.status_code == 200
+
+
+def test_loginStudent():
+    input = {
+        "userType": "student",
+        "email": "davidsheen@why.brah",
+        "hashedPass": "qwertyuio",
+    }
+
+    response = requests.post(f"{ENDPOINT}/login", json=input)
+    assert response.status_code == 200
+
+
+def test_loginLecturer():
+    input = {
+        "userType": "lecturer",
+        "hashedPass": "qwertyuio",
+        "email": "richerd@why.no",
+    }
+
+    response = requests.post(f"{ENDPOINT}/login", json=input)
+    assert response.status_code == 200

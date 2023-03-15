@@ -1,10 +1,10 @@
 import random, string
 from dbFunctions import *
 from flask import make_response, jsonify
+from datetime import datetime, timedelta
 
 
-def gen_code():
-    length = 5
+def gen_code(length: int):
     newCode = ""
     for i in range(length):
         newCode += random.choice(string.ascii_lowercase)
@@ -33,3 +33,20 @@ def server_response(
     response.status_code = status
 
     return response
+
+
+def datetime_to_string(dTime):
+    dTime = dTime.strftime("%Y-%m-%d %H:%M:%S")
+    return dTime
+
+
+def time_plus_hours(dtime: datetime, h: int):
+    newDtime = dtime + timedelta(hours=h)
+    return newDtime
+
+
+def check_if_user_is_authenticated(userSesssionID: str):
+    pass
+
+
+# TODO Check if user is authenticated
