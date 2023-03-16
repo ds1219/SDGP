@@ -20,8 +20,7 @@ def run_db_query(query: str, val: tuple, result=False):
 
 
 def get_row_from_table(table: str, column: str, idString: str):
-    query = f"SELECT * FROM `{table}` WHERE EXISTS(SELECT * From `{table}` WHERE {column} LIKE %s)"
-
+    query = f"SELECT * FROM `{table}` WHERE {column} LIKE %s;"
     vals = (idString,)
     result = run_db_query(query, vals, result=True)
 
