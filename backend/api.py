@@ -28,10 +28,11 @@ def login():
         elif userType == "lecturer":
             userRow = get_row_from_table("lecturers", "email", email)
 
-        if len(userRow) != 1:
-            raise ValueError("Too many users with same email in db")
+        if len(userRow) == 0:
+            print("[SERVER] - User Not Found")
+        elif len(userRow) > 1:
+            print("[SERVER] - Multple Users Found in the db")
     except:
-        print("[SERVER] - User Not Found")
         return server_response(status=500)
 
     dbHashedPass = userRow[0][4]
