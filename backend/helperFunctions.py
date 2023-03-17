@@ -3,6 +3,8 @@ from dbFunctions import *
 from flask import make_response, jsonify
 from datetime import datetime, timedelta
 
+TIMEFORMAT = "%Y-%m-%d %H:%M:%S"
+
 
 def gen_code(length: int):
     newCode = ""
@@ -36,7 +38,7 @@ def server_response(
 
 
 def datetime_to_string(dTime):
-    dTime = dTime.strftime("%Y-%m-%d %H:%M:%S")
+    dTime = dTime.strftime(TIMEFORMAT)
     return dTime
 
 
@@ -46,7 +48,25 @@ def time_plus_hours(dtime: datetime, h: int):
 
 
 def check_if_user_is_authenticated(userSesssionID: str):
-    # TODO: check if sessionkey is expired
+
     userRow = get_row_from_table("userSessions", "userSessionID", userSesssionID)
 
-    return userRow != 0
+    if len(userRow) == 0:
+        print(userSesssionID)
+        print(userRow)
+        print("[SERVER] - No User In DB")
+        return False
+    elif len(userRow) > 1:
+        print("[SERVER] - Two Rows with same sessionkey returned from db!")
+        return False
+
+    # check if sessionkey is expired
+    currentTime = datetime.now()
+    expiry = userRow[1]
+    expiry = datetime.strptime(expiry, TIMEFORMAT)
+
+    if expiry < currentTime:
+        print("[SERVER] - Sessionkey expired!")
+        return False
+
+    return True
