@@ -52,8 +52,6 @@ def check_if_user_is_authenticated(userSesssionID: str):
     userRow = get_row_from_table("userSessions", "userSessionID", userSesssionID)
 
     if len(userRow) == 0:
-        print(userSesssionID)
-        print(userRow)
         print("[SERVER] - No User In DB")
         return False
     elif len(userRow) > 1:
@@ -62,8 +60,7 @@ def check_if_user_is_authenticated(userSesssionID: str):
 
     # check if sessionkey is expired
     currentTime = datetime.now()
-    expiry = userRow[1]
-    expiry = datetime.strptime(expiry, TIMEFORMAT)
+    expiry = userRow[0][1]
 
     if expiry < currentTime:
         print("[SERVER] - Sessionkey expired!")
