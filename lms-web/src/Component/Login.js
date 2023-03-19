@@ -9,7 +9,7 @@ import Logo from "../images/logo.png";
 
 function Login(props) {
   const [email, setemail] = useState("");
-  const [hashedPassword, sethashedPassword] = useState("");
+  const [hashedPass, sethashedPassword] = useState("");
   const [userType, setUserType] = useState(null);
   const[datas,setData]=useState("poda");
   
@@ -26,7 +26,7 @@ function Login(props) {
     event.preventDefault();
      const data = {
       email,
-      hashedPassword,
+      hashedPass,
       userType,
     };
 
@@ -50,7 +50,7 @@ function Login(props) {
           // }))
           // handle successful response
           console.log("pass")
-            console.log(datas)
+    
       
   //       .then(data => {
   //        const userSessionKey = data.userSessionKey;
@@ -64,11 +64,11 @@ function Login(props) {
   //     })
         
           
-        if (userType === "students") {
+        if (userType === "student") {
         // Navigate to the student page
         navigate("/student");
         } 
-       if (userType === "lecturers") {
+       if (userType === "lecturer") {
        // Navigate to the lecturer page
        navigate("/lecturer");
     }
@@ -89,12 +89,12 @@ function Login(props) {
    
     setUserType(type);
     console.log(type);
-    if (type === "students") {
+    if (type === "student") {
       stu.style.scale = "1.3";
       lec.style.scale = "1";
       lec.style.opacity = "0.7";
       stu.style.opacity = "1";
-    } else if (type === "lecturers") {
+    } else if (type === "lecturer") {
       lec.style.scale = "1.3";
       stu.style.scale = "1";
       stu.style.opacity = "0.7";
@@ -111,7 +111,7 @@ function Login(props) {
           <div
             id="stu"
             className="md:w-1/2 flex flex-col   md:items-center justify-center items-center "
-            onClick={() => handleUserTypeClick("students")}
+            onClick={() => handleUserTypeClick("student")}
           >
             <User photo={UserS} />
             <h1 className="text-cyan-50 font-bold">Student</h1>
@@ -119,7 +119,7 @@ function Login(props) {
           <div
             id="lec"
             className="md:w-1/2 flex flex-col md:items-center justify-center items-center"
-            onClick={() => handleUserTypeClick("lecturers")}
+            onClick={() => handleUserTypeClick("lecturer")}
           >
             <User photo={UserT} />
             <h1 className="text-cyan-50 font-bold">Lecturer</h1>

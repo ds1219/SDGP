@@ -16,22 +16,23 @@ def login():
     try:
         userType = receivedData["userType"]
         email = receivedData["email"]
-        hashedPass = receivedData["hashedPassword"]
+        hashedPass = receivedData["hashedPass"]
     except:
         print("[SERVER] - Required Data Could Not Be Extracted from POST data!")
         return server_response(status=500)
 
     # get user row from table
     try:
-        if userType == "students":
+        if userType == "student":
             userRow = get_row_from_table("students", "email", email)
-        elif userType == "lecturers":
+        elif userType == "lecturer":
             userRow = get_row_from_table("lecturers", "email", email)
 
-        if len(userRow) != 1:
-            raise ValueError("Too many users with same email in db")
+        if len(userRow) == 0:
+            print("[SERVER] - User Not Found")
+        elif len(userRow) > 1:
+            print("[SERVER] - Multple Users Found in the db")
     except:
-        print("[SERVER] - User Not Found")
         return server_response(status=500)
 
     dbHashedPass = userRow[0][4]
@@ -78,7 +79,7 @@ def markAttendance():
         print("[SERVER] - User is not Authenticated")
         return server_response(status=500)
 
-    query = 'SELECT * FROM Lecturers WHERE EXISTS(SELECT * From Lecturer WHERE lecturerID LIKE "%s")'
+    query = 'SELECT * FROM Lecturer WHERE EXISTS(SELECT * From Lecturer WHERE lecturerID LIKE "%s")'
 
     try:
         raise Exception("StudentID not registered")
