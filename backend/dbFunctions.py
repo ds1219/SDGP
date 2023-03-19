@@ -19,10 +19,18 @@ def run_db_query(query: str, val: tuple, result=False):
         return queryResult
 
 
-def get_row_from_table(table: str, column: str, idString: str):
+def get_row_from_table(table: str, column: str, idString: str, multiple=False):
     query = f"SELECT * FROM `{table}` WHERE {column} LIKE %s;"
     vals = (idString,)
     result = run_db_query(query, vals, result=True)
+
+    if len(result) == 0:
+        print("[SERVER] - No User In DB")
+        raise ValueError
+
+    if not multiple and len(result) > 1:
+        print("[SERVER] - More than one row returned")
+        raise ValueError
 
     return result
 
