@@ -3,8 +3,8 @@ CREATE DATABASE `sdgptest`;
 USE sdgptest;
 CREATE TABLE lectureSessions (sessionID varchar(5),
                               lecturerID varchar(5),
-                              sessionTime time,
-                              sessionDate date,
+                              sessionStart datetime,
+                              sessionEnd datetime,
                               subjectID text,
                               questionSource text);
 CREATE TABLE lecturers (email varchar (255), firstName text, lastName text, subjectIDs text, hashedPass text);

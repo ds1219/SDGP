@@ -89,8 +89,8 @@ class apiTests(unittest.TestCase):
     def test_start_session(self):
         input = {
             "lecturerID": "sqbyc",
-            "sessionTime": "13:00",
-            "sessionDate": "2003-04-04",
+            "sessionStart": "2003-04-04 13:00",
+            "sessionEnd": "2003-04-04 14:00",
             "subjectID": "testSession",
             "questionSource": "Richard and Mary are very good Friends",
             "userSessionID": pytest.lectuererUserSessionID,

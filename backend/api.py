@@ -95,8 +95,8 @@ def markAttendance():
 def startSession():
     expectedData = [
         "lecturerID",
-        "sessionTime",
-        "sessionDate",
+        "sessionStart",
+        "sessionEnd",
         "subjectID",
         "questionSource",
     ]
