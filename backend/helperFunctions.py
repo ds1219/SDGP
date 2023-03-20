@@ -47,9 +47,12 @@ def time_plus_hours(dtime: datetime, h: int):
     return newDtime
 
 
-def check_if_user_is_authenticated(userSesssionID: str):
-
-    userRow = get_row_from_table("userSessions", "userSessionID", userSesssionID)
+def user_session_validataion(userSessionID: str):
+    try:
+        userRow = get_row_from_table("userSessions", "userSessionID", userSessionID)
+    except:
+        print("[SERVER] - usersessionID not found in db")
+        return False
 
     # check if sessionkey is expired
     currentTime = datetime.now()
@@ -57,6 +60,26 @@ def check_if_user_is_authenticated(userSesssionID: str):
 
     if expiry < currentTime:
         print("[SERVER] - Sessionkey expired!")
+        return False
+
+    return True
+
+
+def lectureSesssion_validation(sessionID: str):
+
+    try:
+        userRow = get_row_from_table("lecturesessions", "sessionID", sessionID)
+    except:
+        print("[SERVER] - lectureSessionID not found in db")
+        return False
+
+    # check if sessionkey is expired
+    currentTime = datetime.now()
+    sessionStart = userRow[0][2]
+    sessionEnd = userRow[0][3]
+
+    if sessionStart > currentTime and sessionEnd < currentTime:
+        print("[SERVER] - lectureSessionID expired!")
         return False
 
     return True

@@ -25,7 +25,7 @@ def get_row_from_table(table: str, column: str, idString: str, multiple=False):
     result = run_db_query(query, vals, result=True)
 
     if len(result) == 0:
-        print("[SERVER] - No User In DB")
+        print("[SERVER] - No Row Matching Query")
         raise ValueError
 
     if not multiple and len(result) > 1:

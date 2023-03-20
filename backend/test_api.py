@@ -73,19 +73,6 @@ class apiTests(unittest.TestCase):
         assert response.status_code == 200
 
     @pytest.mark.order(6)
-    def test_mark_attendace(self):
-        input = {
-            "studentID": "evobh",
-            "questionID": "34",
-            "answer": "Richard Stallman",
-            "lectureSessionID": "12345",
-            "userSessionID": pytest.studentUserSessionID,
-        }
-
-        response = requests.post(f"{self.ENDPOINT}/markAttendance", json=input)
-        assert response.json() == input
-
-    @pytest.mark.order(7)
     def test_start_session(self):
         input = {
             "lecturerID": "sqbyc",
@@ -97,4 +84,16 @@ class apiTests(unittest.TestCase):
         }
 
         response = requests.post(f"{self.ENDPOINT}/startSession", json=input)
-        assert len(response.json()["lectureSessionID"]) == 5
+        pytest.lecturesessionID = response.json()["lectureSessionID"]
+        assert len(pytest.lecturesessionID) == 5
+
+    @pytest.mark.order(7)
+    def test_mark_attendace(self):
+        input = {
+            "email": "davidsheen@why.brah",
+            "lectureSessionID": pytest.lecturesessionID,
+            "userSessionID": pytest.studentUserSessionID,
+        }
+
+        response = requests.post(f"{self.ENDPOINT}/markAttendance", json=input)
+        assert response.status_code == 200
