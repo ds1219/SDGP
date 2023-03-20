@@ -15,14 +15,13 @@
 
 /mark-attendance [POST]
   input
-	studentID
-	answer
-	questionID
+	email
 	lectureSessionID
   return
         pass
           HTTP 200
         fail
+		http 500
 	
 
 /start-session [POST]

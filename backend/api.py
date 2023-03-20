@@ -60,34 +60,41 @@ def login():
 @app.route("/markAttendance", methods=["POST"])
 @cross_origin()
 def markAttendance():
+    receivedData = request.get_json()
     expectedData = [
-        "studentID",
-        "answer",
-        "questionID",
+        "email",
         "lectureSessionID",
     ]
     receivedData = request.get_json()
 
     try:
-        receivedData = extract_required_data(receivedData, expectedData)
+        lectureSessionID = receivedData["lectureSessionID"]
         userSessionID = receivedData["userSessionID"]
+        receivedData = extract_required_data(receivedData, expectedData)
     except:
         print("[SERVER] - Required Data Could Not Be Extracted from POST data!")
         return server_response(status=500)
 
-    if not check_if_user_is_authenticated(userSessionID):
+    # check if usersessionID is valid
+    if not user_session_validataion(userSessionID):
         print("[SERVER] - User is not Authenticated")
         return server_response(status=500)
 
-    query = 'SELECT * FROM Lecturer WHERE EXISTS(SELECT * From Lecturer WHERE lecturerID LIKE "%s")'
-
-    try:
-        raise Exception("StudentID not registered")
-    except:
+    # check is lecturesessionID is valid
+    if not lectureSesssion_validation(lectureSessionID):
+        print("[SERVER] - Invalid LecutreSession")
         return server_response(status=500)
 
-    # TODO: check if sessionID is valid and studentID is valid
-    return server_response(status=200, json=receivedData)
+    # mark attendance in table
+    try:
+        columns = list(receivedData.keys())
+        values = list(receivedData.values())
+        insert_into_table("attendance", columns, values)
+    except:
+        print("[SERVER] - Row Could Not Be Inserted Into Table")
+        return server_response(status=500)
+
+    return server_response(status=200)
 
 
 @app.route("/startSession", methods=["POST"])
@@ -95,8 +102,8 @@ def markAttendance():
 def startSession():
     expectedData = [
         "lecturerID",
-        "sessionTime",
-        "sessionDate",
+        "sessionStart",
+        "sessionEnd",
         "subjectID",
         "questionSource",
     ]
@@ -109,7 +116,7 @@ def startSession():
         print("[SERVER] - Required Data Could Not Be Extracted from POST data!")
         return server_response(status=500)
 
-    if not check_if_user_is_authenticated(userSessionID):
+    if not user_session_validataion(userSessionID):
         print("[SERVER] - User is not Authenticated")
         return server_response(status=500)
 
@@ -125,8 +132,8 @@ def startSession():
     except:
         print("[SERVER] - Row Could Not Be Inserted Into Table")
         return server_response(status=500)
-    else:
-        return server_response(status=200, json={"lectureSessionID": sessionID})
+
+    return server_response(status=200, json={"lectureSessionID": sessionID})
 
 
 @app.route("/", methods=["GET"])
@@ -166,8 +173,8 @@ def register():
             raise Exception("InvalidUserType")
     except:
         return server_response(status=500)
-    else:
-        return server_response(status=200)
+
+    return server_response(status=200)
 
 
 if __name__ == "__main__":
