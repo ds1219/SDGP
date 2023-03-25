@@ -5,6 +5,7 @@ import Login from "./Component/Login";
 import Location from "./Component/Location";
 import FileInput from "./Component/FileInput";
 import AddDetails from "./Component/AddDetails";
+import ForgotPassword from "./Component/ForgetPassword";
 import {
   Route,
   Routes,
@@ -24,6 +25,7 @@ function App() {
       <Route path="/quiz" element={<Question />} />
       <Route path="/location" element={<Location />} />
       <Route path="/addDetails" element={<AddDetails />} />
+      <Route path="/forgetPassword" element={<ForgotPassword />} />
     </Routes>
   );
 }
