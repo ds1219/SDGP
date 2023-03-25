@@ -3,7 +3,7 @@ import "../App.css";
 import UserS from "../images/AdminS.png";
 import UserT from "../images/AdminT.png";
 import Form from "./Form";
-import React, { useState, UseEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate,Link } from "react-router-dom";
 import Logo from "../images/logo.png";
 
@@ -56,7 +56,15 @@ const API_KEY = "AIzaSyC_XIsh2O-NoUGHl0QHSySxzIpJineua3I";
   const ENDPOINT = "http://127.0.0.1:5000";
   function handleSubmit (event)  {
     // Check if the user's login details are correct using Flask
-    // If the details are correct, navigate to the appropriate page  
+    // If the details are correct, navigate to the appropriate page
+
+         if (!validateEmail(email)) {
+      // handle invalid email address
+      var warn=document.getElementById("warningmail");
+      warn.style.opacity="1"
+
+      return;
+    } 
     event.preventDefault();
      const data = {
       email,
@@ -71,30 +79,42 @@ const API_KEY = "AIzaSyC_XIsh2O-NoUGHl0QHSySxzIpJineua3I";
       body: JSON.stringify(data),
     })
      
-     // .then(json => console.log("running")) 
-      .then((response) => { 
-       
+      .then((response) => {
+         response.json()
+         var locc=document.getElementById('location')
+        
         if (response.ok) {
+          // handle successful response
           console.log("pass")
-            if (userType === "student") {
+   
+        if (userType === "student" ) {
+          if(latAdd===6.8308418 && longAdd ===79.9340152){
             // Navigate to the student page
-            navigate("/student");
-            } 
-            if (userType === "lecturer") {
-          // Navigate to the lecturer page
-            navigate("/lecturer");
-            }
-        } else {
+             navigate("/student");
+             warn.style.opacity=0
+          }
+          else{
+            locc.style.opacity=1
+          } 
+        } 
+       if (userType === "lecturer") {
+  
+           // Navigate to the lecturer page
+          
+
+           navigate("/lecturer");
+            warn.style.opacity=0
+       
+    }
+      } else {
           // handle error response
           console.log("fail, invalid user")
         }
-      }) 
-      .catch((error) => {
+      }).catch((error) => {
         // handle network error
-
       });
+
   };
- 
 
   const handleUserTypeClick = (type) => {
     var lec = document.getElementById("lec");
@@ -175,10 +195,9 @@ const API_KEY = "AIzaSyC_XIsh2O-NoUGHl0QHSySxzIpJineua3I";
                     autoComplete="on"
                     className="w-full px-3 py-2 placeholder-gray-400 border rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
-                  {/* <a href={forgetP} className="text-blue-500 text-sm hover:underline cursor-pointer">
+                  <a href="" className="text-blue-500 text-sm hover:underline">
                     Forgot Password?
-                  </a> */}
-                   <Link to="/forgetPassword" className="text-blue-500 text-sm hover:underline cursor-pointer"> Forgot Password?</Link>
+                  </a>
                 </div>
 
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg mb-4">
