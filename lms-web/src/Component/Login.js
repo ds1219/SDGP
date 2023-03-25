@@ -37,9 +37,7 @@ function Login(props) {
      
      // .then(json => console.log("running")) 
       .then((response) => { 
-        // (response => response.json())
-      //   then(json => console.log(JSON.stringify(json))) 
-         console.log(JSON.stringify(userSessionKey))
+       
         if (response.ok) {
           console.log("pass")
             if (userType === "student") {
@@ -60,6 +58,7 @@ function Login(props) {
 
       });
   };
+ 
 
   const handleUserTypeClick = (type) => {
     var lec = document.getElementById("lec");
@@ -139,9 +138,10 @@ function Login(props) {
                     autoComplete="on"
                     className="w-full px-3 py-2 placeholder-gray-400 border rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
-                  <a href="" className="text-blue-500 text-sm hover:underline">
+                  {/* <a href={forgetP} className="text-blue-500 text-sm hover:underline cursor-pointer">
                     Forgot Password?
-                  </a>
+                  </a> */}
+                   <Link to="/forgetPassword" className="text-blue-500 text-sm hover:underline cursor-pointer"> Forgot Password?</Link>
                 </div>
 
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg mb-4">
