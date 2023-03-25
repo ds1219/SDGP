@@ -3,7 +3,7 @@ import "../App.css";
 import UserS from "../images/AdminS.png";
 import UserT from "../images/AdminT.png";
 import Form from "./Form";
-import React, { useState } from "react";
+import React, { useState, UseEffect } from "react";
 import { useNavigate,Link } from "react-router-dom";
 import Logo from "../images/logo.png";
 
@@ -19,18 +19,13 @@ function Login(props) {
   const ENDPOINT = "http://127.0.0.1:5000";
   function handleSubmit (event)  {
     // Check if the user's login details are correct using Flask
-    // If the details are correct, navigate to the appropriate page
-
-    
-    
+    // If the details are correct, navigate to the appropriate page  
     event.preventDefault();
      const data = {
       email,
       hashedPass,
       userType,
     };
-
-    
 
     fetch(ENDPOINT + "/login", {
       method: "POST",
@@ -40,48 +35,30 @@ function Login(props) {
       body: JSON.stringify(data),
     })
      
-      .then((response) => {
-         response.json()
-        
+     // .then(json => console.log("running")) 
+      .then((response) => { 
+       
         if (response.ok) {
-          // const res=response.data
-          // setData(({
-          //   profile_name: res.name
-          // }))
-          // handle successful response
           console.log("pass")
-    
-      
-  //       .then(data => {
-  //        const userSessionKey = data.userSessionKey;
-  //        setData(userSessionKey, () => {
-      
-  //       console.log(datas)
-  //       console.log(userType)
-      
-  //                       });
-  // // Use the userSessionKey as needed in your React code
-  //     })
-        
-          
-        if (userType === "student") {
-        // Navigate to the student page
-        navigate("/student");
-        } 
-       if (userType === "lecturer") {
-       // Navigate to the lecturer page
-       navigate("/lecturer");
-    }
-    
+            if (userType === "student") {
+            // Navigate to the student page
+            navigate("/student");
+            } 
+            if (userType === "lecturer") {
+          // Navigate to the lecturer page
+            navigate("/lecturer");
+            }
         } else {
           // handle error response
           console.log("fail")
         }
-      }).catch((error) => {
+      }) 
+      .catch((error) => {
         // handle network error
-      });
 
+      });
   };
+ 
 
   const handleUserTypeClick = (type) => {
     var lec = document.getElementById("lec");
@@ -161,9 +138,10 @@ function Login(props) {
                     autoComplete="on"
                     className="w-full px-3 py-2 placeholder-gray-400 border rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
-                  <a href="" className="text-blue-500 text-sm hover:underline">
+                  {/* <a href={forgetP} className="text-blue-500 text-sm hover:underline cursor-pointer">
                     Forgot Password?
-                  </a>
+                  </a> */}
+                   <Link to="/forgetPassword" className="text-blue-500 text-sm hover:underline cursor-pointer"> Forgot Password?</Link>
                 </div>
 
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg mb-4">
