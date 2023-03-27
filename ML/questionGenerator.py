@@ -68,6 +68,32 @@ def removeWikipedia(text):
 
 #keyword extraction
 def getKeywords(text):
+    '''keywords = []
+    try:
+        extractor = pke.unsupervised.MultipartiteRank()
+        extractor.load_document(input=text, language="en")
+
+        pos = {"PROPN", "NOUN"}
+
+        stoplist = list(string.punctuation)
+        stoplist += ["-lrb-", "-rrb-", "-lcb-", "-rcb-", "-lsb-", "-rsb-"]
+        stoplist += stopwords.words("english")
+
+        extractor.candidate_selection(pos=pos)
+
+        extractor.candidate_weighting(alpha=1.1, threshold=0.75, method="average")
+        keyphrases = extractor.get_n_best(n=10)
+
+        for val in keyphrases:
+            keywords.append(val[0])
+    except:
+        keywords = []
+        traceback.print_exc()
+
+    return keywords'''
+
+
+    
     keywords = []
     try:
         extractor = pke.unsupervised.MultipartiteRank()
@@ -82,10 +108,13 @@ def getKeywords(text):
         extractor.candidate_selection(pos=pos)
 
         extractor.candidate_weighting(alpha=1.1, threshold=0.75, method="average")
-        keyphrases = extractor.get_n_best(n=200)
+        keyphrases = extractor.get_n_best(n=4)
+
+        keywords = [['Meta Platforms'], ['Facebook'], ['Mark Zuckerberg'], ['Cambridge Analytica data scandal']]
 
         for val in keyphrases:
-            keywords.append(val[0])
+            # tokenize the keyphrase and add it to the keywords list
+            keywords.append(nltk.word_tokenize(val[0]))
     except:
         keywords = []
         traceback.print_exc()
@@ -150,52 +179,21 @@ def generate(text):
 
 if __name__ == "__main__":
 
-    text = """Almost all children have times when their behavior veers out of control. They may speed about in constant motion, make noise nonstop, refuse to wait their turn, and crash into everything around them. At other times they may drift as if in a daydream, failing to pay attention or finish what they start.
+    text = """ Facebook is an online social media and social networking service owned by American technology giant Meta Platforms. Created in 2004 by Mark Zuckerberg with fellow Harvard College students and roommates Eduardo Saverin, Andrew McCollum, Dustin Moskovitz, and Chris Hughes, its name derives from the face book directories often given to American university students. Membership was initially limited to only Harvard students, gradually expanding to other North American universities and, since 2006, anyone over 13 years old. As of December 2022, Facebook claimed 2.96 billion monthly active users, and ranked third worldwide among the most visited websites. It was the most downloaded mobile app of the 2010s.[8]
 
-However, for some children, these kinds of behaviors are more than an occasional problem. Children with attention-deficit/hyperactivity disorder (ADHD) have behavior problems that are so frequent and/or severe that they interfere with their ability to live normal lives. These children often have trouble getting along with siblings and other children at school, at home, and in other settings. Those who have trouble paying attention usually have trouble learning. Some have an impulsive nature and this may put them in actual physical danger. Because children with ADHD have difficulty controlling their behavior, they may be labeled as “bad kids” or “space cadets.” Left untreated, more severe forms of ADHD can lead to serious, lifelong problems such as poor grades in school, run-ins with the law, failed relationships, substance abuse and the inability to keep a job.
+Facebook can be accessed from devices with Internet connectivity, such as personal computers, tablets and smartphones. After registering, users can create a profile revealing information about themselves. They can post text, photos and multimedia which are shared with any other users who have agreed to be their "friend" or, with different privacy settings, publicly. Users can also communicate directly with each other with Messenger, join common-interest groups, and receive notifications on the activities of their Facebook friends and the pages they follow.
 
-What is ADHD?
-ADHD is a condition of the brain that makes it difficult for children to control their behavior. It is one of the most common chronic conditions of childhood. It affects 4% to 12% of school-aged children. About 3 times more boys than girls are diagnosed with ADHD.
-
-Child lost in daydreamWhat are the symptoms of ADHD?
-ADHD includes 3 behavior symptoms: inattention, hyperactivity, and impulsivity. A child with inattention symptoms may have the following behaviors:
-
-Has a hard time paying attention, daydreams
-Does not seem to listen
-Is easily distracted from work or play
-Does not seem to care about details, makes careless mistakes
-Does not follow through on instructions or finish tasks
-Is disorganized
-Loses a lot of important things
-Forgets things
-Does not want to do things that require ongoing mental effort
-A child with hyperactivity symptoms may have the following behaviors:
-
-Is in constant motion, as if “driven by a motor”
-Cannot stay seated
-Squirms and fidgets
-Talks too much
-Runs, jumps, and climbs when this is not permitted
-Cannot play quietly (video games do not count)
-A child with impulsivity symptoms may have the following behaviors:
-
-Acts and speaks without thinking
-May run into the street without looking for traffic first
-Has trouble taking turns
-Cannot wait for things
-Calls out answers before the question is complete
-Interrupts others
-What is the difference between ADD vs. ADHD?
-ADD stands for Attention Deficit Disorder. This is an old term that is now officially called Attention Deficit Hyperactivity Disorder, Inattentive Type. More on this will discussed below.
- """
+The subject of numerous controversies, Facebook has often been criticized over issues such as user privacy (as with the Cambridge Analytica data scandal), political manipulation (as with the 2016 U.S. elections) and mass surveillance. Posts originating from the Facebook page of Breitbart News, a media organization previously affiliated with Cambridge Analytica, are currently among the most widely shared political content on Facebook. Facebook has also been subject to criticism over psychological effects such as addiction and low self-esteem, and various controversies over content such as fake news, conspiracy theories, copyright infringement, and hate speech. Commentators have accused Facebook of willingly facilitating the spread of such content, as well as exaggerating its number of users to appeal to advertisers."""
     
     
     '''text = postprocesstext(text)
     text= text.strip()'''
     questions, answers = generate(text)
 
-    '''for i in range(0, len(answers)):
-        print(f"Q{i+1}: {questions[i]} - {answers[i]}")'''
+    for i in range(0, len(answers)):
+        print(f"Q{i+1}: {questions[i]} - {answers[i]}")
 
     #print(answer)
+
+    
 
