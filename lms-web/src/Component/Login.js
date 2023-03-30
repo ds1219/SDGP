@@ -4,16 +4,16 @@ import UserS from "../images/AdminS.png";
 import UserT from "../images/AdminT.png";
 import Form from "./Form";
 import React, { useState, useEffect } from "react";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate,Link, json } from "react-router-dom";
 import Logo from "../images/logo.png";
 
 function Login(props) {
   const [email, setemail] = useState("");
   const [hashedPass, sethashedPassword] = useState("");
   const [userType, setUserType] = useState(null);
-  const[datas,setData]=useState("poda");
+  const[datas,setData]=useState("");
   const [location, setLocation] = useState({});
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState("sessionkey");
   
   const navigate = useNavigate();
 const API_KEY = "AIzaSyC_XIsh2O-NoUGHl0QHSySxzIpJineua3I";
@@ -86,14 +86,17 @@ const API_KEY = "AIzaSyC_XIsh2O-NoUGHl0QHSySxzIpJineua3I";
         if (response.ok) {
           // handle successful response
           console.log("pass")
-          const res = await response.json()
+          const res = await response.text()
+          var userSessionKey = JSON.parse(res)["userSessionKey"]
+          console.log(userSessionKey)
    
         if (userType === "student" ) {
           // if(latAdd===6.9040131 && longAdd ===79.8630537){
             if(true){
-             setData(res)
+             
             //  console.log(datas)
             console.log("testing")
+            console.log(datas)
             // Navigate to the student page
              navigate("/student");
              warn.style.opacity=0
