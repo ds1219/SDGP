@@ -10,7 +10,7 @@ import pke
 import traceback
 
 
-#lecture note input
+# lecture note input
 text = """• Based on the distributed model having an architecture that
 partitions tasks or workloads between the providers of a
 resource or service (server) and service requesters (client) that
@@ -25,7 +25,7 @@ software and returns the results to the client
 is accessed from"""
 
 
-#keyword extraction
+# keyword extraction
 def get_keywords(content):
     out = []
     try:
@@ -50,6 +50,7 @@ def get_keywords(content):
         traceback.print_exc()
 
     return out
-    
+
+
 keywords = get_keywords(text)
 print("keywords: ", keywords)

@@ -1,9 +1,8 @@
-
-import React, { useState, useEffect } from 'react';
-const API_KEY = 'AIzaSyC_XIsh2O-NoUGHl0QHSySxzIpJineua3I';
-export default function(){
-    const [location, setLocation] = useState({});
-  const [address, setAddress] = useState('');
+import React, { useState, useEffect } from "react";
+const API_KEY = "AIzaSyC_XIsh2O-NoUGHl0QHSySxzIpJineua3I";
+export default function () {
+  const [location, setLocation] = useState({});
+  const [address, setAddress] = useState("");
 
   const handleClick = () => {
     navigator.geolocation.getCurrentPosition(
@@ -19,7 +18,7 @@ export default function(){
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
   };
-   useEffect(() => {
+  useEffect(() => {
     handleClick();
   }, []);
 
@@ -36,24 +35,19 @@ export default function(){
         setAddress(data.results[0].formatted_address);
       });
   }, [location]);
-  var latAdd=location.lat;
-  var longAdd=location.lng;
-  var Addresss=address;
+  var latAdd = location.lat;
+  var longAdd = location.lng;
+  var Addresss = address;
 
-  
   return (
     <div>
       {/* <button onClick={handleClick}>Get Location</button> */}
       <br />
       {location.lat ? (
-       console.log(latAdd),
-       console.log(longAdd),
-       console.log(address)
-       
+        (console.log(latAdd), console.log(longAdd), console.log(address))
       ) : (
         <p>Location not found</p>
       )}
     </div>
   );
-  
-};
+}

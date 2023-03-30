@@ -3,7 +3,7 @@ import mysql.connector
 
 def run_db_query(query: str, val: tuple, result=False):
     mydb = mysql.connector.connect(
-        host="localhost", user="backend", password="b3k3nd", database="sdgpTest"
+        host="localhost", user="root", password="", database="sdgptest"
     )
     cursor = mydb.cursor()
     cursor.execute(query, val)
@@ -19,18 +19,25 @@ def run_db_query(query: str, val: tuple, result=False):
         return queryResult
 
 
-def check_for_item_in_table(table: str, column: str, idString: str):
-    query = f"SELECT * FROM `{table}` WHERE EXISTS(SELECT * From `{table}` WHERE {column} LIKE %s)"
-
+def get_row_from_table(table: str, column: str, idString: str, multiple=False):
+    query = f"SELECT * FROM `{table}` WHERE {column} LIKE %s;"
     vals = (idString,)
     result = run_db_query(query, vals, result=True)
 
-    return len(result) != 0
+    if len(result) == 0:
+        print("[SERVER] - No Row Matching Query")
+        raise ValueError
+
+    if not multiple and len(result) > 1:
+        print("[SERVER] - More than one row returned")
+        raise ValueError
+
+    return result
 
 
 def insert_into_table(table: str, columns: list, values: list):
     columns = ", ".join(columns)
 
-    query = f"INSERT INTO `{table}` ({columns}) VALUES (%s, %s, %s, %s, %s);"
+    query = f"INSERT INTO `{table}` ({columns}) VALUES ({('%s,'*len(values))[:-1]});"
 
     run_db_query(query, values)
