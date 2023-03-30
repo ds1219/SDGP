@@ -79,20 +79,26 @@ const API_KEY = "AIzaSyC_XIsh2O-NoUGHl0QHSySxzIpJineua3I";
       body: JSON.stringify(data),
     })
      
-      .then((response) => {
-         response.json()
+      .then(async(response) => {
          var locc=document.getElementById('location')
-         console.log(response)
+         
         
         if (response.ok) {
           // handle successful response
           console.log("pass")
+          const res = await response.json()
    
         if (userType === "student" ) {
-          if(latAdd===6.8308418 && longAdd ===79.9340152){
+          // if(latAdd===6.9040131 && longAdd ===79.8630537){
+            if(true){
+             setData(res)
+            //  console.log(datas)
+            console.log("testing")
             // Navigate to the student page
              navigate("/student");
              warn.style.opacity=0
+             
+
           }
           else{
             locc.style.opacity=1
@@ -137,6 +143,7 @@ const API_KEY = "AIzaSyC_XIsh2O-NoUGHl0QHSySxzIpJineua3I";
 
     
   };
+  // console.log(datas)
 
   return (
     <div className="flex flex-col md:flex-row h-screen">

@@ -33,7 +33,8 @@ def login():
         elif len(userRow) > 1:
             print("[SERVER] - Multple Users Found in the db")
     except:
-        return server_response(status=500)
+        # return server_response(status=500)
+        return {"message": email}, 500
 
     dbHashedPass = userRow[0][4]
 
@@ -41,7 +42,7 @@ def login():
 
     if hashedPass != dbHashedPass:
         print("[SERVER] - Invalid Password")
-        return server_response(status=500)
+        return {"message": hashedPass}, 500
 
     # save user session code in db and return
     userSessionCode = gen_code(10)
@@ -54,7 +55,8 @@ def login():
         print("[SERVER] - Problem Saving session key to db")
         return server_response(status=500)
 
-    return server_response(status=200, json={"userSessionKey": userSessionCode})
+    # return server_response(status=200, json={"userSessionKey": userSessionCode})
+    return {"userSessionKey": userSessionCode}, 200
 
 
 @app.route("/markAttendance", methods=["POST"])
