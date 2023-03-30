@@ -82,6 +82,7 @@ const API_KEY = "AIzaSyC_XIsh2O-NoUGHl0QHSySxzIpJineua3I";
       .then((response) => {
          response.json()
          var locc=document.getElementById('location')
+         console.log(response)
         
         if (response.ok) {
           // handle successful response
