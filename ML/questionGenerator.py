@@ -68,31 +68,6 @@ def removeWikipedia(text):
 
 #keyword extraction
 def getKeywords(text):
-    '''keywords = []
-    try:
-        extractor = pke.unsupervised.MultipartiteRank()
-        extractor.load_document(input=text, language="en")
-
-        pos = {"PROPN", "NOUN"}
-
-        stoplist = list(string.punctuation)
-        stoplist += ["-lrb-", "-rrb-", "-lcb-", "-rcb-", "-lsb-", "-rsb-"]
-        stoplist += stopwords.words("english")
-
-        extractor.candidate_selection(pos=pos)
-
-        extractor.candidate_weighting(alpha=1.1, threshold=0.75, method="average")
-        keyphrases = extractor.get_n_best(n=10)
-
-        for val in keyphrases:
-            keywords.append(val[0])
-    except:
-        keywords = []
-        traceback.print_exc()
-
-    return keywords'''
-
-
     
     keywords = []
     try:
@@ -108,12 +83,12 @@ def getKeywords(text):
         extractor.candidate_selection(pos=pos)
 
         extractor.candidate_weighting(alpha=1.1, threshold=0.75, method="average")
-        keyphrases = extractor.get_n_best(n=4)
+        keyphrases = extractor.get_n_best(n=4)  #change the number of keywords from here
 
-        keywords = [['Meta Platforms'], ['Facebook'], ['Mark Zuckerberg'], ['Cambridge Analytica data scandal']]
+        keywords = []
 
         for val in keyphrases:
-            # tokenize the keyphrase and add it to the keywords list
+            
             keywords.append(nltk.word_tokenize(val[0]))
     except:
         keywords = []
