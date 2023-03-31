@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-const API_KEY = "AIzaSyC_XIsh2O-NoUGHl0QHSySxzIpJineua3I";
+const API_KEY = "";
 export default function () {
   const [location, setLocation] = useState({});
   const [address, setAddress] = useState("");
