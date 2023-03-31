@@ -11,7 +11,7 @@ function Login(props) {
   const [email, setemail] = useState("");
   const [hashedPass, sethashedPassword] = useState("");
   const [userType, setUserType] = useState(null);
-  const[datas,setData]=useState("");
+  const[datas,setData]=useState();
   const [location, setLocation] = useState({});
   const [address, setAddress] = useState("sessionkey");
   
@@ -26,7 +26,7 @@ const API_KEY = "AIzaSyC_XIsh2O-NoUGHl0QHSySxzIpJineua3I";
         });
       },
       (error) => {
-        console.error(error);
+        console.error(error);+_
       },
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
@@ -88,6 +88,8 @@ const API_KEY = "AIzaSyC_XIsh2O-NoUGHl0QHSySxzIpJineua3I";
           console.log("pass")
           const res = await response.text()
           var userSessionKey = JSON.parse(res)["userSessionKey"]
+          setData(userSessionKey)
+          console.log("useState: "+ datas)
           console.log(userSessionKey)
    
         if (userType === "student" ) {
