@@ -16,7 +16,7 @@ function Login(props) {
   const [address, setAddress] = useState("sessionkey");
   
   const navigate = useNavigate();
-const API_KEY = "AIzaSyC_XIsh2O-NoUGHl0QHSySxzIpJineua3I";
+const API_KEY = "";
    const handleClick = () => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
