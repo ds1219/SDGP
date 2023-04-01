@@ -3,8 +3,11 @@ from nltk import tokenize
 
 def textPreProcess(text):
     text = removeWikipedia(text)
+    text = text.replace("\n", " ")
 
-    return tokenize.sent_tokenize(text)
+    text = tokenize.sent_tokenize(text)
+    print(text)
+    return text
 
 
 def removeWikipedia(text):
