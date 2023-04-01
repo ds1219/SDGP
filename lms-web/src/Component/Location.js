@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 const API_KEY = "";
 export default function () {
   const [location, setLocation] = useState({});
-  const [address, setAddress] = useState("");
+  // const [address, setAddress] = useState("");
 
   const handleClick = () => {
     navigator.geolocation.getCurrentPosition(
@@ -31,20 +31,18 @@ export default function () {
       `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.lat},${location.lng}&key=${API_KEY}`
     )
       .then((response) => response.json())
-      .then((data) => {
-        setAddress(data.results[0].formatted_address);
-      });
+      
   }, [location]);
   var latAdd = location.lat;
   var longAdd = location.lng;
-  var Addresss = address;
+  // var Addresss = address;
 
   return (
     <div>
       {/* <button onClick={handleClick}>Get Location</button> */}
       <br />
       {location.lat ? (
-        (console.log(latAdd), console.log(longAdd), console.log(address))
+        (console.log(latAdd), console.log(longAdd))
       ) : (
         <p>Location not found</p>
       )}
