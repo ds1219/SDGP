@@ -13,10 +13,11 @@ function Login(props) {
   const [userType, setUserType] = useState(null);
   const[datas,setData]=useState();
   const [location, setLocation] = useState({});
-  const [address, setAddress] = useState("sessionkey");
+  
   
   const navigate = useNavigate();
-const API_KEY = "";
+  const API_KEY = "";
+   let lectureSessionID="";
    const handleClick = () => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -26,7 +27,7 @@ const API_KEY = "";
         });
       },
       (error) => {
-        console.error(error);+_
+        console.error(error);
       },
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
@@ -44,13 +45,11 @@ const API_KEY = "";
       `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.lat},${location.lng}&key=${API_KEY}`
     )
       .then((response) => response.json())
-      .then((data) => {
-        setAddress(data.results[0].formatted_address);
-      });
+      
   }, [location]);
   var latAdd = location.lat;
   var longAdd = location.lng;
-  var Addresss = address;
+
 
     
   const ENDPOINT = "http://127.0.0.1:5000";
@@ -58,7 +57,7 @@ const API_KEY = "";
     // Check if the user's login details are correct using Flask
     // If the details are correct, navigate to the appropriate page
 
-         if (!validateEmail(email)) {
+      if (!validateEmail(email)) {
       // handle invalid email address
       var warn=document.getElementById("warningmail");
       warn.style.opacity="1"
@@ -87,18 +86,28 @@ const API_KEY = "";
           // handle successful response
           console.log("pass")
           const res = await response.text()
-          var userSessionKey = JSON.parse(res)["userSessionKey"]
-          setData(userSessionKey)
-          console.log("useState: "+ datas)
-          console.log(userSessionKey)
+          lectureSessionID = JSON.parse(res)["userSessionKey"]
+          setData(lectureSessionID)
+          console.log(lectureSessionID)
+
+         
    
         if (userType === "student" ) {
-          // if(latAdd===6.9040131 && longAdd ===79.8630537){
-            if(true){
-             
-            //  console.log(datas)
-            console.log("testing")
-            console.log(datas)
+          if(latAdd==6.9107712 && longAdd ==79.8851072){
+            // if(true){
+           event.preventDefault();
+           const dataMark = {
+            email,
+            lectureSessionID,
+          };
+           fetch(ENDPOINT + "/markAttendance", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+            })
+            
             // Navigate to the student page
              navigate("/student");
              warn.style.opacity=0
@@ -112,8 +121,6 @@ const API_KEY = "";
        if (userType === "lecturer") {
   
            // Navigate to the lecturer page
-          
-
            navigate("/lecturer");
             warn.style.opacity=0
        
@@ -148,12 +155,12 @@ const API_KEY = "";
 
     
   };
-  // console.log(datas)
+
 
   return (
     <div className="flex flex-col md:flex-row h-screen">
-      <div className="half md:w-1/2 flex  justify-around  items-center">
-        <div className="flex justify-around   w-full ">
+      <div className="half md:w-1/2 flex  justify-around  items-center ">
+        <div className="flex justify-around   w-full  ">
           <div
             id="stu"
             className="md:w-1/2 flex flex-col   md:items-center justify-center items-center "
