@@ -93,7 +93,7 @@ function Login(props) {
          
    
         if (userType === "student" ) {
-          if(latAdd==6.9107711 && longAdd ==79.8851072){
+          if(latAdd==6.9107712 && longAdd ==79.8851072){
             // if(true){
            event.preventDefault();
            const dataMark = {
@@ -159,8 +159,8 @@ function Login(props) {
 
   return (
     <div className="flex flex-col md:flex-row h-screen">
-      <div className="half md:w-1/2 flex  justify-around  items-center">
-        <div className="flex justify-around   w-full ">
+      <div className="half md:w-1/2 flex  justify-around  items-center ">
+        <div className="flex justify-around   w-full  ">
           <div
             id="stu"
             className="md:w-1/2 flex flex-col   md:items-center justify-center items-center "
