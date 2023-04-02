@@ -16,7 +16,7 @@ class apiTests(unittest.TestCase):
         assert response.status_code == 200
 
     @pytest.mark.order(2)
-    def test_registerLecturer(self):
+    def test_register_lecturer(self):
         input = {
             "firstName": "Rich",
             "lastName": "Erd",
@@ -35,7 +35,7 @@ class apiTests(unittest.TestCase):
         assert response.status_code == 200 and dbRow[0] == expected
 
     @pytest.mark.order(3)
-    def test_registerStudent(self):
+    def test_register_student(self):
         input = {
             "firstName": "David",
             "lastName": "Sheen",
@@ -49,7 +49,7 @@ class apiTests(unittest.TestCase):
         assert response.status_code == 200
 
     @pytest.mark.order(4)
-    def test_loginStudent(self):
+    def test_login_student(self):
         input = {
             "userType": "student",
             "email": "davidsheen@why.brah",
@@ -61,7 +61,7 @@ class apiTests(unittest.TestCase):
         assert response.status_code == 200
 
     @pytest.mark.order(5)
-    def test_loginLecturer(self):
+    def test_login_lecturer(self):
         input = {
             "userType": "lecturer",
             "hashedPass": "qwertyuio",
