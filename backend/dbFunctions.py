@@ -2,6 +2,17 @@ import mysql.connector
 
 
 def run_db_query(query: str, val: tuple, result=False):
+    """
+    Executes the provided sql query
+
+            Parameters:
+                    query (str): The Query to be executed
+                    val (tuple): values to be executed in the query
+                    result (bool): switch to see if the query has return values
+
+            Returns:
+                    queryResult (list): The result of the query, if any
+    """
     mydb = mysql.connector.connect(
         host="localhost", user="root", password="", database="sdgptest"
     )
