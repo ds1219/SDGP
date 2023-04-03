@@ -36,7 +36,7 @@ jobs:
       - name: Set up MySQL
         run: |
           sudo /etc/init.d/mysql start
-          mysql -u root -e "backend/testSQL.sql"
+          sudo mysql -u root -e "backend/testSQL.sql"
       - name: Test with pytest
         run: |
           pytest
