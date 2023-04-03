@@ -15,6 +15,13 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+        ports:
+          - "8888:3306"
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
       - uses: actions/checkout@v3
@@ -34,9 +41,7 @@ jobs:
           # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
       - name: Set up MySQL
-        run: |
-          sudo /etc/init.d/mysql start
-          sudo mysql -u root -e "backend/testSQL.sql"
+        run: mysql -h 127.0.0.1 --port 8888 -u root -ppassword -e "backend/testSQL.sql"
       - name: Test with pytest
         run: |
           pytest
