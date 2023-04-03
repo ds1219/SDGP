@@ -14,7 +14,7 @@ def run_db_query(query: str, val: tuple, result=False):
                     queryResult (list): The result of the query, if any
     """
     mydb = mysql.connector.connect(
-        host="localhost", user="root", password="", database="sdgptest"
+        host="127.0.0.1", user="testuser", password="testpassword", database="sdgptest"
     )
     cursor = mydb.cursor()
     cursor.execute(query, val)
