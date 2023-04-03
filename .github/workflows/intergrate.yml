@@ -11,7 +11,7 @@ on:
 jobs:
   test_pull_request:
     runs-on: ubuntu-latest
-      services:
+    services:
       mysql-master:
         image: mysql:8.0.32
         ports:
