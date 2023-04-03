@@ -23,6 +23,11 @@
   background-image: url(./images/BG.jpg);
   background-repeat: no-repeat;
 }
+@media (max-width: 650px) {
+  .half {
+    height: 1400px;
+  }
+}
 .log {
   width: 40.33%;
   display: flex;
@@ -39,4 +44,12 @@
   font-size: small;
   display: flex;
   justify-content: flex-end;
+}
+.qr-code-container img {
+  width: 30%;
+}
+@media (max-width: 1025px) {
+  .qr-code-container img {
+    width: 60%;
+  }
 }

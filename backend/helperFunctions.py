@@ -3,6 +3,8 @@ from dbFunctions import *
 from flask import make_response, jsonify
 from datetime import datetime, timedelta
 
+TIMEFORMAT = "%Y-%m-%d %H:%M:%S"
+
 
 def gen_code(length: int):
     newCode = ""
@@ -36,7 +38,7 @@ def server_response(
 
 
 def datetime_to_string(dTime):
-    dTime = dTime.strftime("%Y-%m-%d %H:%M:%S")
+    dTime = dTime.strftime(TIMEFORMAT)
     return dTime
 
 
@@ -45,8 +47,39 @@ def time_plus_hours(dtime: datetime, h: int):
     return newDtime
 
 
-def check_if_user_is_authenticated(userSesssionID: str):
-    # TODO: check if sessionkey is expired
-    userRow = get_row_from_table("userSessions", "userSessionID", userSesssionID)
+def user_session_validataion(userSessionID: str):
+    try:
+        userRow = get_row_from_table("userSessions", "userSessionID", userSessionID)
+    except:
+        print("[SERVER] - usersessionID not found in db")
+        return False
 
-    return userRow != 0
+    # check if sessionkey is expired
+    currentTime = datetime.now()
+    expiry = userRow[0][1]
+
+    if expiry < currentTime:
+        print("[SERVER] - Sessionkey expired!")
+        return False
+
+    return True
+
+
+def lectureSesssion_validation(sessionID: str):
+
+    try:
+        userRow = get_row_from_table("lecturesessions", "sessionID", sessionID)
+    except:
+        print("[SERVER] - lectureSessionID not found in db")
+        return False
+
+    # check if sessionkey is expired
+    currentTime = datetime.now()
+    sessionStart = userRow[0][2]
+    sessionEnd = userRow[0][3]
+
+    if sessionStart > currentTime and sessionEnd < currentTime:
+        print("[SERVER] - lectureSessionID expired!")
+        return False
+
+    return True

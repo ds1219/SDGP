@@ -142,10 +142,7 @@ const ENDPOINT = "http://127.0.0.1:5000";
 
 
        <p id="warninguser" className=" text-red-600 opacity-0"><b>Select the Role</b></p>   
-
-
-             
-       
+  
      <form
             method="POST"
             className="flex flex-col  md:w-1/3  w-1/2 "
@@ -180,7 +177,7 @@ const ENDPOINT = "http://127.0.0.1:5000";
             onChange={(event) => setLastName(event.target.value)}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           ></input>
-           <p id="warninglast" className=" text-red-600 opacity-0">Invalid</p>  
+        <p id="warninglast" className=" text-red-600 opacity-0">Invalid</p>  
         </label>
         <label className=" block mb-2 text-sm font-medium text-gray-900 dark:text-white ">
           subjectIDs

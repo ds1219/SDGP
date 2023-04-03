@@ -3,17 +3,53 @@ import "../App.css";
 import UserS from "../images/AdminS.png";
 import UserT from "../images/AdminT.png";
 import Form from "./Form";
-import React, { useState } from "react";
-import { useNavigate,Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate,Link, json } from "react-router-dom";
 import Logo from "../images/logo.png";
 
 function Login(props) {
   const [email, setemail] = useState("");
   const [hashedPass, sethashedPassword] = useState("");
   const [userType, setUserType] = useState(null);
-  const[datas,setData]=useState("poda");
+  const[datas,setData]=useState();
+  const [location, setLocation] = useState({});
+  
   
   const navigate = useNavigate();
+  const API_KEY = "";
+   let lectureSessionID="";
+   const handleClick = () => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setLocation({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+      },
+      (error) => {
+        console.error(error);
+      },
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+    );
+  };
+  useEffect(() => {
+    handleClick();
+  }, []);
+
+  useEffect(() => {
+    if (!location.lat) {
+      return;
+    }
+
+    fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.lat},${location.lng}&key=${API_KEY}`
+    )
+      .then((response) => response.json())
+      
+  }, [location]);
+  var latAdd = location.lat;
+  var longAdd = location.lng;
+
 
     
   const ENDPOINT = "http://127.0.0.1:5000";
@@ -21,17 +57,19 @@ function Login(props) {
     // Check if the user's login details are correct using Flask
     // If the details are correct, navigate to the appropriate page
 
-    
-    
+      if (!validateEmail(email)) {
+      // handle invalid email address
+      var warn=document.getElementById("warningmail");
+      warn.style.opacity="1"
+
+      return;
+    } 
     event.preventDefault();
      const data = {
       email,
       hashedPass,
       userType,
     };
-
-    
-
     fetch(ENDPOINT + "/login", {
       method: "POST",
       headers: {
@@ -40,42 +78,56 @@ function Login(props) {
       body: JSON.stringify(data),
     })
      
-      .then((response) => {
-         response.json()
+      .then(async(response) => {
+         var locc=document.getElementById('location')
+         
         
         if (response.ok) {
-          // const res=response.data
-          // setData(({
-          //   profile_name: res.name
-          // }))
           // handle successful response
           console.log("pass")
-    
-      
-  //       .then(data => {
-  //        const userSessionKey = data.userSessionKey;
-  //        setData(userSessionKey, () => {
-      
-  //       console.log(datas)
-  //       console.log(userType)
-      
-  //                       });
-  // // Use the userSessionKey as needed in your React code
-  //     })
-        
-          
-        if (userType === "student") {
-        // Navigate to the student page
-        navigate("/student");
+          const res = await response.text()
+          lectureSessionID = JSON.parse(res)["userSessionKey"]
+          setData(lectureSessionID)
+          console.log(lectureSessionID)
+
+         
+   
+        if (userType === "student" ) {
+          if(latAdd==6.9107712 && longAdd ==79.8851072){
+            // if(true){
+           event.preventDefault();
+           const dataMark = {
+            email,
+            lectureSessionID,
+          };
+           fetch(ENDPOINT + "/markAttendance", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+            })
+            
+            // Navigate to the student page
+             navigate("/student");
+             warn.style.opacity=0
+             
+
+          }
+          else{
+            locc.style.opacity=1
+          } 
         } 
        if (userType === "lecturer") {
-       // Navigate to the lecturer page
-       navigate("/lecturer");
+  
+           // Navigate to the lecturer page
+           navigate("/lecturer");
+            warn.style.opacity=0
+       
     }
-    
-        } else {
+      } else {
           // handle error response
-          console.log("fail")
+          console.log("fail, invalid user")
         }
       }).catch((error) => {
         // handle network error
@@ -104,10 +156,11 @@ function Login(props) {
     
   };
 
+
   return (
     <div className="flex flex-col md:flex-row h-screen">
-      <div className="half md:w-1/2 flex  justify-around  items-center">
-        <div className="flex justify-around   w-full ">
+      <div className="half md:w-1/2 flex  justify-around  items-center ">
+        <div className="flex justify-around   w-full  ">
           <div
             id="stu"
             className="md:w-1/2 flex flex-col   md:items-center justify-center items-center "
@@ -131,8 +184,8 @@ function Login(props) {
         <div className="flex items-center justify-center h-full">
           <div className="w-full md:w-3/4 lg:w-1/2">
             {/* <Form onSubmit={handleSubmit}/> */}
-            <div className="login flex flex-col items-center justify-center h-screen">
-              <img src={Logo} alt="Lms" className="mb-8 w-40" />
+            <div className="login flex flex-col items-center justify-center ">
+              <img src={Logo} alt="Lms" className=" lg:w-60  mb-8  md:w-full md:opacity " />
 
               <form onSubmit={handleSubmit} className="w-full max-w-md">
                 <div className="mb-4">
@@ -147,6 +200,7 @@ function Login(props) {
                     autoComplete="on"
                     className="w-full px-3 py-2 placeholder-gray-400 border rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
+                  <p id="warn" className=" text-red-600 opacity-0">Invalid Email</p>
                 </div>
 
                 <div className="mb-4">
@@ -172,6 +226,8 @@ function Login(props) {
               </form>
               <Link to="/addDetails" className="text-blue-500 text-sm hover:underline"> create an account?</Link>
 
+              <p id="location" className=" my-4  text-red-600 border-spacing-4 opacity-0 m-5"><b>Location Wrong</b> </p>
+
               
             </div>
           </div>
@@ -179,5 +235,9 @@ function Login(props) {
       </div>
     </div>
   );
+  function validateEmail(email) {
+    const re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  }
 }
 export default Login;
