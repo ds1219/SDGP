@@ -1,0 +1,38 @@
+name: api Continuous Intergration
+env:
+  SQL_USER: git_tester
+  SQL_PASSWORD: git_tester
+  SQL_HOST: localhost
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  test_pull_request:
+    runs-on: ubuntu-latest
+      services:
+      mysql-master:
+        image: mysql:8.0.32
+        ports:
+          - 3306/tcp
+        options: >-
+          --name=mysql-master
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+       steps:
+        - uses: actions/checkout@v2
+        - name: Install Python
+            uses: actions/setup-python@v4
+            with: python-version: '3.10'
+        - name: Install python Dependencies
+          run: pip install -r backend/requirements.txt
+          shell: bash
+        -name: Run Flask
+          run: python backend/wsgi.py
+          shell: bash
+        -name: pytest
+          run: pytest
+          shell: bash
