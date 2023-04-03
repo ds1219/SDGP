@@ -52,3 +52,20 @@ def insert_into_table(table: str, columns: list, values: list):
     query = f"INSERT INTO `{table}` ({columns}) VALUES ({('%s,'*len(values))[:-1]});"
 
     run_db_query(query, values)
+
+
+def get_random_question_from_db(lectureSessionID: str):
+
+    query = "SELECT * FROM questions Where `sessionID` LIKE %s ORDER BY RAND() LIMIT 1"
+    vals = (lectureSessionID,)
+    result = run_db_query(query, vals, result=True)
+
+    if len(result) == 0:
+        print("[SERVER] - No Row Matching Query")
+        raise ValueError
+
+    if len(result) > 1:
+        print("[SERVER] - More than one row returned")
+        raise ValueError
+
+    return result

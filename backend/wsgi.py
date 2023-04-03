@@ -179,5 +179,28 @@ def register():
     return server_response(status=200)
 
 
+@app.route("/getQuestion", methods=["POST"])
+@cross_origin()
+def get_question():
+    receivedData = request.get_json()
+
+    try:
+        lectureSessionID = receivedData["lectureSessionID"]
+        userSessionID = receivedData["userSessionID"]
+    except:
+        print("[SERVER] - Required Data Could Not Be Extracted from POST data!")
+        return server_response(status=500)
+
+    if not user_session_validataion(userSessionID):
+        print("[SERVER] - User is not Authenticated")
+        return server_response(status=500)
+
+    try:
+        result = get_random_question_from_db(lectureSessionID)
+    except:
+        print("[SERVER] - Questions are not available yet. Please try Later")
+        return server_response(status=500)
+
+
 if __name__ == "__main__":
     app.run(port=5000)
