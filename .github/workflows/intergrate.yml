@@ -11,17 +11,6 @@ on:
 jobs:
   test_pull_request:
     runs-on: ubuntu-latest
-    services:
-      mysql-master:
-        image: mysql:5.7
-        ports:
-          - 3306/tcp
-        options: >-
-          --name=mysql-master
-          --health-cmd="mysqladmin ping"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
        steps:
         - uses: actions/checkout@v2
         - name: Install Python
@@ -30,9 +19,13 @@ jobs:
         - name: Install python Dependencies
           run: pip install -r backend/requirements.txt
           shell: bash
-        -name: Run Flask
+        - name: Set up MySQL
+            run: |
+                sudo /etc/init.d/mysql start
+                mysql -e < backend\testSQL.sql
+        - name: Run Flask
           run: python backend/wsgi.py
           shell: bash
-        -name: pytest
+        - name: pytest
           run: pytest
           shell: bash
