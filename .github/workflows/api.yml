@@ -42,10 +42,6 @@ jobs:
       - name: Start Flask API
         run: python app.py &
 
-<<<<<<< HEAD
-=======
-        background: true
->>>>>>> 4bba38440ac146ca766d1af2f0c85afc5d69956f
       - name: Test with pytest
         run: pytest
 
