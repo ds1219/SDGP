@@ -40,8 +40,8 @@ jobs:
           sudo mysql < backend/testSQL.sql
           sudo mysql -e "GRANT ALL PRIVILEGES ON `sdgptest` TO 'testuser'@'localhost';"
       - name: Start Flask API
-        run: |
-          nohup python app.py > /dev/null 2>&1 &
+        run: python app.py &
+
       - name: Test with pytest
         run: |
           pytest
