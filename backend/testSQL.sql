@@ -1,4 +1,4 @@
-DROP DATABASE `sdgptest`;
+/*DROP DATABASE `sdgptest`;*/
 CREATE DATABASE `sdgptest`;
 USE sdgptest;
 CREATE TABLE lectureSessions (sessionID varchar(5),
