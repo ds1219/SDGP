@@ -5,6 +5,7 @@ import unittest
 
 class apiTests(unittest.TestCase):
     ENDPOINT = "http://127.0.0.1:5000"
+    # ENDPOINT = "http://34.135.125.228"
 
     def test_check_api_connection(self):
         response = requests.get(f"{self.ENDPOINT}/")
@@ -110,7 +111,7 @@ class apiTests(unittest.TestCase):
         expiry = "2030-04-04 22:00:49"
         lectuererID = "aaaaa"
         insert_into_table(
-            "usersessions", ["userSessionID", "expiry"], [userSessionID, expiry]
+            "userSessions", ["userSessionID", "expiry"], [userSessionID, expiry]
         )
         input = {
             "lecturerID": lectuererID,
@@ -123,13 +124,13 @@ class apiTests(unittest.TestCase):
 
         response = requests.post(f"{self.ENDPOINT}/startSession", json=input)
         lecturesessionID = response.json()["lectureSessionID"]
-        dbRow = get_row_from_table("lecturesessions", "lecturerID", lectuererID)
+        dbRow = get_row_from_table("lectureSessions", "lecturerID", lectuererID)
         assert len(lecturesessionID) == 5
 
     def test_mark_attendace(self):
         lecSessionID = "qwert"
         insert_into_table(
-            "lecturesessions",
+            "lectureSessions",
             [
                 "sessionID",
                 "lecturerID",
@@ -151,7 +152,7 @@ class apiTests(unittest.TestCase):
         userSessionID = "gehryerixm"
         expiry = "2030-04-04 22:00:49"
         insert_into_table(
-            "usersessions", ["userSessionID", "expiry"], [userSessionID, expiry]
+            "userSessions", ["userSessionID", "expiry"], [userSessionID, expiry]
         )
 
         email = "davidsheen@why.brah"
@@ -168,7 +169,7 @@ class apiTests(unittest.TestCase):
     def test_get_questions(self):
         lecSessionID = "tyhgd"
         insert_into_table(
-            "lecturesessions",
+            "lectureSessions",
             [
                 "sessionID",
                 "lecturerID",
@@ -227,7 +228,7 @@ class apiTests(unittest.TestCase):
         userSessionID = "gehrysxixq"
         expiry = "2030-04-04 22:00:49"
         insert_into_table(
-            "usersessions", ["userSessionID", "expiry"], [userSessionID, expiry]
+            "userSessions", ["userSessionID", "expiry"], [userSessionID, expiry]
         )
 
         input = {
@@ -244,7 +245,7 @@ class apiTests(unittest.TestCase):
         userSessionID = "gehrnuxixq"
         expiry = "2030-04-04 22:00:49"
         insert_into_table(
-            "usersessions", ["userSessionID", "expiry"], [userSessionID, expiry]
+            "userSessions", ["userSessionID", "expiry"], [userSessionID, expiry]
         )
 
         input = {

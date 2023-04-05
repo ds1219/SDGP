@@ -1,22 +1,36 @@
 import React, { useState } from "react";
-import axios from "axios";
+import {
+  useLocation,
+  useNavigate,
+  Link,
+  json,
+  createSearchParams,
+  useSearchParams,
+} from "react-router-dom";
 
-const ENDPOINT = "http://127.0.0.1:5000";
+const ENDPOINT = "https://api.cs11-ai-avs.live";
 export default function () {
   const [lecturerID, setLecturerID] = useState("");
-  const [sessionTime, setSessionTime] = useState("");
-  const [sessionDate, setSessionDate] = useState("");
+  const [sessionStart, setsessionStart] = useState("");
+  const [sessionEnd, setsessionEnd] = useState("");
   const [subjectID, setSubjectID] = useState("");
   const [questionSource, setquestionSource] = useState("");
+
+  const [searchparams] = useSearchParams();
+  const userSessionID = searchparams.get("userSessionID");
+  let lectureSessionID = "";
+
+  const navigate = useNavigate();
 
   function handleFormSubmit(event) {
     event.preventDefault();
     const data = {
       lecturerID,
-      sessionTime,
-      sessionDate,
+      sessionStart,
+      sessionEnd,
       subjectID,
       questionSource,
+      userSessionID,
     };
     fetch(ENDPOINT + "/startSession", {
       method: "POST",
@@ -25,13 +39,23 @@ export default function () {
       },
       body: JSON.stringify(data),
     })
-      .then((response) => {
+      .then(async (response) => {
         if (response.ok) {
           // handle successful response
-          console.log("pass")
+          const res = await response.text();
+          lectureSessionID = JSON.parse(res)["lectureSessionID"];
+          console.log(lectureSessionID);
+          navigate({
+            pathname: "/generateqr",
+            search: createSearchParams({
+              lectureSessionID: lectureSessionID,
+            }).toString(),
+          });
+
+          console.log(lectureSessionID);
         } else {
           // handle error response
-          console.log("fail")
+          console.log("fail");
         }
       })
       .catch((error) => {
@@ -66,16 +90,26 @@ export default function () {
           ></input>
         </label>
         <label className=" block mb-2 text-sm font-medium text-gray-900 dark:text-white ">
-          sessionTime
+          sessionStart
           <input
-            name="sessionTime"
+            name="sessionStart"
             type="time"
-            value={sessionTime}
-            onChange={(event) => setSessionTime(event.target.value)}
+            value={sessionStart}
+            onChange={(event) => setsessionStart(event.target.value)}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           ></input>
         </label>
         <label className=" block mb-2 text-sm font-medium text-gray-900 dark:text-white ">
+          sessionTime
+          <input
+            name="sessionEnd"
+            type="time"
+            value={sessionEnd}
+            onChange={(event) => setsessionEnd(event.target.value)}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          ></input>
+        </label>
+        {/* <label className=" block mb-2 text-sm font-medium text-gray-900 dark:text-white ">
           sessionDate
           <input
             name="sessionDate"
@@ -84,7 +118,7 @@ export default function () {
             onChange={(event) => setSessionDate(event.target.value)}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           ></input>
-        </label>
+        </label> */}
         <label className=" block mb-2 text-sm font-medium text-gray-900 dark:text-white ">
           subjectID
           <input

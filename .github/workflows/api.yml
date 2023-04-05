@@ -41,7 +41,7 @@ jobs:
         run: sudo mysql < backend/testSQL.sql
 
       - name: Start Flask API
-        run: python backend/api.py &
+        run: python backend/env/bin/api.py &
 
       - name: Test with pytest
         run: pytest

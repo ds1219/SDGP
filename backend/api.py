@@ -50,7 +50,7 @@ def login():
     try:
         columns = ["userSessionID", "expiry"]
         values = [userSessionCode, expiry]
-        insert_into_table("usersessions", columns, values)
+        insert_into_table("userSessions", columns, values)
     except:
         print("[SERVER] - Problem Saving session key to db")
         return server_response(status=500)
@@ -130,7 +130,7 @@ def startSession():
     values.insert(0, sessionID)
 
     try:
-        insert_into_table("lecturesessions", columns, values)
+        insert_into_table("lectureSessions", columns, values)
     except:
         print("[SERVER] - Row Could Not Be Inserted Into Table")
         return server_response(status=500)
