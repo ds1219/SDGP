@@ -92,6 +92,7 @@ function Login(props) {
                 pathname: "/student",
                 search: createSearchParams({
                   userSessionID: userSessionID,
+                  email: email,
                 }).toString(),
               });
               warn.style.opacity = 0;

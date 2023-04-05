@@ -1,7 +1,11 @@
 import React, { useRef, useState } from "react";
 import qrcode from "qrcode";
 import QrReader from "react-qr-reader";
-import { useSearchParams } from "react-router-dom";
+import {
+  useSearchParams,
+  createSearchParams,
+  useNavigate,
+} from "react-router-dom";
 
 const QRCodeEx = () => {
   const qrRef = useRef(null);
@@ -9,21 +13,11 @@ const QRCodeEx = () => {
   const [webcamResult, setwebcamResult] = useState();
   const [searchparams] = useSearchParams();
   const userSessionID = searchparams.get("userSessionID");
+  const email = searchparams.get("email");
   const lectureSessionID = "";
-  console.log(userSessionID);
-
-  // event.preventDefault();
-  //        const dataMark = {
-  //         email,
-  //         lectureSessionID,
-  //       };
-  //        fetch(ENDPOINT + "/markAttendance", {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify(data),
-  //         })
+  console.log("User" + userSessionID);
+  const navigate = useNavigate();
+  const ENDPOINT = "http://127.0.0.1:5000";
 
   const openDialog = () => {
     qrRef.current.openImageDialog();
@@ -43,13 +37,41 @@ const QRCodeEx = () => {
       console.log(error);
     }
   };
+  const quizGo = (event) => {
+    // if (lectureSessionID != "") {
+    console.log("its running");
+    console.log("LectId" + lectureSessionID);
+    event.preventDefault();
+    const dataMark = {
+      email,
+      lectureSessionID,
+    };
+    fetch(ENDPOINT + "/markAttendance", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(dataMark),
+    });
+
+    navigate({
+      pathname: "/quiz",
+      search: createSearchParams({
+        lectureSessionID: lectureSessionID,
+      }).toString(),
+    });
+    // }
+    //  else {
+    //   alert("first You need to scan the Qr code");
+    //   console.log("first You need to scan the Qr code");
+    // }
+  };
   const webcamScan = (result) => {
     if (result) {
-      console.log("user" + userSessionID);
+      // console.log("user" + userSessionID);
       const splitUrl = result.split("|");
       setwebcamResult(splitUrl[0]);
       lectureSessionID = splitUrl[1];
-      console.log(lectureSessionID);
     }
   };
   return (
@@ -73,12 +95,18 @@ const QRCodeEx = () => {
           <div className="rounded mb-1">
             <h5 className="text-white">
               Web cam result:{" "}
-              <a
+              {/* <a
                 href={webcamResult}
                 className=" cursor-pointer  text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mx-auto lg:mx-8 mb-4 lg:mb-0 "
               >
                 <b>Link</b>
-              </a>
+              </a> */}
+              <button
+                className="cursor-pointer  text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mx-auto lg:mx-8 mb-4 lg:mb-0"
+                onClick={quizGo}
+              >
+                Get Attendance
+              </button>
             </h5>
           </div>
         </div>
