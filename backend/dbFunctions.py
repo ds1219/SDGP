@@ -14,7 +14,7 @@ def run_db_query(query: str, val: tuple, result=False):
                     queryResult (list): The result of the query, if any
     """
     mydb = mysql.connector.connect(
-        host="localhost", user="root", password="", database="sdgptest"
+        host="127.0.0.1", user="testuser", password="testpassword", database="sdgptest"
     )
     cursor = mydb.cursor()
     cursor.execute(query, val)
@@ -52,3 +52,20 @@ def insert_into_table(table: str, columns: list, values: list):
     query = f"INSERT INTO `{table}` ({columns}) VALUES ({('%s,'*len(values))[:-1]});"
 
     run_db_query(query, values)
+
+
+def get_random_question_from_db(lectureSessionID: str):
+
+    query = "SELECT * FROM questions Where `sessionID` LIKE %s ORDER BY RAND() LIMIT 1"
+    vals = (lectureSessionID,)
+    result = run_db_query(query, vals, result=True)
+
+    if len(result) == 0:
+        print("[SERVER] - No Row Matching Query")
+        raise ValueError
+
+    if len(result) > 1:
+        print("[SERVER] - More than one row returned")
+        raise ValueError
+
+    return result
