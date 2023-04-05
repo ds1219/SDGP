@@ -50,7 +50,7 @@ export default function () {
           // handle successful response
           const res = await response.text();
           lectureSessionID = JSON.parse(res)["lectureSessionID"];
-          console.log(lectureSessionID);
+          console.log("lec  " +lectureSessionID);
           navigate({
             pathname: "/generateqr",
             search: createSearchParams({

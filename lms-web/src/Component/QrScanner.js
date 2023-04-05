@@ -14,8 +14,10 @@ const QRCodeEx = () => {
   const [searchparams] = useSearchParams();
   const userSessionID = searchparams.get("userSessionID");
   const email = searchparams.get("email");
-  const lectureSessionID = "";
-  console.log("User" + userSessionID);
+  var lectureSessionID = "";
+  console.log("User " + userSessionID);
+  console.log("lec " + lectureSessionID);
+  
   const navigate = useNavigate();
   const ENDPOINT = "https://api.cs11-ai-avs.live";
 
@@ -38,33 +40,49 @@ const QRCodeEx = () => {
     }
   };
   const quizGo = (event) => {
-    // if (lectureSessionID != "") {
+    if (lectureSessionID != "") {
     console.log("its running");
     console.log("LectId" + lectureSessionID);
     event.preventDefault();
-    const dataMark = {
+    const data = {
       email,
       lectureSessionID,
+      userSessionID,
     };
     fetch(ENDPOINT + "/markAttendance", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(dataMark),
-    });
+      body: JSON.stringify(data),
+    })
+     .then(async (response) => {
+       if (response.ok) {
+           navigate({
+             pathname: "/quiz",
+             search: createSearchParams({
+             lectureSessionID: lectureSessionID,
+             userSessionID: userSessionID,
+             email:email,
+        }).toString(),
+       });
+      console.log("attendance passed");
+     }
+     else{
+      console.log("attendance fail");
+     }
+     })
 
-    navigate({
-      pathname: "/quiz",
-      search: createSearchParams({
-        lectureSessionID: lectureSessionID,
-      }).toString(),
-    });
-    // }
-    //  else {
-    //   alert("first You need to scan the Qr code");
-    //   console.log("first You need to scan the Qr code");
-    // }
+     .catch((error) => {
+        // handle network error
+      });
+
+   
+    }
+     else {
+      alert("first You need to scan the Qr code");
+      console.log("first You need to scan the Qr code");
+    }
   };
   const webcamScan = (result) => {
     if (result) {
@@ -93,12 +111,6 @@ const QRCodeEx = () => {
           <div className="rounded mb-1">
             <h5 className="text-white">
               Web cam result:{" "}
-              {/* <a
-                href={webcamResult}
-                className=" cursor-pointer  text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mx-auto lg:mx-8 mb-4 lg:mb-0 "
-              >
-                <b>Link</b>
-              </a> */}
               <button
                 className="cursor-pointer  text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mx-auto lg:mx-8 mb-4 lg:mb-0"
                 onClick={quizGo}
