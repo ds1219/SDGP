@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import UserS from "../images/AdminS.png";
 import UserT from "../images/AdminT.png";
 
-const ENDPOINT = "http://34.135.125.228";
+const ENDPOINT = "http://127.0.0.1:5000";
 function AddDetails() {
   const [userType, setUserType] = useState(null);
   const [email, setEmail] = useState("");
