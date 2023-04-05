@@ -9,3 +9,5 @@
 */.ipynb_checkpoints
 */node_modules
 ML/ramsrigouthamg-t5_squad_v1
+backend/env/bin/__pycache__/dbFunctions.cpython-310.pyc
+backend/env/bin/__pycache__/helperFunctions.cpython-310.pyc

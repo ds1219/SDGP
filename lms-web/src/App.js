@@ -6,12 +6,11 @@ import Location from "./Component/Location";
 import FileInput from "./Component/FileInput";
 import AddDetails from "./Component/AddDetails";
 import ForgotPassword from "./Component/ForgetPassword";
+import GenerateQRCode from "./Component/GenerateQr";
+
 import {
   Route,
-  Routes,
-  Link,
-  RouterProvider,
-  createBrowserRouter,
+  Routes
 } from "react-router-dom";
 import QrScanner from "./Component/QrScanner";
 import Question from "./Component/Quiz";
@@ -26,6 +25,8 @@ function App() {
       <Route path="/location" element={<Location />} />
       <Route path="/addDetails" element={<AddDetails />} />
       <Route path="/forgetPassword" element={<ForgotPassword />} />
+       <Route path="/generateqr" element={<GenerateQRCode />} />
+      
     </Routes>
   );
 }

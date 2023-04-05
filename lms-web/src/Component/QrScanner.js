@@ -1,17 +1,24 @@
 import React, { useRef, useState } from "react";
 import qrcode from "qrcode";
 import QrReader from "react-qr-reader";
+import {
+  useSearchParams,
+  createSearchParams,
+  useNavigate,
+} from "react-router-dom";
 
 const QRCodeEx = () => {
   const qrRef = useRef(null);
   const [fileResult, setFileResult] = useState();
   const [webcamResult, setwebcamResult] = useState();
-  const [text, setText] = useState("");
-  const [imageQR, setImageQR] = useState();
-  const generateQRCode = async () => {
-    const image = await qrcode.toDataURL(text);
-    setImageQR(image);
-  };
+  const [searchparams] = useSearchParams();
+  const userSessionID = searchparams.get("userSessionID");
+  const email = searchparams.get("email");
+  const lectureSessionID = "";
+  console.log("User" + userSessionID);
+  const navigate = useNavigate();
+  const ENDPOINT = "http://127.0.0.1:5000";
+
   const openDialog = () => {
     qrRef.current.openImageDialog();
   };
@@ -30,61 +37,53 @@ const QRCodeEx = () => {
       console.log(error);
     }
   };
+  const quizGo = (event) => {
+    // if (lectureSessionID != "") {
+    console.log("its running");
+    console.log("LectId" + lectureSessionID);
+    event.preventDefault();
+    const dataMark = {
+      email,
+      lectureSessionID,
+    };
+    fetch(ENDPOINT + "/markAttendance", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(dataMark),
+    });
+
+    navigate({
+      pathname: "/quiz",
+      search: createSearchParams({
+        lectureSessionID: lectureSessionID,
+      }).toString(),
+    });
+    // }
+    //  else {
+    //   alert("first You need to scan the Qr code");
+    //   console.log("first You need to scan the Qr code");
+    // }
+  };
   const webcamScan = (result) => {
     if (result) {
-      setwebcamResult(result);
+      // console.log("user" + userSessionID);
+      const splitUrl = result.split("|");
+      setwebcamResult(splitUrl[0]);
+      lectureSessionID = splitUrl[1];
     }
   };
   return (
     <div className="container  px-4 sm:px-6 lg:px-8  bg-black h-screen">
-      <div className="flex flex-col lg:flex-row justify-center items-center  ">
-        <h3 className=" text-white mr-0 lg:mr-9 text-center lg:text-right mb-4 lg:mb-0 ">
-          Enter text for QR code
-        </h3>
-        <input
-          type="text"
-          className="bg-blue-500 border border-blue-500 text-white dark:text-white placeholder-blue-700 dark:placeholder-blue-500 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full lg:w-1/3 p-2.5 dark:bg-blue-500 dark:border-blue-500 mb-4 lg:mb-0"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-        />
-        <button
-          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mx-auto lg:mx-8 mb-4 lg:mb-0"
-          onClick={generateQRCode}
-        >
-          Generate QR Code
-        </button>
-      </div>
-      <div className="flex flex-col lg:flex-row items-center justify-center mt-16">
-        <div className="mr-0 lg:mr-12 mb-4 lg:mb-0">
-          <h3 className=" text-white badges bg-secondary rounded text-center text-light">
-            QR code image
-          </h3>
-          <div className="text-center">
-            {imageQR && (
-              <a href={imageQR} className="w-32" download>
-                <img src={imageQR} width="80%" alt="qr code pic is here" />
-              </a>
-            )}
-          </div>
-        </div>
-        {/* <div className="mb-4 lg:mb-0">
-      <div className="m-1 rounded text-center">
-        <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" onClick={openDialog}>Open QR code file</button>
-      </div>
-      <div className="text-center p-4 sm:p-8 lg:p-12">
-        <QrReader ref={qrRef} delay={300} onError={fileError} onScan={fileScan} legacyMode={true} />
-      </div>
-      <div className="card-footer rounded mb-1">
-        <h5>Image result:{fileResult}</h5>
-      </div>
-    </div> */}
+      <div className="flex flex-col lg:flex-row items-center justify-center ">
         <div className="mx-auto lg:mx-0 mb-4 lg:mb-0">
           <div className="m-1 rounded text-center">
             <h3 className=" text-white badges bg-secondary rounded text-center text-light">
               Webcam image
             </h3>
           </div>
-          <div className="text-center p-4 sm:p-8 lg:p-12 w-64">
+          <div className="text-center p-4 sm:p-8 lg:p-12 w-96">
             <QrReader
               delay={300}
               onError={webcamError}
@@ -96,12 +95,18 @@ const QRCodeEx = () => {
           <div className="rounded mb-1">
             <h5 className="text-white">
               Web cam result:{" "}
-              <a
+              {/* <a
                 href={webcamResult}
                 className=" cursor-pointer  text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mx-auto lg:mx-8 mb-4 lg:mb-0 "
               >
                 <b>Link</b>
-              </a>
+              </a> */}
+              <button
+                className="cursor-pointer  text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mx-auto lg:mx-8 mb-4 lg:mb-0"
+                onClick={quizGo}
+              >
+                Get Attendance
+              </button>
             </h5>
           </div>
         </div>
