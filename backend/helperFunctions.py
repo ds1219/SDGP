@@ -68,7 +68,7 @@ def user_session_validataion(userSessionID: str):
 def lectureSesssion_validation(sessionID: str):
 
     try:
-        userRow = get_row_from_table("lecturesessions", "sessionID", sessionID)
+        userRow = get_row_from_table("lectureSessions", "sessionID", sessionID)
     except:
         print("[SERVER] - lectureSessionID not found in db")
         return False
