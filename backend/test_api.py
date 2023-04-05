@@ -157,7 +157,7 @@ class apiTests(unittest.TestCase):
         )
 
         lecSessionID = "qwert"
-        questionID = "1234"
+        questionID = ["12345", "12346"]
         insert_into_table(
             "questions",
             [
@@ -168,10 +168,28 @@ class apiTests(unittest.TestCase):
                 "sessionID",
             ],
             [
-                questionID,
+                questionID[0],
                 "Who Art You?",
                 "David",
                 "Richard | Adam | Rick",
+                lecSessionID,
+            ],
+        )
+
+        insert_into_table(
+            "questions",
+            [
+                "questionID",
+                "question",
+                "answer",
+                "wrongAnswers",
+                "sessionID",
+            ],
+            [
+                questionID[1],
+                "The Answer to Life, the Universe and Everything?",
+                "42",
+                "To Love | To Kill | 39",
                 lecSessionID,
             ],
         )
@@ -189,7 +207,5 @@ class apiTests(unittest.TestCase):
         }
 
         response = requests.post(f"{self.ENDPOINT}/getQuestion", json=input)
-
-        assert (
-            response.status_code == 200 and response.json()["questionID"] == questionID
-        )
+        gotquestionID = response.json()["questionID"]
+        assert response.status_code == 200 and gotquestionID in questionID
