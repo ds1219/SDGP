@@ -4,22 +4,20 @@ import UserS from "../images/AdminS.png";
 import UserT from "../images/AdminT.png";
 import Form from "./Form";
 import React, { useState, useEffect } from "react";
-import { useNavigate,Link, json } from "react-router-dom";
+import { useNavigate, Link, json, createSearchParams } from "react-router-dom";
 import Logo from "../images/logo.png";
 
 function Login(props) {
   const [email, setemail] = useState("");
   const [hashedPass, sethashedPassword] = useState("");
   const [userType, setUserType] = useState(null);
-  const[datas,setData]=useState();
+  const [datas, setData] = useState();
   const [location, setLocation] = useState({});
- 
-  
-  
+
   const navigate = useNavigate();
   const API_KEY = "";
-   let userSessionID="";
-   const handleClick = () => {
+  let userSessionID = "";
+  const handleClick = () => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         setLocation({
@@ -44,29 +42,25 @@ function Login(props) {
 
     fetch(
       `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.lat},${location.lng}&key=${API_KEY}`
-    )
-      .then((response) => response.json())
-      
+    ).then((response) => response.json());
   }, [location]);
   var latAdd = location.lat;
   var longAdd = location.lng;
 
-
-    
   const ENDPOINT = "http://127.0.0.1:5000";
-  function handleSubmit (event)  {
+  function handleSubmit(event) {
     // Check if the user's login details are correct using Flask
     // If the details are correct, navigate to the appropriate page
 
-      if (!validateEmail(email)) {
+    if (!validateEmail(email)) {
       // handle invalid email address
-      var warn=document.getElementById("warningmail");
-      warn.style.opacity="1"
+      var warn = document.getElementById("warningmail");
+      warn.style.opacity = "1";
 
       return;
-    } 
+    }
     event.preventDefault();
-     const data = {
+    const data = {
       email,
       hashedPass,
       userType,
@@ -78,58 +72,60 @@ function Login(props) {
       },
       body: JSON.stringify(data),
     })
-     
-      .then(async(response) => {
-         var locc=document.getElementById('location')
-         
-        
+      .then(async (response) => {
+        var locc = document.getElementById("location");
+
         if (response.ok) {
           // handle successful response
-          console.log("pass")
-          const res = await response.text()
-          userSessionID = JSON.parse(res)["userSessionKey"]
-          setData(userSessionID)
-          console.log(userSessionID)
+          console.log("pass");
+          const res = await response.text();
+          userSessionID = JSON.parse(res)["userSessionKey"];
+          setData(userSessionID);
 
-         
-   
-        if (userType === "student" ) {
-          if(latAdd==7.0877184 && longAdd ==80.0227328){
-            // if(true){
-         
-            
-            // Navigate to the student page
-             navigate("/student", { userSessionID: userSessionID, userSessionID: userSessionID, });
-             warn.style.opacity=0
-             
+          if (userType === "student") {
+            if (latAdd == 7.1237632 && longAdd == 80.0620544) {
+              // if(true){
 
+              // Navigate to the student page
+              console.log(userSessionID);
+              navigate({
+                pathname: "/student",
+                search: createSearchParams({
+                  userSessionID: userSessionID,
+                }).toString(),
+              });
+              warn.style.opacity = 0;
+            } else {
+              locc.style.opacity = 1;
+            }
           }
-          else{
-            locc.style.opacity=1
-          } 
-        } 
-       if (userType === "lecturer") {
-  
-           // Navigate to the lecturer page
-            
-           navigate("/lecturer", { userSessionID: userSessionID });
-            warn.style.opacity=0
-       
-    }
-      } else {
+          if (userType === "lecturer") {
+            // Navigate to the lecturer page
+            console.log(userSessionID);
+
+            navigate({
+              pathname: "/lecturer",
+              search: createSearchParams({
+                userSessionID: userSessionID,
+              }).toString(),
+            });
+
+            warn.style.opacity = 0;
+          }
+        } else {
           // handle error response
-          console.log("fail, invalid user")
+          console.log("fail, invalid user");
         }
-      }).catch((error) => {
+      })
+      .catch((error) => {
         // handle network error
       });
-
-  };
+  }
 
   const handleUserTypeClick = (type) => {
     var lec = document.getElementById("lec");
     var stu = document.getElementById("stu");
-   
+
     setUserType(type);
     console.log(type);
     if (type === "student") {
@@ -143,10 +139,7 @@ function Login(props) {
       stu.style.opacity = "0.7";
       lec.style.opacity = "1";
     }
-
-    
   };
-
 
   return (
     <div className="flex flex-col md:flex-row h-screen">
@@ -176,7 +169,11 @@ function Login(props) {
           <div className="w-full md:w-3/4 lg:w-1/2">
             {/* <Form onSubmit={handleSubmit}/> */}
             <div className="login flex flex-col items-center justify-center ">
-              <img src={Logo} alt="Lms" className=" lg:w-60  mb-8  md:w-full md:opacity " />
+              <img
+                src={Logo}
+                alt="Lms"
+                className=" lg:w-60  mb-8  md:w-full md:opacity "
+              />
 
               <form onSubmit={handleSubmit} className="w-full max-w-md">
                 <div className="mb-4">
@@ -191,7 +188,9 @@ function Login(props) {
                     autoComplete="on"
                     className="w-full px-3 py-2 placeholder-gray-400 border rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
-                  <p id="warn" className=" text-red-600 opacity-0">Invalid Email</p>
+                  <p id="warn" className=" text-red-600 opacity-0">
+                    Invalid Email
+                  </p>
                 </div>
 
                 <div className="mb-4">
@@ -215,11 +214,20 @@ function Login(props) {
                   Submit
                 </button>
               </form>
-              <Link to="/addDetails" className="text-blue-500 text-sm hover:underline"> create an account?</Link>
+              <Link
+                to="/addDetails"
+                className="text-blue-500 text-sm hover:underline"
+              >
+                {" "}
+                create an account?
+              </Link>
 
-              <p id="location" className=" my-4  text-red-600 border-spacing-4 opacity-0 m-5"><b>Location Wrong</b> </p>
-
-              
+              <p
+                id="location"
+                className=" my-4  text-red-600 border-spacing-4 opacity-0 m-5"
+              >
+                <b>Location Wrong</b>{" "}
+              </p>
             </div>
           </div>
         </div>

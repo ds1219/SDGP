@@ -1,32 +1,29 @@
 import React, { useRef, useState } from "react";
 import qrcode from "qrcode";
 import QrReader from "react-qr-reader";
-import { useLocation } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 const QRCodeEx = () => {
   const qrRef = useRef(null);
   const [fileResult, setFileResult] = useState();
   const [webcamResult, setwebcamResult] = useState();
-  const location = useLocation();
-  const userSessionID = location.state.userSessionID;
+  const [searchparams] = useSearchParams();
+  const userSessionID = searchparams.get("userSessionID");
+  const lectureSessionID = "";
   console.log(userSessionID);
 
-
-
-    // event.preventDefault();
-    //        const dataMark = {
-    //         email,
-    //         lectureSessionID,
-    //       };
-    //        fetch(ENDPOINT + "/markAttendance", {
-    //         method: "POST",
-    //         headers: {
-    //           "Content-Type": "application/json",
-    //         },
-    //         body: JSON.stringify(data),
-    //         })
- 
-  
+  // event.preventDefault();
+  //        const dataMark = {
+  //         email,
+  //         lectureSessionID,
+  //       };
+  //        fetch(ENDPOINT + "/markAttendance", {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify(data),
+  //         })
 
   const openDialog = () => {
     qrRef.current.openImageDialog();
@@ -48,14 +45,16 @@ const QRCodeEx = () => {
   };
   const webcamScan = (result) => {
     if (result) {
-      setwebcamResult(result);
+      console.log("user" + userSessionID);
+      const splitUrl = result.split("|");
+      setwebcamResult(splitUrl[0]);
+      lectureSessionID = splitUrl[1];
+      console.log(lectureSessionID);
     }
   };
   return (
     <div className="container  px-4 sm:px-6 lg:px-8  bg-black h-screen">
-     
       <div className="flex flex-col lg:flex-row items-center justify-center ">
-     
         <div className="mx-auto lg:mx-0 mb-4 lg:mb-0">
           <div className="m-1 rounded text-center">
             <h3 className=" text-white badges bg-secondary rounded text-center text-light">
