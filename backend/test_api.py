@@ -1,18 +1,15 @@
 import requests
 from dbFunctions import *
-import pytest
 import unittest
 
 
 class apiTests(unittest.TestCase):
     ENDPOINT = "http://127.0.0.1:5000"
 
-    @pytest.mark.order(1)
     def test_check_api_connection(self):
         response = requests.get(f"{self.ENDPOINT}/")
         assert response.status_code == 200
 
-    @pytest.mark.order(2)
     def test_register_lecturer(self):
         input = {
             "firstName": "Rich",
@@ -29,7 +26,6 @@ class apiTests(unittest.TestCase):
         expected = ("richerd@why.no", "Rich", "Erd", "12345-54321", "qwertyuio")
         assert response.status_code == 200 and dbRow[0] == expected
 
-    @pytest.mark.order(3)
     def test_register_student(self):
         input = {
             "firstName": "David",
@@ -45,25 +41,62 @@ class apiTests(unittest.TestCase):
         expected = ("davidsheen@why.brah", "David", "Sheen", "12345-54321", "qwertyuio")
         assert response.status_code == 200 and dbRow[0] == expected
 
-    @pytest.mark.order(4)
     def test_login_student(self):
-        email = "davidsheen@why.brah"
+        email = "micheal@jackson.heehee"
+        password = "qwertyuio"
+        insert_into_table(
+            "students",
+            [
+                "email",
+                "firstName",
+                "lastName",
+                "subjectIDs",
+                "hashedPass",
+            ],
+            [
+                email,
+                "Micheal",
+                "Jackson",
+                "Richard | Adam | Rick",
+                password,
+            ],
+        )
+
         input = {
             "userType": "student",
+            "hashedPass": password,
             "email": email,
-            "hashedPass": "qwertyuio",
         }
 
         response = requests.post(f"{self.ENDPOINT}/login", json=input)
         dbRow = get_row_from_table("students", "email", email)
         assert response.status_code == 200
 
-    @pytest.mark.order(5)
     def test_login_lecturer(self):
-        email = "richerd@why.no"
+
+        email = "test@testing.ahhhhhhhh"
+        password = "qwertyuio"
+        insert_into_table(
+            "lecturers",
+            [
+                "email",
+                "firstName",
+                "lastName",
+                "subjectIDs",
+                "hashedPass",
+            ],
+            [
+                email,
+                "Micheal",
+                "Jackson",
+                "Richard | Adam | Rick",
+                password,
+            ],
+        )
+
         input = {
             "userType": "lecturer",
-            "hashedPass": "qwertyuio",
+            "hashedPass": password,
             "email": email,
         }
 
@@ -72,7 +105,6 @@ class apiTests(unittest.TestCase):
         dbRow = get_row_from_table("lecturers", "email", email)
         assert response.status_code == 200
 
-    @pytest.mark.order(6)
     def test_start_session(self):
         userSessionID = "gehrysxixm"
         expiry = "2030-04-04 22:00:49"
@@ -94,7 +126,6 @@ class apiTests(unittest.TestCase):
         dbRow = get_row_from_table("lecturesessions", "lecturerID", lectuererID)
         assert len(lecturesessionID) == 5
 
-    @pytest.mark.order(7)
     def test_mark_attendace(self):
         lecSessionID = "qwert"
         insert_into_table(
@@ -134,8 +165,8 @@ class apiTests(unittest.TestCase):
         dbRow = get_row_from_table("attendance", "email", email)
         assert response.status_code == 200
 
-    @pytest.mark.order(8)
     def test_get_questions(self):
+        lecSessionID = "tyhgd"
         insert_into_table(
             "lecturesessions",
             [
@@ -147,7 +178,7 @@ class apiTests(unittest.TestCase):
                 "questionSource",
             ],
             [
-                "qwert",
+                lecSessionID,
                 "bbbbb",
                 "2003-04-04 13:00",
                 "2003-04-04 14:00",
@@ -156,7 +187,6 @@ class apiTests(unittest.TestCase):
             ],
         )
 
-        lecSessionID = "qwert"
         questionID = ["12345", "12346"]
         insert_into_table(
             "questions",
@@ -200,7 +230,6 @@ class apiTests(unittest.TestCase):
             "usersessions", ["userSessionID", "expiry"], [userSessionID, expiry]
         )
 
-        email = "davidsheen@why.brah"
         input = {
             "lectureSessionID": lecSessionID,
             "userSessionID": userSessionID,
@@ -209,3 +238,20 @@ class apiTests(unittest.TestCase):
         response = requests.post(f"{self.ENDPOINT}/getQuestion", json=input)
         gotquestionID = response.json()["questionID"]
         assert response.status_code == 200 and gotquestionID in questionID
+
+    def test_get_questions_not_ready(self):
+
+        userSessionID = "gehrnuxixq"
+        expiry = "2030-04-04 22:00:49"
+        insert_into_table(
+            "usersessions", ["userSessionID", "expiry"], [userSessionID, expiry]
+        )
+
+        input = {
+            "lectureSessionID": "asdf",
+            "userSessionID": userSessionID,
+        }
+
+        response = requests.post(f"{self.ENDPOINT}/getQuestion", json=input)
+        questionsStatus = response.json()["questionsStatus"]
+        assert response.status_code == 200 and questionsStatus == "not ready"
