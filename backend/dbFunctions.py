@@ -1,7 +1,7 @@
 import mysql.connector
 
 
-def run_db_query(query: str, val: tuple, result=False):
+def run_db_query(query: str, val=False, result=False):
     """
     Executes the provided sql query
 
@@ -17,7 +17,11 @@ def run_db_query(query: str, val: tuple, result=False):
         host="127.0.0.1", user="testuser", password="testpassword", database="sdgptest"
     )
     cursor = mydb.cursor()
-    cursor.execute(query, val)
+
+    if val == False:
+        cursor.execute(query, val)
+    else:
+        cursor.execute(query, val)
 
     if result == False:
         mydb.commit()
