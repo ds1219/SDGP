@@ -256,3 +256,16 @@ class apiTests(unittest.TestCase):
         response = requests.post(f"{self.ENDPOINT}/getQuestion", json=input)
         questionsStatus = response.json()["questionsStatus"]
         assert response.status_code == 200 and questionsStatus == "not ready"
+
+    def test_submit_answers(self):
+        input = {
+            "questionID": "Rich",
+            "email": "richerd@why.no",
+            "result": "Pass",
+        }
+
+        response = requests.post(f"{self.ENDPOINT}/submitAnswer", json=input)
+
+        dbRow = get_row_from_table("studentAnswers", "email", "richerd@why.no")
+        expected = ("Rich", "richerd@why.no", "Pass")
+        assert response.status_code == 200 and dbRow[0] == expected
