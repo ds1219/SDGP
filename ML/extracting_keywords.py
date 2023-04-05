@@ -4,7 +4,6 @@ Alto, A. (2015). Answer to â€˜Extracting all Nouns from a text file using nltkâ€
 """
 from textblob import TextBlob
 
-# keyword extraction
 def get_keywords(content):
     blob = TextBlob(content)
-    return blob.noun_phrases
+    return [phrase for phrase in blob.noun_phrases if len(phrase.split())]

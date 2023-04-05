@@ -18,3 +18,4 @@ questions, answers = generate(text)
 
 for i in range(0, len(answers)):
     print(f"Q{i+1}: {questions[i]} - {answers[i]}")
+    
