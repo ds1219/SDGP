@@ -199,7 +199,7 @@ def get_question():
         result = get_random_question_from_db(lectureSessionID)
     except:
         print("[SERVER] - Questions are not available yet. Please try Later")
-        return server_response(status=500)
+        return server_response(status=200, json={"questionsStatus": "not ready"})
 
     result = result[0]
     return server_response(
