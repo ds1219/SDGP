@@ -5,6 +5,7 @@ import unittest
 
 class apiTests(unittest.TestCase):
     ENDPOINT = "http://127.0.0.1:5000"
+    ENDPOINT = "http://34.135.125.228"
 
     def test_check_api_connection(self):
         response = requests.get(f"{self.ENDPOINT}/")
