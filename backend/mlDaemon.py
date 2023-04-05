@@ -19,13 +19,13 @@ def check_for_jobs():
         jobs.append(j)
 
 
-def commit_to_db():
-    insert_into_table(
-        "questions",
-        ["questionID", "question", "answer", "wrongAnswers", "sessionID"],
-        [gen_code(), ""],
-    )
-    pass
+def commit_to_db(sessionID, result):
+    for i in result:
+        insert_into_table(
+            "questions",
+            ["questionID", "question", "answer", "wrongAnswers", "sessionID"],
+            [gen_code(5), "asdfasdf", "asdfasdf", "asdfasdf", sessionID],
+        )
 
 
 processing = True
@@ -44,5 +44,5 @@ while True:
             jobs.pop(count)
             print(SessionID)
             result = run_ml(text)
-            commit_to_db(result)
+            commit_to_db(SessionID, result)
             processing = True
