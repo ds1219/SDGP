@@ -213,5 +213,32 @@ def get_question():
     )
 
 
+@app.route("/submitAnswer", methods=["POST"])
+@cross_origin()
+def submitAnswer():
+    expectedData = [
+        "questionID",
+        "email",
+        "result",
+    ]
+    receivedData = request.get_json()
+
+    try:
+        receivedData = extract_required_data(receivedData, expectedData)
+    except:
+        print("[SERVER] - Required Data Could Not Be Extracted from POST data!")
+        return server_response(status=500)
+
+    columns = list(receivedData.keys())
+    values = list(receivedData.values())
+
+    try:
+        insert_into_table("studentAnswers", columns, values)
+    except:
+        return server_response(status=500)
+
+    return server_response(status=200)
+
+
 if __name__ == "__main__":
     app.run(port=5000)
