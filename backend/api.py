@@ -201,7 +201,16 @@ def get_question():
         print("[SERVER] - Questions are not available yet. Please try Later")
         return server_response(status=500)
 
-    print("hello")
+    result = result[0]
+    return server_response(
+        status=200,
+        json={
+            "questionID": result[0],
+            "question": result[1],
+            "answer": result[2],
+            "wronganswer": result[3],
+        },
+    )
 
 
 if __name__ == "__main__":
