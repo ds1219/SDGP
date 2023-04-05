@@ -10,10 +10,7 @@ import GenerateQRCode from "./Component/GenerateQr";
 
 import {
   Route,
-  Routes,
-  Link,
-  RouterProvider,
-  createBrowserRouter,
+  Routes
 } from "react-router-dom";
 import QrScanner from "./Component/QrScanner";
 import Question from "./Component/Quiz";

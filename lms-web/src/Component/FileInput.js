@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useLocation,useNavigate,Link, json  } from "react-router-dom";
+
 
 const ENDPOINT = "http://127.0.0.1:5000";
 export default function () {
@@ -8,6 +10,12 @@ export default function () {
   const [sessionDate, setSessionDate] = useState("");
   const [subjectID, setSubjectID] = useState("");
   const [questionSource, setquestionSource] = useState("");
+  const location = useLocation();
+  const userSessionID = location.state.userSessionID;
+  console.log(userSessionID);
+  let lectureSessionID="";
+
+   const navigate = useNavigate();
 
   function handleFormSubmit(event) {
     event.preventDefault();
@@ -25,10 +33,13 @@ export default function () {
       },
       body: JSON.stringify(data),
     })
-      .then((response) => {
+      .then(async(response) => {
         if (response.ok) {
           // handle successful response
+          const res = await response.text()
+          userSessionID = JSON.parse(res)["userSessionKey"]
           console.log("pass")
+           navigate("/generateqr", { lectureSessionID: userSessionID, });
         } else {
           // handle error response
           console.log("fail")

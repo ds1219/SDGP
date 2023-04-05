@@ -13,11 +13,12 @@ function Login(props) {
   const [userType, setUserType] = useState(null);
   const[datas,setData]=useState();
   const [location, setLocation] = useState({});
+ 
   
   
   const navigate = useNavigate();
   const API_KEY = "";
-   let lectureSessionID="";
+   let userSessionID="";
    const handleClick = () => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -86,9 +87,9 @@ function Login(props) {
           // handle successful response
           console.log("pass")
           const res = await response.text()
-          lectureSessionID = JSON.parse(res)["userSessionKey"]
-          setData(lectureSessionID)
-          console.log(lectureSessionID)
+          userSessionID = JSON.parse(res)["userSessionKey"]
+          setData(userSessionID)
+          console.log(userSessionID)
 
          
    
@@ -98,7 +99,7 @@ function Login(props) {
          
             
             // Navigate to the student page
-             navigate("/student");
+             navigate("/student", { userSessionID: userSessionID, userSessionID: userSessionID, });
              warn.style.opacity=0
              
 
@@ -110,7 +111,8 @@ function Login(props) {
        if (userType === "lecturer") {
   
            // Navigate to the lecturer page
-           navigate("/lecturer");
+            
+           navigate("/lecturer", { userSessionID: userSessionID });
             warn.style.opacity=0
        
     }

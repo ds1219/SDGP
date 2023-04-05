@@ -1,19 +1,25 @@
 
 import React, { useState, useEffect } from "react";
 import qrcode from "qrcode";
+import { useLocation,useNavigate,Link, json  } from "react-router-dom";
 
 
 const GenerateQRCode=()=>{
    const [imageQR, setImageQR] = useState();
    const [qrValue, setQRValue] = useState("");
    const [text, setText] = useState("");
+
+  const location = useLocation();
+  const userSessionID = location.state.userSessionID;
+  const lectureSessionID = location.state.lectureSessionID;
   
 
    const generateQRCode = async () => {
+    const qrCodeValue='${text},${lectureSessionID}';
 
-  setQRValue(text); // store the current QR code value
+  setQRValue(qrCodeValue); // store the current QR code value
   if(text!=""){
-   const image = await qrcode.toDataURL(text);
+   const image = await qrcode.toDataURL(qrCodeValue);
     setImageQR(image);
    
   }

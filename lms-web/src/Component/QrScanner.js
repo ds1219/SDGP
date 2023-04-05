@@ -1,11 +1,15 @@
 import React, { useRef, useState } from "react";
 import qrcode from "qrcode";
 import QrReader from "react-qr-reader";
+import { useLocation } from "react-router-dom";
 
 const QRCodeEx = () => {
   const qrRef = useRef(null);
   const [fileResult, setFileResult] = useState();
   const [webcamResult, setwebcamResult] = useState();
+  const location = useLocation();
+  const userSessionID = location.state.userSessionID;
+  console.log(userSessionID);
 
 
 
