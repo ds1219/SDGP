@@ -17,3 +17,22 @@ channel = connection.channel()
 
 channel.queue_declare(queue="new_questions")
 
+def process_question(ch, method, properties, body):
+    question = json.loads(body)
+
+    question_exists = check_question_exists(question["questionID"])
+
+    if not question_exists:
+        insert_question(
+            question["questionID"],
+            question["question"],
+            question["answer"],
+            question["sessionID"],
+        )
+    else:
+        pass
+    ch.basic_ack(delivery_tag=method.delivery_tag)
+
+
+channel.basic_consume(queue="new_questions", on_message_callback=process_question)
+channel.start_consuming()
