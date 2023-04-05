@@ -55,7 +55,6 @@ class apiTests(unittest.TestCase):
         }
 
         response = requests.post(f"{self.ENDPOINT}/login", json=input)
-        userSessionKey = response.json()["userSessionKey"]
         dbRow = get_row_from_table("students", "email", email)
         assert response.status_code == 200
 
@@ -109,7 +108,7 @@ class apiTests(unittest.TestCase):
                 "questionSource",
             ],
             [
-                "qwert",
+                lecSessionID,
                 "bbbbb",
                 "2003-04-04 13:00",
                 "2003-04-04 14:00",
@@ -134,3 +133,79 @@ class apiTests(unittest.TestCase):
         response = requests.post(f"{self.ENDPOINT}/markAttendance", json=input)
         dbRow = get_row_from_table("attendance", "email", email)
         assert response.status_code == 200
+
+    @pytest.mark.order(8)
+    def test_get_questions(self):
+        insert_into_table(
+            "lecturesessions",
+            [
+                "sessionID",
+                "lecturerID",
+                "sessionStart",
+                "sessionEnd",
+                "subjectID",
+                "questionSource",
+            ],
+            [
+                "qwert",
+                "bbbbb",
+                "2003-04-04 13:00",
+                "2003-04-04 14:00",
+                "test2",
+                "Github is a Version Control Software",
+            ],
+        )
+
+        lecSessionID = "qwert"
+        questionID = ["12345", "12346"]
+        insert_into_table(
+            "questions",
+            [
+                "questionID",
+                "question",
+                "answer",
+                "wrongAnswers",
+                "sessionID",
+            ],
+            [
+                questionID[0],
+                "Who Art You?",
+                "David",
+                "Richard | Adam | Rick",
+                lecSessionID,
+            ],
+        )
+
+        insert_into_table(
+            "questions",
+            [
+                "questionID",
+                "question",
+                "answer",
+                "wrongAnswers",
+                "sessionID",
+            ],
+            [
+                questionID[1],
+                "The Answer to Life, the Universe and Everything?",
+                "42",
+                "To Love | To Kill | 39",
+                lecSessionID,
+            ],
+        )
+
+        userSessionID = "gehrysxixq"
+        expiry = "2030-04-04 22:00:49"
+        insert_into_table(
+            "usersessions", ["userSessionID", "expiry"], [userSessionID, expiry]
+        )
+
+        email = "davidsheen@why.brah"
+        input = {
+            "lectureSessionID": lecSessionID,
+            "userSessionID": userSessionID,
+        }
+
+        response = requests.post(f"{self.ENDPOINT}/getQuestion", json=input)
+        gotquestionID = response.json()["questionID"]
+        assert response.status_code == 200 and gotquestionID in questionID
