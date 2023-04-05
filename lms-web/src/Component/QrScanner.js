@@ -17,7 +17,7 @@ const QRCodeEx = () => {
   const lectureSessionID = "";
   console.log("User" + userSessionID);
   const navigate = useNavigate();
-  const ENDPOINT = "http://127.0.0.1:5000";
+  const ENDPOINT = "https://api.cs11-ai-avs.live";
 
   const openDialog = () => {
     qrRef.current.openImageDialog();
@@ -68,10 +68,8 @@ const QRCodeEx = () => {
   };
   const webcamScan = (result) => {
     if (result) {
-      // console.log("user" + userSessionID);
-      const splitUrl = result.split("|");
-      setwebcamResult(splitUrl[0]);
-      lectureSessionID = splitUrl[1];
+      // console.log("user" + userSessionID); 
+      lectureSessionID = result;
     }
   };
   return (

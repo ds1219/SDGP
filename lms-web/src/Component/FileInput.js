@@ -8,7 +8,7 @@ import {
   useSearchParams,
 } from "react-router-dom";
 
-const ENDPOINT = "http://127.0.0.1:5000";
+const ENDPOINT = "https://api.cs11-ai-avs.live";
 export default function () {
   const [lecturerID, setLecturerID] = useState("");
   const [sessionStart, setsessionStart] = useState("");

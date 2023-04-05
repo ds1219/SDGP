@@ -47,7 +47,7 @@ function Login(props) {
   var latAdd = location.lat;
   var longAdd = location.lng;
 
-  const ENDPOINT = "http://127.0.0.1:5000";
+  const ENDPOINT = "https://api.cs11-ai-avs.live";
   function handleSubmit(event) {
     // Check if the user's login details are correct using Flask
     // If the details are correct, navigate to the appropriate page
