@@ -6,6 +6,21 @@ const QRCodeEx = () => {
   const qrRef = useRef(null);
   const [fileResult, setFileResult] = useState();
   const [webcamResult, setwebcamResult] = useState();
+
+
+
+    // event.preventDefault();
+    //        const dataMark = {
+    //         email,
+    //         lectureSessionID,
+    //       };
+    //        fetch(ENDPOINT + "/markAttendance", {
+    //         method: "POST",
+    //         headers: {
+    //           "Content-Type": "application/json",
+    //         },
+    //         body: JSON.stringify(data),
+    //         })
  
   
 

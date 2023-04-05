@@ -93,20 +93,9 @@ function Login(props) {
          
    
         if (userType === "student" ) {
-          if(latAdd==6.9107712 && longAdd ==79.8851072){
+          if(latAdd==7.0877184 && longAdd ==80.0227328){
             // if(true){
-           event.preventDefault();
-           const dataMark = {
-            email,
-            lectureSessionID,
-          };
-           fetch(ENDPOINT + "/markAttendance", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-            })
+         
             
             // Navigate to the student page
              navigate("/student");
