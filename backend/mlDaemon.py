@@ -28,7 +28,6 @@ processing = True
 while True:
     if not processing:
         sleep(10)
-        print("slow")
 
     processing = False
     check_for_jobs()
