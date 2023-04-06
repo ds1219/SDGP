@@ -27,6 +27,7 @@ const Question = () => {
   // var wronganswer2="";
   // var wronganswer3="";
   var result="";
+  const navigate = useNavigate();
 
 
       const data = {
@@ -61,6 +62,13 @@ const Question = () => {
           setwronganswer2(newWronganswer[1]);
           // console.log(newWronganswer[1])
           setwronganswer3(newWronganswer[2]);
+
+
+          setTimeout(() => {
+            if(wronganswer3==""){
+              navigate("/error");
+            }
+            }, 6000);
           
 
         }
