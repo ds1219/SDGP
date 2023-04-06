@@ -92,7 +92,7 @@ const Question = () => {
 
   const handleAnswerSelect = (event) => {
     setSelectedAnswer(event.target.value);
-    if(selectedAnswer==answer){
+    if(selectedAnswer==answers){
         result="Pass"
     }
     else{
@@ -133,7 +133,7 @@ const Question = () => {
 
   };
 
-  const correctAnswer = answer; 
+  const correctAnswer = answers; 
 
   return(
        <div className="flex flex-col items-center justify-center h-screen bg-black">
@@ -198,12 +198,12 @@ const Question = () => {
         </form>
       </div>
        
-      {isSubmitted && selectedAnswer === correctAnswer && (
+      {/* {isSubmitted && selectedAnswer === correctAnswer && (
         <p className=" text-white"> You got it right!</p>
       )}
       {isSubmitted && selectedAnswer !== correctAnswer && (
         <p className=" text-white">You got it wrong.</p>
-      )}
+      )} */}
     </div>
 
   ) ;
