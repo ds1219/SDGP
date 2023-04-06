@@ -60,13 +60,21 @@ const Question = () => {
           var newWronganswer=wronganswer.split("|");
           setwronganswer1(newWronganswer[0]);
           setwronganswer2(newWronganswer[1]);
-          // console.log(newWronganswer[1])
+          console.log(newWronganswer[1])
           setwronganswer3(newWronganswer[2]);
+          console.log(newWronganswer[2]);
 
 
           setTimeout(() => {
             if(wronganswer3==""){
-              navigate("/error");
+               navigate({
+                pathname: "/error",
+                search: createSearchParams({
+                  userSessionID: userSessionID,
+                  lectureSessionID:lectureSessionID,
+                  email: email,
+                }).toString(),
+              });
             }
             }, 6000);
           

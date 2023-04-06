@@ -1,7 +1,28 @@
+import { Button } from "@material-ui/core";
 import React from "react";
-import { Link } from "react-router-dom";
+import {
+  useSearchParams,
+  createSearchParams,
+  useNavigate,
+} from "react-router-dom";
 
 const ErrorPage = () => {
+  const [searchparams] = useSearchParams();
+  const lectureSessionID = searchparams.get("lectureSessionID");
+  const userSessionID = searchparams.get("userSessionID");
+  const email = searchparams.get("email");
+const navigate = useNavigate();
+  function naviQuiz(){
+         navigate({
+                pathname: "/quiz",
+                search: createSearchParams({
+                  userSessionID: userSessionID,
+                  lectureSessionID:lectureSessionID,
+                  email: email,
+                }).toString(),
+              });
+
+  }
   return (
     <div className="flex flex-col justify-center items-center h-screen bg-gray-900 text-white">
       <div className="flex items-center mb-4">
@@ -25,15 +46,14 @@ const ErrorPage = () => {
         <p className="text-lg">Loading Quiz....</p>
         <p className="text-lg">Please see in a while</p>
       </div>
-      <div className="mb-4">
-        <Link
-          to="/quiz"
+        <Button
+        onClick={naviQuiz}>
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
           Back to Home
-        </Link>
+        </Button>
+
       </div>
-    </div>
+
   );
 };
 
