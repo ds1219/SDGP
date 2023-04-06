@@ -4,6 +4,7 @@ from nltk import tokenize
 def textPreProcess(text):
     text = removeWikipedia(text)
     text = text.replace("\n", " ")
+    text = text.replace("\r", " ")
 
     text = tokenize.sent_tokenize(text)
     print(text)
