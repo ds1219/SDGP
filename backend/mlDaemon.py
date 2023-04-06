@@ -1,6 +1,7 @@
 from dbFunctions import *
 from helperFunctions import gen_code
 from time import sleep
+from questionGenerator import getQAs
 
 
 jobs = []
@@ -15,19 +16,18 @@ def check_for_jobs():
 
 
 def commit_to_db(sessionID, q, a, wa):
-    for i in result:
-        insert_into_table(
-            "questions",
-            ["questionID", "question", "answer", "wrongAnswers", "sessionID"],
-            [gen_code(5), q, a, wa, sessionID],
-        )
+    insert_into_table(
+        "questions",
+        ["questionID", "question", "answer", "wrongAnswers", "sessionID"],
+        [gen_code(5), q, a, wa, sessionID],
+    )
 
 
 processing = True
 
 while True:
     if not processing:
-        sleep(1)
+        sleep(10)
         print("slow")
 
     processing = False
@@ -43,7 +43,6 @@ while True:
 
             result = getQAs(text)
 
-            del getQAs
             for i in result:
                 q, a, wa = i
                 commit_to_db(SessionID, q, a, wa)

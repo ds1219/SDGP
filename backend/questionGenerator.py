@@ -279,5 +279,8 @@ def getQAs(text):
 
 
 if __name__ == "__main__":
-    text = ""
+    text = """In the year 1878 I took my degree of
+Doctor of Medicine of the University of
+London, and proceeded to Netley to go
+through the course prescribed for surgeons in the army"""
     print(getQAs(text))
