@@ -12,7 +12,7 @@ const Question = () => {
   const [answers,setanswer]=useState("");
   const [wronganswer1,setwronganswer1]=useState("");
   const [wronganswer2,setwronganswer2]=useState("");
-  const [wronganswer3,setwronganswer3]=useState("");
+  
   const ENDPOINT = "https://api.cs11-ai-avs.live";
 
   const [searchparams] = useSearchParams();
@@ -25,7 +25,7 @@ const Question = () => {
   var wronganswer="";
   // var wronganswer1="";
   // var wronganswer2="";
-  // var wronganswer3="";
+ 
   var result="";
   const navigate = useNavigate();
 
@@ -55,14 +55,15 @@ const Question = () => {
           // console.log("Question  "+questions);
           answer = JSON.parse(res)["answer"];
           setanswer(answer);
-          //  console.log("answr  "+answer);
+           console.log("answr  "+answer);
           wronganswer = JSON.parse(res)["wronganswer"];
           var newWronganswer=wronganswer.split("|");
           setwronganswer1(newWronganswer[0]);
+          console.log("2nd"+newWronganswer[1])
           setwronganswer2(newWronganswer[1]);
-          console.log(newWronganswer[1])
-          setwronganswer3(newWronganswer[2]);
-          console.log(newWronganswer[2]);
+          console.log("3rd"+newWronganswer[1])
+          // setwronganswer3(newWronganswer[2]);
+          // console.log(newWronganswer[2]);
 
 
           // setTimeout(() => {
@@ -174,7 +175,7 @@ const Question = () => {
               />
               {wronganswer2}
             </label>
-
+{/* 
             <label className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded cursor-pointer">
               <input
                 type="radio"
@@ -184,7 +185,7 @@ const Question = () => {
                 disabled={isSubmitted}
               />
               {wronganswer3}
-            </label>
+            </label> */}
           </div>
           <br />
           <button
