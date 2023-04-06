@@ -228,6 +228,7 @@ def get_distractors (word,origsentence,sense2vecmodel,sentencemodel,top_n,lambda
 
   max_keywords = min(len(distractors_new),3)
   filtered_keywords = mmr(keyword_embedding, distractor_embeddings,distractors_new,max_keywords,lambdaval)
+  #filtered_keywords = filtered_keywords[1:] #
   final = [word.capitalize()]
   for wrd in filtered_keywords:
     if wrd.lower() !=word.lower():
@@ -242,5 +243,5 @@ for i in range(0, len(answers)):
     sent = questions[i]
     keyword = answers[i]
     distractors = get_distractors(keyword,sent,s2v,sentence_transformer_model,40,0.2)
-    if len(distractors)>0:
-      print(f"Q:{questions[i]}\nanswer: {answers[i]}\nwrong answers:{distractors}\n")
+    #if len(distractors)>0:
+    print(f"Q{i+1}: {questions[i]}\nanswer: {answers[i]}\nwrong answers:{distractors}\n")
