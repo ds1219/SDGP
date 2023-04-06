@@ -73,7 +73,7 @@ export default function () {
     <div className="flex justify-center items-center h-screen bg-black">
       <form
         method="POST"
-        className="flex flex-col "
+        className="flex flex-col  w-4/5 max-w-md"
         onSubmit={handleFormSubmit}
       >
         {/* <select className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600">
