@@ -8,13 +8,14 @@ import {
   useSearchParams,
 } from "react-router-dom";
 
-const ENDPOINT = "http://127.0.0.1:5000";
+const ENDPOINT = "https://api.cs11-ai-avs.live";
 export default function () {
   const [lecturerID, setLecturerID] = useState("");
-  const [sessionStart, setsessionStart] = useState("");
-  const [sessionEnd, setsessionEnd] = useState("");
+  const [sessionStartOnly, setsessionStart] = useState("");
+  const [sessionEndOnly, setsessionEnd] = useState("");
   const [subjectID, setSubjectID] = useState("");
   const [questionSource, setquestionSource] = useState("");
+  const [date, setDate] = useState("");
 
   const [searchparams] = useSearchParams();
   const userSessionID = searchparams.get("userSessionID");
@@ -23,6 +24,11 @@ export default function () {
   const navigate = useNavigate();
 
   function handleFormSubmit(event) {
+   
+   var newdate = date.split("/").reverse().join("-");
+   const sessionStart=newdate+" "+sessionStartOnly;
+   const sessionEnd=newdate+" "+sessionEndOnly;
+   console.log(sessionStart+" "+sessionEnd)
     event.preventDefault();
     const data = {
       lecturerID,
@@ -44,7 +50,7 @@ export default function () {
           // handle successful response
           const res = await response.text();
           lectureSessionID = JSON.parse(res)["lectureSessionID"];
-          console.log(lectureSessionID);
+          console.log("lec  " +lectureSessionID);
           navigate({
             pathname: "/generateqr",
             search: createSearchParams({
@@ -67,7 +73,7 @@ export default function () {
     <div className="flex justify-center items-center h-screen bg-black">
       <form
         method="POST"
-        className="flex flex-col "
+        className="flex flex-col  w-4/5 max-w-md"
         onSubmit={handleFormSubmit}
       >
         {/* <select className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600">
@@ -92,20 +98,30 @@ export default function () {
         <label className=" block mb-2 text-sm font-medium text-gray-900 dark:text-white ">
           sessionStart
           <input
-            name="sessionStart"
+            name="sessionStartOnly"
             type="time"
-            value={sessionStart}
+            value={sessionStartOnly}
             onChange={(event) => setsessionStart(event.target.value)}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           ></input>
         </label>
         <label className=" block mb-2 text-sm font-medium text-gray-900 dark:text-white ">
-          sessionTime
+          sessionEnd
           <input
-            name="sessionEnd"
+            name="sessionEndOnly"
             type="time"
-            value={sessionEnd}
+            value={sessionEndOnly}
             onChange={(event) => setsessionEnd(event.target.value)}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          ></input>
+        </label>
+         <label className=" block mb-2 text-sm font-medium text-gray-900 dark:text-white ">
+          sessionDate
+          <input
+            name="date"
+            type="date"
+            value={date}
+            onChange={(event) => setDate(event.target.value)}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           ></input>
         </label>

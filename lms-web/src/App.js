@@ -7,6 +7,7 @@ import FileInput from "./Component/FileInput";
 import AddDetails from "./Component/AddDetails";
 import ForgotPassword from "./Component/ForgetPassword";
 import GenerateQRCode from "./Component/GenerateQr";
+import ErrorPage from "./Component/Error";
 
 import {
   Route,
@@ -26,6 +27,7 @@ function App() {
       <Route path="/addDetails" element={<AddDetails />} />
       <Route path="/forgetPassword" element={<ForgotPassword />} />
        <Route path="/generateqr" element={<GenerateQRCode />} />
+        <Route path="/error" element={<ErrorPage />} />
       
     </Routes>
   );

@@ -47,7 +47,7 @@ function Login(props) {
   var latAdd = location.lat;
   var longAdd = location.lng;
 
-  const ENDPOINT = "http://127.0.0.1:5000";
+  const ENDPOINT = "https://api.cs11-ai-avs.live";
   function handleSubmit(event) {
     // Check if the user's login details are correct using Flask
     // If the details are correct, navigate to the appropriate page
@@ -83,7 +83,7 @@ function Login(props) {
           setData(userSessionID);
 
           if (userType === "student") {
-            if (latAdd == 7.1237632 && longAdd == 80.0620544) {
+            if (latAdd =="" && longAdd == "") {
               // if(true){
 
               // Navigate to the student page
@@ -143,9 +143,9 @@ function Login(props) {
   };
 
   return (
-    <div className="flex flex-col md:flex-row h-screen">
+    <div className="flex flex-col   md:flex-row h-screen  ">
       <div className="half md:w-1/2 flex  justify-around  items-center ">
-        <div className="flex justify-around   w-full  ">
+        <div className="flex justify-around   w-full   ">
           <div
             id="stu"
             className="md:w-1/2 flex flex-col   md:items-center justify-center items-center "
@@ -173,10 +173,10 @@ function Login(props) {
               <img
                 src={Logo}
                 alt="Lms"
-                className=" lg:w-60  mb-8  md:w-full md:opacity "
+                className=" lg:w-64  mb-8   md:opacity md: w-56 "
               />
 
-              <form onSubmit={handleSubmit} className="w-full max-w-md">
+              <form onSubmit={handleSubmit} className=" w-4/5 max-w-md md">
                 <div className="mb-4">
                   <label htmlFor="email" className="block mb-2 font-bold">
                     Email
