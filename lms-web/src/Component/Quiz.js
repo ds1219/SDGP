@@ -65,18 +65,18 @@ const Question = () => {
           console.log(newWronganswer[2]);
 
 
-          setTimeout(() => {
-            if(wronganswer3==""){
-               navigate({
-                pathname: "/error",
-                search: createSearchParams({
-                  userSessionID: userSessionID,
-                  lectureSessionID:lectureSessionID,
-                  email: email,
-                }).toString(),
-              });
-            }
-            }, 6000);
+          // setTimeout(() => {
+          //   if(wronganswer3==""){
+          //      navigate({
+          //       pathname: "/error",
+          //       search: createSearchParams({
+          //         userSessionID: userSessionID,
+          //         lectureSessionID:lectureSessionID,
+          //         email: email,
+          //       }).toString(),
+          //     });
+          //   }
+          //   }, 6000);
           
 
         }
