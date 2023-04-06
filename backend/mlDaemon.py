@@ -27,7 +27,7 @@ processing = True
 
 while True:
     if not processing:
-        sleep(30)
+        sleep(10)
         print("slow")
 
     processing = False
