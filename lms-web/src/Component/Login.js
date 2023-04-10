@@ -83,7 +83,7 @@ function Login(props) {
           setData(userSessionID);
 
           if (userType === "student") {
-            if (latAdd ==6.9107712 && longAdd ==79.8851072) {
+            if (latAdd ==6.910771 && longAdd ==79.8851072) {
               // if(true){
 
               // Navigate to the student page
