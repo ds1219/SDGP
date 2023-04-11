@@ -55,6 +55,8 @@ const Question = () => {
           // console.log("Question  "+questions);
           answer = JSON.parse(res)["answer"];
           setanswer(answer);
+          var q=answer;
+          console.log("answweee"+q)
            console.log("answr  "+answer);
           wronganswer = JSON.parse(res)["wronganswer"];
           var newWronganswer=wronganswer.split("|");
